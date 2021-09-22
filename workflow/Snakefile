@@ -1,0 +1,52 @@
+# The main entry point of your workflow.
+# After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
+from pathlib import Path
+
+# report: "report/workflow.rst"
+
+global_dir = Path("/nobackup1/kve/2021_sean_prochlorosin_SNP_ident")
+
+input_dir = global_dir / "input_data"
+output_dir = global_dir / "output_data"
+results_dir = global_dir / "results"
+
+resequenced_genome_reads_dir = input_dir / "resequenced_genome_reads"
+reference_genome_file = input_dir / "reference_genome" / "SynechococcusRS9916.fna"
+reference_genome_index_file  = input_dir / "reference_genome" / "SynechococcusRS9916.fna.fai"
+adapter_file = input_dir / "adapters" / "all_illumina_adapters.fa"
+
+trimmed_reads_dir = output_dir / "trimmed_reads"
+deduped_dir = output_dir / "PCR_duplicates_removed"
+genome_index_parent_dir = output_dir / "genome_index"
+mapped_reads_dir = output_dir / "mapped_reads"
+freebayes_dir = output_dir / "variant_calling_freebayes"
+vardict_dir = output_dir / "variant_calling_vardict"
+done_file_dir = output_dir / "done_files"
+
+SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sample
+
+rule all:
+    input:
+        expand(vardict_dir / "{sample}_vardict_variants.vcf", sample=SAMPLES),
+        expand(freebayes_dir / "{sample}_freebayes_variants.vcf", sample=SAMPLES),
+
+
+include: "rules/map_reads.smk"
+
+
+include: "rules/run_trim.smk"
+
+
+include: "rules/samtools.smk"
+
+
+include: "rules/unzip.smk"
+
+
+include: "rules/remove_PCR_duplicates.smk"
+
+
+include: "rules/call_variants_freebayes.smk"
+
+
+include: "rules/call_variants_vardict.smk"

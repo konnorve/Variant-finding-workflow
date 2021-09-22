@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# Snakemake/conda
+.snakemake/
+logs/
+
 # Distribution / packaging
 .Python
 build/
