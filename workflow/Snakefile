@@ -20,14 +20,12 @@ deduped_dir = output_dir / "PCR_duplicates_removed"
 genome_index_parent_dir = output_dir / "genome_index"
 mapped_reads_dir = output_dir / "mapped_reads"
 freebayes_dir = output_dir / "variant_calling_freebayes"
-vardict_dir = output_dir / "variant_calling_vardict"
 done_file_dir = output_dir / "done_files"
 
 SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sample
 
 rule all:
     input:
-        expand(vardict_dir / "{sample}_vardict_variants.vcf", sample=SAMPLES),
         expand(freebayes_dir / "{sample}_freebayes_variants.vcf", sample=SAMPLES),
 
 
@@ -49,4 +47,3 @@ include: "rules/remove_PCR_duplicates.smk"
 include: "rules/call_variants_freebayes.smk"
 
 
-include: "rules/call_variants_vardict.smk"
