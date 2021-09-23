@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # 
-#SBATCH --job-name=var_mapping
+#SBATCH --job-name=var_call
 #
 # Number of tasks/cores for job
 #SBATCH -n 10

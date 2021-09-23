@@ -20,6 +20,8 @@ deduped_dir = output_dir / "PCR_duplicates_removed"
 genome_index_parent_dir = output_dir / "genome_index"
 mapped_reads_dir = output_dir / "mapped_reads"
 freebayes_dir = output_dir / "variant_calling_freebayes"
+bcftools_dir = output_dir / "variant_calling_bcftools"
+bcftools_felix_dir = output_dir / "variant_calling_bcftools_felix"
 done_file_dir = output_dir / "done_files"
 
 SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sample
@@ -27,6 +29,9 @@ SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sa
 rule all:
     input:
         expand(freebayes_dir / "{sample}_freebayes_variants.vcf", sample=SAMPLES),
+        expand(bcftools_dir / "{sample}_bcftools_variants.vcf", sample=SAMPLES),
+        expand(bcftools_felix_dir / "{sample}_bcftools_felix_variants.vcf", sample=SAMPLES),
+        
 
 
 include: "rules/map_reads.smk"
@@ -47,3 +52,4 @@ include: "rules/remove_PCR_duplicates.smk"
 include: "rules/call_variants_freebayes.smk"
 
 
+include: "rules/call_variants_bcftools.smk"
