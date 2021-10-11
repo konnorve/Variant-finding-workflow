@@ -3,9 +3,9 @@ rule call_variants_freebayes:
         deduped_bam = deduped_dir / "{sample}_deduped.bam",
         ref_genome = reference_genome_file
     output:
-        freebayes_dir / "{sample}_freebayes_variants.vcf"
+        variant_dir / "{sample}" / "{sample}_freebayes.vcf"
     resources:
-        mem_mb=100000,
+        mem_mb=32000,
     conda:
         "../envs/freebayes.yaml"
     shell:

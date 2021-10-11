@@ -21,7 +21,7 @@ rule make_sample_index_dir:
     output:
         directory(genome_index_parent_dir / "{sample}" / "concat_genome")
     shell:
-        "mkdir -p {output}"
+        "mkdir -p {output}; sleep 1"
 
 rule build_hisat2_index:
     input:

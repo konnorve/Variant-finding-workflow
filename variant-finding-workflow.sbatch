@@ -9,7 +9,7 @@
 #SBATCH -C centos7
 #
 # wall clock limit:
-#SBATCH --time 36:00:00
+#SBATCH --time 48:00:00
 #
 # Partition to use:
 #SBATCH --partition sched_mit_chisholm

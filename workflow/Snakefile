@@ -4,6 +4,10 @@ from pathlib import Path
 
 # report: "report/workflow.rst"
 
+VARIANT_CALLING_METHODS = ['freebayes', 'bcftools_standard', 'bcftools_all']
+VARIANT_CALLING_METHODS_FOR_VEP = ['freebayes', 'bcftools_standard']
+ORGANISM = 'SynechococcusRS9916'
+
 global_dir = Path("/nobackup1/kve/2021_sean_prochlorosin_SNP_ident")
 
 input_dir = global_dir / "input_data"
@@ -14,25 +18,31 @@ resequenced_genome_reads_dir = input_dir / "resequenced_genome_reads"
 reference_genome_file = input_dir / "reference_genome" / "SynechococcusRS9916.fna"
 reference_genome_index_file  = input_dir / "reference_genome" / "SynechococcusRS9916.fna.fai"
 adapter_file = input_dir / "adapters" / "all_illumina_adapters.fa"
+reference_genome_annotation_file = input_dir / "annotations" / "SynechococcusRS9916.gff"
 
 trimmed_reads_dir = output_dir / "trimmed_reads"
 deduped_dir = output_dir / "PCR_duplicates_removed"
 genome_index_parent_dir = output_dir / "genome_index"
 mapped_reads_dir = output_dir / "mapped_reads"
-freebayes_dir = output_dir / "variant_calling_freebayes"
-bcftools_dir = output_dir / "variant_calling_bcftools"
-bcftools_felix_dir = output_dir / "variant_calling_bcftools_felix"
+new_annotation_dir = output_dir / "vep_input_annotations"
+new_annotation_file = new_annotation_dir / "vep_annotations_{}.gff.gz".format(ORGANISM)
+new_annotation_index = new_annotation_dir / "vep_annotations_{}.gff.gz.tbi".format(ORGANISM)
+
+variant_dir = output_dir / "variant_analysis"
+all_calls_dir = output_dir / "all_calls_for_pandas"
+raw_all_calls_vcf_dir = all_calls_dir / "raw_vcf"
+all_calls_vcf_pre_df_dir = all_calls_dir / "vcf_pre_df"
+all_calls_vcf_header_dir = all_calls_dir / "vcf_headers"
+
 done_file_dir = output_dir / "done_files"
 
 SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sample
 
 rule all:
     input:
-        expand(freebayes_dir / "{sample}_freebayes_variants.vcf", sample=SAMPLES),
-        expand(bcftools_dir / "{sample}_bcftools_variants.vcf", sample=SAMPLES),
-        expand(bcftools_felix_dir / "{sample}_bcftools_felix_variants.vcf", sample=SAMPLES),
-        
-
+        expand(variant_dir / "{sample}" / "{sample}_{variant_call_tool}.vcf", sample=SAMPLES, variant_call_tool=VARIANT_CALLING_METHODS),
+        expand(variant_dir / "{sample}" / "{sample}_{variant_call_tool}_vep_results.txt", sample=SAMPLES, variant_call_tool=VARIANT_CALLING_METHODS_FOR_VEP),
+        expand(all_calls_vcf_pre_df_dir / "{sample}_bcftools_all.tsv", sample=SAMPLES)
 
 include: "rules/map_reads.smk"
 
@@ -53,3 +63,6 @@ include: "rules/call_variants_freebayes.smk"
 
 
 include: "rules/call_variants_bcftools.smk"
+
+
+include: "rules/analyze_variants_vep.smk"

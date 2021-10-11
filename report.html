@@ -406,7 +406,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="https://snakemake.readthedocs.io">Snakemake Report</a>
       <div class="nav navbar-nav navbar-center" id="brand"></div>
       <ul class="nav navbar-nav navbar-right" style="padding-right: 10px;">
-        <li class="text-white">Wed Sep 22 23:20:24 2021 EST</li>
+        <li class="text-white">Fri Oct  1 16:10:29 2021 EST</li>
         <li><a class="text-white" href="https://snakemake.readthedocs.io">Snakemake 6.8.0</a></li>
       </ul>
       <!--<input id="searchbar" class="invisible form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
@@ -531,7 +531,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_calling_freebayes/{sample}_freebayes_variants.vcf</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_freebayes.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -1011,7 +1011,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     </tr>
                     <tr>
                       <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>mkdir -p <span class="o">{</span>output<span class="o">}</span>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>mkdir -p <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
 </code></pre></div>
 </td></tr></table>
                       </td>
@@ -1125,7 +1125,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_calling_bcftools/{sample}_bcftools_variants.vcf</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_standard.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -1158,11 +1158,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
             </div>
           </div>
         </div>
-        <div data-rule="call_variants_bcftools_felix" class="modal rule-properties" tabindex="-1" role="dialog">
+        <div data-rule="call_variants_bcftools_all" class="modal rule-properties" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Rule call_variants_bcftools_felix</h5>
+                <h5 class="modal-title">Rule call_variants_bcftools_all</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -1193,7 +1193,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_calling_bcftools_felix/{sample}_bcftools_felix_variants.vcf</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_all.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -1216,6 +1216,327 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>bcftools mpileup -Ou -q30 -x -d3000 -f <span class="o">{</span>input.ref_genome<span class="o">}</span> <span class="o">{</span>input.deduped_bam<span class="o">}</span> <span class="p">|</span> bcftools call -c -Ov -o <span class="o">{</span>output<span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="analyze_variants_vep" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule analyze_variants_vep</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>10</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_{variant_call_tool}.vcf</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz.tbi</li>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_{variant_call_tool}_vep_results.txt</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Conda software stack</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>ensembl-vep</li>
+                            <li>samtools</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>vep -i <span class="o">{</span>input.vcf<span class="o">}</span> -o <span class="o">{</span>output<span class="o">}</span> --sift b --gff <span class="o">{</span>input.annotation<span class="o">}</span> --fasta <span class="o">{</span>input.reference<span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="prep_gff_vep" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule prep_gff_vep</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>1</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/annotations/SynechococcusRS9916.gff</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Conda software stack</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>ensembl-vep</li>
+                            <li>samtools</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>grep -v <span class="s2">&quot;#&quot;</span> <span class="o">{</span>input<span class="o">}</span> <span class="p">|</span> sort -k1,1 -k4,4n -k5,5n -t<span class="s2">$&quot;	&quot;</span> <span class="p">|</span> bgzip -c &gt; <span class="o">{</span>output<span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="index_gff" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule index_gff</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>1</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz.tbi</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Conda software stack</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>ensembl-vep</li>
+                            <li>samtools</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>tabix -p gff <span class="o">{</span>input<span class="o">}</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="cut_metadata" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule cut_metadata</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>5</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/raw_vcf/{sample}_bcftools_all.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/vcf_pre_df/{sample}_bcftools_all.tsv</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>grep -v <span class="s1">&#39;##&#39;</span> <span class="o">{</span>input<span class="o">}</span> &gt; <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="link_bcftool_all" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule link_bcftool_all</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>5</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_all.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/raw_vcf/{sample}_bcftools_all.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>ln -s <span class="o">{</span>input<span class="o">}</span> <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
 </code></pre></div>
 </td></tr></table>
                       </td>
@@ -1887,8 +2208,8 @@ if (typeof module !== 'undefined') {
 
       var rulegraph_spec = {
         "$schema": "https://vega.github.io/schema/vega/v5.json",
-        "width": 646.04,
-        "height": 542.0,
+        "width": 748.94,
+        "height": 686.0,
         "padding": 0,
         "autosize": "none",
 
@@ -1900,11 +2221,11 @@ if (typeof module !== 'undefined') {
         "data": [
           {
             "name": "node-data",
-            "values": [{'rule': 'all', 'fx': 305.04, 'fy': 522.0}, {'rule': 'build_hisat2_index', 'fx': 199.04, 'fy': 90.0}, {'rule': 'call_variants_bcftools', 'fx': 89.042, 'fy': 450.0}, {'rule': 'call_variants_bcftools_felix', 'fx': 305.04, 'fy': 450.0}, {'rule': 'call_variants_freebayes', 'fx': 526.04, 'fy': 450.0}, {'rule': 'convert_sam2bam', 'fx': 305.04, 'fy': 234.0}, {'rule': 'make_sample_index_dir', 'fx': 203.04, 'fy': 18.0}, {'rule': 'map_reads', 'fx': 305.04, 'fy': 162.0}, {'rule': 'remove_PCR_duplicates', 'fx': 305.04, 'fy': 378.0}, {'rule': 'run_trim', 'fx': 364.04, 'fy': 18.0}, {'rule': 'sort_bam', 'fx': 305.04, 'fy': 306.0}, {'rule': 'unzip', 'fx': 364.04, 'fy': 90.0}]
+            "values": [{'rule': 'all', 'fx': 283.94, 'fy': 666.0}, {'rule': 'analyze_variants_vep', 'fx': 405.94, 'fy': 594.0}, {'rule': 'build_hisat2_index', 'fx': 287.94, 'fy': 90.0}, {'rule': 'call_variants_bcftools', 'fx': 628.94, 'fy': 522.0}, {'rule': 'call_variants_bcftools_all', 'fx': 157.94, 'fy': 450.0}, {'rule': 'call_variants_freebayes', 'fx': 283.94, 'fy': 522.0}, {'rule': 'convert_sam2bam', 'fx': 287.94, 'fy': 234.0}, {'rule': 'cut_metadata', 'fx': 71.944, 'fy': 594.0}, {'rule': 'index_gff', 'fx': 477.94, 'fy': 522.0}, {'rule': 'link_bcftool_all', 'fx': 66.944, 'fy': 522.0}, {'rule': 'make_sample_index_dir', 'fx': 219.94, 'fy': 18.0}, {'rule': 'map_reads', 'fx': 287.94, 'fy': 162.0}, {'rule': 'prep_gff_vep', 'fx': 439.94, 'fy': 450.0}, {'rule': 'remove_PCR_duplicates', 'fx': 287.94, 'fy': 378.0}, {'rule': 'run_trim', 'fx': 414.94, 'fy': 18.0}, {'rule': 'sort_bam', 'fx': 287.94, 'fy': 306.0}, {'rule': 'unzip', 'fx': 414.94, 'fy': 90.0}]
           },
           {
             "name": "link-data",
-            "values": [{'target': 1, 'source': 7, 'value': 1}, {'target': 2, 'source': 0, 'value': 1}, {'target': 3, 'source': 0, 'value': 1}, {'target': 4, 'source': 0, 'value': 1}, {'target': 5, 'source': 10, 'value': 1}, {'target': 6, 'source': 7, 'value': 1}, {'target': 6, 'source': 1, 'value': 1}, {'target': 7, 'source': 5, 'value': 1}, {'target': 8, 'source': 4, 'value': 1}, {'target': 8, 'source': 2, 'value': 1}, {'target': 8, 'source': 3, 'value': 1}, {'target': 9, 'source': 11, 'value': 1}, {'target': 10, 'source': 8, 'value': 1}, {'target': 11, 'source': 7, 'value': 1}]
+            "values": [{'target': 1, 'source': 0, 'value': 1}, {'target': 2, 'source': 11, 'value': 1}, {'target': 3, 'source': 0, 'value': 1}, {'target': 3, 'source': 1, 'value': 1}, {'target': 4, 'source': 0, 'value': 1}, {'target': 4, 'source': 9, 'value': 1}, {'target': 5, 'source': 0, 'value': 1}, {'target': 5, 'source': 1, 'value': 1}, {'target': 6, 'source': 15, 'value': 1}, {'target': 7, 'source': 0, 'value': 1}, {'target': 8, 'source': 1, 'value': 1}, {'target': 9, 'source': 7, 'value': 1}, {'target': 10, 'source': 11, 'value': 1}, {'target': 10, 'source': 2, 'value': 1}, {'target': 11, 'source': 6, 'value': 1}, {'target': 12, 'source': 1, 'value': 1}, {'target': 12, 'source': 8, 'value': 1}, {'target': 13, 'source': 5, 'value': 1}, {'target': 13, 'source': 3, 'value': 1}, {'target': 13, 'source': 4, 'value': 1}, {'target': 14, 'source': 16, 'value': 1}, {'target': 15, 'source': 13, 'value': 1}, {'target': 16, 'source': 11, 'value': 1}]
           }
         ],
 
@@ -2012,7 +2333,7 @@ if (typeof module !== 'undefined') {
       var runtimes_spec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
         "description": "Runtimes of jobs.",
-        "data": {"values": [{'rule': 'build_hisat2_index', 'runtime': 1.5685069561004639}, {'rule': 'build_hisat2_index', 'runtime': 1.6764979362487793}, {'rule': 'build_hisat2_index', 'runtime': 1.3314979076385498}, {'rule': 'build_hisat2_index', 'runtime': 1.6384379863739014}, {'rule': 'build_hisat2_index', 'runtime': 1.5835039615631104}, {'rule': 'call_variants_bcftools', 'runtime': 25.335999011993408}, {'rule': 'call_variants_bcftools', 'runtime': 50.47910404205322}, {'rule': 'call_variants_bcftools', 'runtime': 12.920017004013062}, {'rule': 'call_variants_bcftools', 'runtime': 10.590967893600464}, {'rule': 'call_variants_bcftools', 'runtime': 15.23803997039795}, {'rule': 'call_variants_bcftools_felix', 'runtime': 25.794976949691772}, {'rule': 'call_variants_bcftools_felix', 'runtime': 50.473057985305786}, {'rule': 'call_variants_bcftools_felix', 'runtime': 15.492098093032837}, {'rule': 'call_variants_bcftools_felix', 'runtime': 12.013995885848999}, {'rule': 'call_variants_bcftools_felix', 'runtime': 16.24807906150818}, {'rule': 'call_variants_freebayes', 'runtime': 3160.7676498889923}, {'rule': 'call_variants_freebayes', 'runtime': 4932.010994911194}, {'rule': 'call_variants_freebayes', 'runtime': 1291.6943700313568}, {'rule': 'call_variants_freebayes', 'runtime': 407.15213894844055}, {'rule': 'call_variants_freebayes', 'runtime': 1204.7816500663757}, {'rule': 'convert_sam2bam', 'runtime': 5.181452989578247}, {'rule': 'convert_sam2bam', 'runtime': 11.003438949584961}, {'rule': 'convert_sam2bam', 'runtime': 2.439486026763916}, {'rule': 'convert_sam2bam', 'runtime': 3.227423906326294}, {'rule': 'convert_sam2bam', 'runtime': 3.0644021034240723}, {'rule': 'make_sample_index_dir', 'runtime': -0.36598992347717285}, {'rule': 'make_sample_index_dir', 'runtime': -0.32298803329467773}, {'rule': 'make_sample_index_dir', 'runtime': -0.2979888916015625}, {'rule': 'make_sample_index_dir', 'runtime': -0.34499311447143555}, {'rule': 'make_sample_index_dir', 'runtime': -0.35500097274780273}, {'rule': 'map_reads', 'runtime': 16.20146894454956}, {'rule': 'map_reads', 'runtime': 34.555485010147095}, {'rule': 'map_reads', 'runtime': 8.419496059417725}, {'rule': 'map_reads', 'runtime': 7.920434951782227}, {'rule': 'map_reads', 'runtime': 7.996412992477417}, {'rule': 'remove_PCR_duplicates', 'runtime': 20.48817491531372}, {'rule': 'remove_PCR_duplicates', 'runtime': 45.93220090866089}, {'rule': 'remove_PCR_duplicates', 'runtime': 20.913198947906494}, {'rule': 'remove_PCR_duplicates', 'runtime': 15.28714895248413}, {'rule': 'remove_PCR_duplicates', 'runtime': 12.025142908096313}, {'rule': 'run_trim', 'runtime': 3.815500020980835}, {'rule': 'run_trim', 'runtime': 5.864502906799316}, {'rule': 'run_trim', 'runtime': 4.68900990486145}, {'rule': 'run_trim', 'runtime': 4.6650049686431885}, {'rule': 'run_trim', 'runtime': 1.4600028991699219}, {'rule': 'sort_bam', 'runtime': 5.6164469718933105}, {'rule': 'sort_bam', 'runtime': 12.048424005508423}, {'rule': 'sort_bam', 'runtime': 2.2824831008911133}, {'rule': 'sort_bam', 'runtime': 2.797420024871826}, {'rule': 'sort_bam', 'runtime': 2.7963969707489014}, {'rule': 'unzip', 'runtime': 1.3754749298095703}, {'rule': 'unzip', 'runtime': 1.6084771156311035}, {'rule': 'unzip', 'runtime': 3.450490951538086}, {'rule': 'unzip', 'runtime': 3.7614951133728027}, {'rule': 'unzip', 'runtime': 0.7040040493011475}, {'rule': 'unzip', 'runtime': 0.669003963470459}, {'rule': 'unzip', 'runtime': 1.2900049686431885}, {'rule': 'unzip', 'runtime': 0.7054378986358643}, {'rule': 'unzip', 'runtime': 0.20341110229492188}, {'rule': 'unzip', 'runtime': 1.2334339618682861}]},
+        "data": {"values": [{'rule': 'analyze_variants_vep', 'runtime': 19.183979988098145}, {'rule': 'analyze_variants_vep', 'runtime': 1.0065500736236572}, {'rule': 'analyze_variants_vep', 'runtime': 11.237519979476929}, {'rule': 'analyze_variants_vep', 'runtime': 0.8690199851989746}, {'rule': 'analyze_variants_vep', 'runtime': 5.35102391242981}, {'rule': 'analyze_variants_vep', 'runtime': 2.824968099594116}, {'rule': 'analyze_variants_vep', 'runtime': 2.905229091644287}, {'rule': 'analyze_variants_vep', 'runtime': 0.6477959156036377}, {'rule': 'analyze_variants_vep', 'runtime': 7.278670072555542}, {'rule': 'analyze_variants_vep', 'runtime': 1.0008699893951416}, {'rule': 'build_hisat2_index', 'runtime': 0.9410150051116943}, {'rule': 'build_hisat2_index', 'runtime': 0.8430449962615967}, {'rule': 'build_hisat2_index', 'runtime': 1.0820469856262207}, {'rule': 'build_hisat2_index', 'runtime': 0.8360490798950195}, {'rule': 'build_hisat2_index', 'runtime': 1.2410390377044678}, {'rule': 'call_variants_bcftools', 'runtime': 26.69459104537964}, {'rule': 'call_variants_bcftools', 'runtime': 58.70211911201477}, {'rule': 'call_variants_bcftools', 'runtime': 14.109988927841187}, {'rule': 'call_variants_bcftools', 'runtime': 11.741864919662476}, {'rule': 'call_variants_bcftools', 'runtime': 16.081895112991333}, {'rule': 'call_variants_bcftools_all', 'runtime': 26.55475091934204}, {'rule': 'call_variants_bcftools_all', 'runtime': 60.062220096588135}, {'rule': 'call_variants_bcftools_all', 'runtime': 14.325942993164062}, {'rule': 'call_variants_bcftools_all', 'runtime': 12.522849082946777}, {'rule': 'call_variants_bcftools_all', 'runtime': 16.86182403564453}, {'rule': 'call_variants_freebayes', 'runtime': 3903.5427548885345}, {'rule': 'call_variants_freebayes', 'runtime': 4959.423481941223}, {'rule': 'call_variants_freebayes', 'runtime': 1399.18199801445}, {'rule': 'call_variants_freebayes', 'runtime': 395.84688901901245}, {'rule': 'call_variants_freebayes', 'runtime': 1479.8368859291077}, {'rule': 'convert_sam2bam', 'runtime': 5.067965030670166}, {'rule': 'convert_sam2bam', 'runtime': 11.329633951187134}, {'rule': 'convert_sam2bam', 'runtime': 2.3240249156951904}, {'rule': 'convert_sam2bam', 'runtime': 2.508002996444702}, {'rule': 'convert_sam2bam', 'runtime': 2.3489298820495605}, {'rule': 'cut_metadata', 'runtime': 1.1227080821990967}, {'rule': 'cut_metadata', 'runtime': 1.6481130123138428}, {'rule': 'cut_metadata', 'runtime': 1.330915927886963}, {'rule': 'cut_metadata', 'runtime': 1.8138248920440674}, {'rule': 'cut_metadata', 'runtime': 1.578794002532959}, {'rule': 'index_gff', 'runtime': -0.7029600143432617}, {'rule': 'link_bcftool_all', 'runtime': 0.18170690536499023}, {'rule': 'link_bcftool_all', 'runtime': 0.6901159286499023}, {'rule': 'link_bcftool_all', 'runtime': 0.4079170227050781}, {'rule': 'link_bcftool_all', 'runtime': 0.8728229999542236}, {'rule': 'link_bcftool_all', 'runtime': 0.6397910118103027}, {'rule': 'make_sample_index_dir', 'runtime': 0.974052906036377}, {'rule': 'make_sample_index_dir', 'runtime': 0.947052001953125}, {'rule': 'make_sample_index_dir', 'runtime': 0.9880568981170654}, {'rule': 'make_sample_index_dir', 'runtime': 0.9350531101226807}, {'rule': 'make_sample_index_dir', 'runtime': 0.9610509872436523}, {'rule': 'map_reads', 'runtime': 16.197999000549316}, {'rule': 'map_reads', 'runtime': 40.60870003700256}, {'rule': 'map_reads', 'runtime': 7.087037086486816}, {'rule': 'map_reads', 'runtime': 8.291017055511475}, {'rule': 'map_reads', 'runtime': 8.431947946548462}, {'rule': 'prep_gff_vep', 'runtime': 0.0020530223846435547}, {'rule': 'remove_PCR_duplicates', 'runtime': 21.285784006118774}, {'rule': 'remove_PCR_duplicates', 'runtime': 38.581542015075684}, {'rule': 'remove_PCR_duplicates', 'runtime': 11.01101803779602}, {'rule': 'remove_PCR_duplicates', 'runtime': 14.395920991897583}, {'rule': 'remove_PCR_duplicates', 'runtime': 13.086920022964478}, {'rule': 'run_trim', 'runtime': 2.0220448970794678}, {'rule': 'run_trim', 'runtime': 5.200962066650391}, {'rule': 'run_trim', 'runtime': 2.921056032180786}, {'rule': 'run_trim', 'runtime': 1.7280290126800537}, {'rule': 'run_trim', 'runtime': 2.447050094604492}, {'rule': 'sort_bam', 'runtime': 6.433957099914551}, {'rule': 'sort_bam', 'runtime': 11.712616920471191}, {'rule': 'sort_bam', 'runtime': 1.6860170364379883}, {'rule': 'sort_bam', 'runtime': 2.900994062423706}, {'rule': 'sort_bam', 'runtime': 2.106926918029785}, {'rule': 'unzip', 'runtime': 1.135037899017334}, {'rule': 'unzip', 'runtime': 1.506032943725586}, {'rule': 'unzip', 'runtime': 3.1937129497528076}, {'rule': 'unzip', 'runtime': 2.7509520053863525}, {'rule': 'unzip', 'runtime': 0.05404400825500488}, {'rule': 'unzip', 'runtime': 0.23604297637939453}, {'rule': 'unzip', 'runtime': 1.266021966934204}, {'rule': 'unzip', 'runtime': 0.24903011322021484}, {'rule': 'unzip', 'runtime': 0.12502598762512207}, {'rule': 'unzip', 'runtime': 0.10901904106140137}]},
         "mark": "point",
         "encoding": {
           "x": {"field": "runtime", "type": "quantitative",
@@ -2029,7 +2350,7 @@ if (typeof module !== 'undefined') {
         "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
         "description": "Timeline of jobs.",
         "data": {
-          "values": [{'rule': 'build_hisat2_index', 'starttime': '2021-09-17T16:39:14.431493', 'endtime': '2021-09-17T16:39:16'}, {'rule': 'build_hisat2_index', 'starttime': '2021-09-17T16:39:22.323502', 'endtime': '2021-09-17T16:39:24'}, {'rule': 'build_hisat2_index', 'starttime': '2021-09-17T16:39:20.668502', 'endtime': '2021-09-17T16:39:22'}, {'rule': 'build_hisat2_index', 'starttime': '2021-09-17T16:40:10.361562', 'endtime': '2021-09-17T16:40:12'}, {'rule': 'build_hisat2_index', 'starttime': '2021-09-17T16:39:14.416496', 'endtime': '2021-09-17T16:39:16'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-09-22T23:19:33.664001', 'endtime': '2021-09-22T23:19:59'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-09-22T23:18:13.520896', 'endtime': '2021-09-22T23:19:04'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-09-22T23:19:20.079983', 'endtime': '2021-09-22T23:19:33'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-09-22T23:19:59.409032', 'endtime': '2021-09-22T23:20:10'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-09-22T23:19:04.761960', 'endtime': '2021-09-22T23:19:20'}, {'rule': 'call_variants_bcftools_felix', 'starttime': '2021-09-22T23:19:50.205023', 'endtime': '2021-09-22T23:20:16'}, {'rule': 'call_variants_bcftools_felix', 'starttime': '2021-09-22T23:18:46.526942', 'endtime': '2021-09-22T23:19:37'}, {'rule': 'call_variants_bcftools_felix', 'starttime': '2021-09-22T23:18:13.507902', 'endtime': '2021-09-22T23:18:29'}, {'rule': 'call_variants_bcftools_felix', 'starttime': '2021-09-22T23:19:37.986004', 'endtime': '2021-09-22T23:19:50'}, {'rule': 'call_variants_bcftools_felix', 'starttime': '2021-09-22T23:18:29.751921', 'endtime': '2021-09-22T23:18:46'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-09-21T09:17:53.232350', 'endtime': '2021-09-21T10:10:34'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-09-20T20:41:19.989005', 'endtime': '2021-09-20T22:03:32'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-09-21T09:38:00.305630', 'endtime': '2021-09-21T09:59:32'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-09-20T19:38:56.847861', 'endtime': '2021-09-20T19:45:44'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-09-21T09:17:53.218350', 'endtime': '2021-09-21T09:37:58'}, {'rule': 'convert_sam2bam', 'starttime': '2021-09-17T16:39:58.818547', 'endtime': '2021-09-17T16:40:04'}, {'rule': 'convert_sam2bam', 'starttime': '2021-09-17T16:40:07.996561', 'endtime': '2021-09-17T16:40:19'}, {'rule': 'convert_sam2bam', 'starttime': '2021-09-17T16:39:31.560514', 'endtime': '2021-09-17T16:39:34'}, {'rule': 'convert_sam2bam', 'starttime': '2021-09-17T16:40:23.772576', 'endtime': '2021-09-17T16:40:27'}, {'rule': 'convert_sam2bam', 'starttime': '2021-09-17T16:40:40.935598', 'endtime': '2021-09-17T16:40:44'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-09-17T15:34:35.365990', 'endtime': '2021-09-17T15:34:35'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-09-17T15:34:35.322988', 'endtime': '2021-09-17T15:34:35'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-09-17T15:34:35.297989', 'endtime': '2021-09-17T15:34:35'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-09-17T15:34:35.344993', 'endtime': '2021-09-17T15:34:35'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-09-17T15:34:35.355001', 'endtime': '2021-09-17T15:34:35'}, {'rule': 'map_reads', 'starttime': '2021-09-17T16:39:41.798531', 'endtime': '2021-09-17T16:39:58'}, {'rule': 'map_reads', 'starttime': '2021-09-17T16:39:32.444515', 'endtime': '2021-09-17T16:40:07'}, {'rule': 'map_reads', 'starttime': '2021-09-17T16:39:22.580504', 'endtime': '2021-09-17T16:39:31'}, {'rule': 'map_reads', 'starttime': '2021-09-17T16:40:15.079565', 'endtime': '2021-09-17T16:40:23'}, {'rule': 'map_reads', 'starttime': '2021-09-17T16:40:32.003587', 'endtime': '2021-09-17T16:40:40'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-09-17T16:57:31.511825', 'endtime': '2021-09-17T16:57:52'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-09-17T16:57:10.067799', 'endtime': '2021-09-17T16:57:56'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-09-17T16:57:10.086801', 'endtime': '2021-09-17T16:57:31'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-09-17T16:57:52.712851', 'endtime': '2021-09-17T16:58:08'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-09-17T16:57:56.974857', 'endtime': '2021-09-17T16:58:09'}, {'rule': 'run_trim', 'starttime': '2021-09-17T16:39:16.184500', 'endtime': '2021-09-17T16:39:20'}, {'rule': 'run_trim', 'starttime': '2021-09-17T16:39:16.135497', 'endtime': '2021-09-17T16:39:22'}, {'rule': 'run_trim', 'starttime': '2021-09-17T15:34:35.310990', 'endtime': '2021-09-17T15:34:40'}, {'rule': 'run_trim', 'starttime': '2021-09-17T15:34:35.334995', 'endtime': '2021-09-17T15:34:40'}, {'rule': 'run_trim', 'starttime': '2021-09-17T15:34:41.539997', 'endtime': '2021-09-17T15:34:43'}, {'rule': 'sort_bam', 'starttime': '2021-09-17T16:40:04.383553', 'endtime': '2021-09-17T16:40:10'}, {'rule': 'sort_bam', 'starttime': '2021-09-17T16:40:19.951576', 'endtime': '2021-09-17T16:40:32'}, {'rule': 'sort_bam', 'starttime': '2021-09-17T16:39:34.717517', 'endtime': '2021-09-17T16:39:37'}, {'rule': 'sort_bam', 'starttime': '2021-09-17T16:40:27.202580', 'endtime': '2021-09-17T16:40:30'}, {'rule': 'sort_bam', 'starttime': '2021-09-17T16:40:44.203603', 'endtime': '2021-09-17T16:40:47'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:39:39.624525', 'endtime': '2021-09-17T16:39:41'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:39:37.391523', 'endtime': '2021-09-17T16:39:39'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:39:28.549509', 'endtime': '2021-09-17T16:39:32'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:39:24.238505', 'endtime': '2021-09-17T16:39:28'}, {'rule': 'unzip', 'starttime': '2021-09-17T15:34:42.295996', 'endtime': '2021-09-17T15:34:43'}, {'rule': 'unzip', 'starttime': '2021-09-17T15:34:40.330996', 'endtime': '2021-09-17T15:34:41'}, {'rule': 'unzip', 'starttime': '2021-09-17T15:34:40.709995', 'endtime': '2021-09-17T15:34:42'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:40:12.294562', 'endtime': '2021-09-17T16:40:13'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:40:30.796589', 'endtime': '2021-09-17T16:40:31'}, {'rule': 'unzip', 'starttime': '2021-09-17T16:40:13.766566', 'endtime': '2021-09-17T16:40:15'}]
+          "values": [{'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:49:50.816020', 'endtime': '2021-10-01T15:50:10'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:46:48.993450', 'endtime': '2021-10-01T14:46:50'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T16:10:10.762480', 'endtime': '2021-10-01T16:10:22'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:52:03.130980', 'endtime': '2021-10-01T14:52:04'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:05:42.648976', 'endtime': '2021-10-01T15:05:48'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:42:41.175032', 'endtime': '2021-10-01T14:42:44'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:50:00.094771', 'endtime': '2021-10-01T14:50:03'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:44:22.352204', 'endtime': '2021-10-01T14:44:23'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:08:04.721330', 'endtime': '2021-10-01T15:08:12'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:43:38.999130', 'endtime': '2021-10-01T14:43:40'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:42:08.058985', 'endtime': '2021-10-01T14:42:09'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:52.156955', 'endtime': '2021-10-01T14:41:53'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:54.917953', 'endtime': '2021-10-01T14:41:56'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:52.163951', 'endtime': '2021-10-01T14:41:53'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:53.758961', 'endtime': '2021-10-01T14:41:55'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:46:21.305409', 'endtime': '2021-10-01T14:46:48'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:51:04.297881', 'endtime': '2021-10-01T14:52:03'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:42:26.890011', 'endtime': '2021-10-01T14:42:41'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:43:40.258135', 'endtime': '2021-10-01T14:43:52'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:43:21.918105', 'endtime': '2021-10-01T14:43:38'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:44:45.445249', 'endtime': '2021-10-01T14:45:12'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:50:03.937780', 'endtime': '2021-10-01T14:51:04'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:42:53.674057', 'endtime': '2021-10-01T14:43:08'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:43:52.477151', 'endtime': '2021-10-01T14:44:05'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:44:05.138176', 'endtime': '2021-10-01T14:44:22'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:44:45.457245', 'endtime': '2021-10-01T15:49:49'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:47:29.576518', 'endtime': '2021-10-01T16:10:09'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:42:22.818002', 'endtime': '2021-10-01T15:05:42'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:43:24.153111', 'endtime': '2021-10-01T14:50:00'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:43:24.163114', 'endtime': '2021-10-01T15:08:04'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:39.932035', 'endtime': '2021-10-01T14:42:45'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:45:57.670366', 'endtime': '2021-10-01T14:46:09'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:05.675975', 'endtime': '2021-10-01T14:42:08'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:19.491997', 'endtime': '2021-10-01T14:42:22'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:43:01.651070', 'endtime': '2021-10-01T14:43:04'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:45:13.877292', 'endtime': '2021-10-01T14:45:15'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:51:05.351887', 'endtime': '2021-10-01T14:51:07'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:43:09.669084', 'endtime': '2021-10-01T14:43:11'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:44:06.186175', 'endtime': '2021-10-01T14:44:08'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:44:23.421206', 'endtime': '2021-10-01T14:44:25'}, {'rule': 'index_gff', 'starttime': '2021-10-01T14:41:55.702960', 'endtime': '2021-10-01T14:41:55'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:45:12.818293', 'endtime': '2021-10-01T14:45:13'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:51:04.309884', 'endtime': '2021-10-01T14:51:05'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:43:08.592083', 'endtime': '2021-10-01T14:43:09'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:44:05.127177', 'endtime': '2021-10-01T14:44:06'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:44:22.360209', 'endtime': '2021-10-01T14:44:23'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.025947', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.052948', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.011943', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.064947', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.038949', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:22.802001', 'endtime': '2021-10-01T14:42:39'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:45:16.391300', 'endtime': '2021-10-01T14:45:57'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:41:57.912963', 'endtime': '2021-10-01T14:42:05'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:10.708983', 'endtime': '2021-10-01T14:42:19'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:52.568052', 'endtime': '2021-10-01T14:43:01'}, {'rule': 'prep_gff_vep', 'starttime': '2021-10-01T14:41:48.997947', 'endtime': '2021-10-01T14:41:49'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:44:23.714216', 'endtime': '2021-10-01T14:44:45'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:46:50.418458', 'endtime': '2021-10-01T14:47:29'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:42:10.988982', 'endtime': '2021-10-01T14:42:22'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:43:08.604079', 'endtime': '2021-10-01T14:43:23'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:43:07.913080', 'endtime': '2021-10-01T14:43:21'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:55.977955', 'endtime': '2021-10-01T14:41:58'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:42:44.799038', 'endtime': '2021-10-01T14:42:50'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:49.078944', 'endtime': '2021-10-01T14:41:52'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:42:02.271971', 'endtime': '2021-10-01T14:42:04'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:49.552950', 'endtime': '2021-10-01T14:41:52'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:45.566043', 'endtime': '2021-10-01T14:42:52'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:46:09.287383', 'endtime': '2021-10-01T14:46:21'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:08.313983', 'endtime': '2021-10-01T14:42:10'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:23.099006', 'endtime': '2021-10-01T14:42:26'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:43:04.893073', 'endtime': '2021-10-01T14:43:07'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:58.864962', 'endtime': '2021-10-01T14:42:00'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:00.493967', 'endtime': '2021-10-01T14:42:02'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:45:12.806287', 'endtime': '2021-10-01T14:45:16'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:50.249048', 'endtime': '2021-10-01T14:42:53'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:53.945956', 'endtime': '2021-10-01T14:41:54'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:56.763957', 'endtime': '2021-10-01T14:41:57'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:06.733978', 'endtime': '2021-10-01T14:42:08'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:04.750970', 'endtime': '2021-10-01T14:42:05'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:05.874974', 'endtime': '2021-10-01T14:42:06'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:09.890981', 'endtime': '2021-10-01T14:42:10'}]
         },
         "mark": "point",
         "encoding": {
