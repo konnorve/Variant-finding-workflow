@@ -3,9 +3,9 @@ import pandas as pd
 import numpy as np
 
 import gffpandas.gffpandas as gffpd
-from Bio import SeqIO
+from Bio import SeqIO, pairwise2
 from Bio.SeqRecord import SeqRecord
-from Bio.Seq import Seq
+from Bio.Seq import MutableSeq, Seq
 
 
 def convert_list_column_to_columns(df, col, output_names, deliminator):
@@ -21,6 +21,7 @@ def convert_list_column_to_columns(df, col, output_names, deliminator):
         for j in r:
             col_arr[i][j] = elements[j]
     return col_arr
+
 
 def convert_dict_column_to_columns(df, col, output_names, element_deliminator, key_value_deliminator, DEBUG=False):
     col_list = df[col].to_numpy()
@@ -173,81 +174,269 @@ def df_creation(all_calls_dir, variant_df_outpath):
     saveVariantDF(full_variant_df, variant_df_outpath)
 
 
-def analyse_variant_effect(variants_w_nearby_genes_df, ref_seq):
-    variants_w_nearby_genes_df['CDS loc'] = "Intergenic"
-    variants_w_nearby_genes_df['Effect'] = None
-    variants_w_nearby_genes_df['Genbank nuc equals ref nuc'] = None
-    variants_w_nearby_genes_df['Genbank aa equals ref nuc'] = None
-    variants_w_nearby_genes_df['Ref Translation'] = None
-    variants_w_nearby_genes_df['Alt Translation'] = None
+def applyVariants2Genome(variant_df, ref_seq, gff_df):
+    gff_alt_df = gff_df.copy()
+    alt_seq = MutableSeq(ref_seq)
+    assert alt_seq is not ref_seq
+
+    start_pos = gff_alt_df['start'].to_numpy()
+    end_pos = gff_alt_df['end'].to_numpy()
+    num_genes = len(gff_alt_df)
+
+    offset_sum = 0
+
+    for i, variant in variant_df.iterrows():
+        var_pos = variant['POS'] + offset_sum - 1
+        var_ref_seq = variant['REF']
+        var_alt_seq = variant['ALT']
+
+        start_seq = alt_seq[:var_pos]
+        end_seq = alt_seq[var_pos+len(var_ref_seq):]
+
+        alt_seq = start_seq + var_alt_seq + end_seq
+
+        offset = len(var_alt_seq) - len(var_ref_seq)
+
+        offset_sum += offset
+
+        if offset != 0:
+            for j in range(num_genes):
+                if start_pos[j] > var_pos:
+                    start_pos[j] += offset
+                if end_pos[j] > var_pos:
+                    end_pos[j] += offset
+
+    gff_alt_df['start'] = start_pos
+    gff_alt_df['end'] = end_pos
+
+    assert len(ref_seq) == len(alt_seq) - offset_sum
+
+    return gff_alt_df, Seq(alt_seq)
 
 
-    ['genome_name','POS','REF','ALT','QUAL','start','end','Name','locus_tag','product','translation', 'transl_table']
+def determineEffect(aa_ref, aa_alt):
+    """
+    Returns effect type
+    examples of effects: 
+        Silent -- aa sequences are identical
+        Misense -- aa sequences differ by a single aa. There can be multiple Misense mutations.
+        Addition -- addition of an aa. There can be multiple additions.
+        Deletion -- deletion of an aa. There can be multiple deletions.
+        
+        This method can not call frameshift or nonsense mutations well. That is best done
+        by comparing an offset in nucleotide sequences. 
+    """
+    if aa_ref == aa_alt:
+        return "Silent"
 
-    for i, variant_gene in variants_w_nearby_genes_df.iterrows():
-        var_pos = variant_gene['POS']
-        gene_start = variant_gene['start']
-        gene_end = variant_gene['end']
+    # align pairs  
+    alignment = pairwise2.align.globalms(aa_ref, aa_alt, 2, 0, -1, 0)[0]
 
-        if (gene_start <= var_pos <= gene_end):
-            variants_w_nearby_genes_df.loc[i, 'CDS loc'] = "Intragenic"
+    aligned_ref = alignment.seqA
+    aligned_alt = alignment.seqB
 
-            gene_CDS = ref_seq[gene_start-1:gene_end]
-            var_gene_pos = var_pos - gene_start
+    mismatches = []
+    insertions = []
+    deletions = []
 
-            strand = variant_gene['strand']
-            transl_table = variant_gene['transl_table']
-
-            var_ref_seq = Seq(variant_gene['REF'])
-            var_alt_seq = Seq(variant_gene['ALT'])
-            
-            start_seq = gene_CDS[:var_gene_pos]
-            end_seq = gene_CDS[var_gene_pos+len(var_ref_seq):]
-
-            nuc_seq_ref = start_seq + var_ref_seq + end_seq
-            nuc_seq_alt = start_seq + var_alt_seq + end_seq
-
-            variants_w_nearby_genes_df.loc[i, 'Genbank nuc equals ref nuc'] = nuc_seq_ref == gene_CDS
-
-            if strand == '-':
-                nuc_seq_ref = nuc_seq_ref.reverse_complement()
-                nuc_seq_alt = nuc_seq_alt.reverse_complement()
-
-            aa_seq_ref = nuc_seq_ref.translate(table=transl_table, stop_symbol="")
-            aa_seq_alt = nuc_seq_alt.translate(table=transl_table, stop_symbol="")
-            previously_translated_seq = variant_gene['translation']
-            
-            if aa_seq_ref == aa_seq_alt:
-                variants_w_nearby_genes_df.loc[i, 'Effect'] = 'Synonymous'
+    for i in range(len(aligned_ref)):
+        if aligned_ref[i] != aligned_alt[i]:
+            if aligned_ref[i] == "-":
+                insertions.append(i)
+            elif aligned_alt[i] == "-":
+                deletions.append(i)
             else:
-                variants_w_nearby_genes_df.loc[i, 'Effect'] = 'Non-Synonymous'
+                mismatches.append(i)
 
-            variants_w_nearby_genes_df.loc[i, 'Genbank aa equals ref nuc'] = previously_translated_seq == aa_seq_ref
+    i = 0
+    insertion_locs = []
+    while i < len(insertions):
+        start = insertions[i]
+        while i + 1 < len(insertions) and insertions[i] + 1 == insertions[i+1]: # TODO: fix infinite recursive loop
+            i += 1
+        end = insertions[i]
+        i += 1
+        insertion_locs.append((start, end))
 
-            # if previously_translated_seq != aa_seq_ref:
-            #     for tab in [1,2,3,4,5,6,9,10,11,12,13,14,16,21,22,23,24,25,26,27,28,29,30,31,33]:
-            #         aa_seq_ref = nuc_seq_ref.translate(table=tab, stop_symbol="")
-            #         print(tab, ":\t", previously_translated_seq == aa_seq_ref)
+    i = 0
+    deletion_locs = []
+    while i < len(deletions):
+        start = deletions[i]
+        while i + 1 < len(deletions) and deletions[i] + 1 == deletions[i+1]: # TODO: fix infinite recursive loop
+            i += 1
+        end = deletions[i]
+        i += 1
+        deletion_locs.append((start, end))
 
-            variants_w_nearby_genes_df.loc[i, 'Alt Translation'] = str(aa_seq_alt)
-            variants_w_nearby_genes_df.loc[i, 'Ref Translation'] = str(aa_seq_ref)
+    mismatch_str = None
+    if len(mismatches) != 0:
+        mismatch_str = "mismatches at " + ", ".join([str(n) for n in mismatches])
+
+    insertion_str = None
+    if len(insertion_locs) != 0:
+        insertion_str = "insertions from " + ", ".join([str("{} to {}".format(s, e)) for s, e in insertion_locs])
+
+    deletion_str = None
+    if len(deletion_locs) != 0:
+        deletion_str = "deletions from " + ", ".join([str("{} to {}".format(s, e)) for s, e in deletion_locs])
+
+    effect = ", ".join([s for s in [mismatch_str, insertion_str, deletion_str] if s])
+
+    return effect
+
+def line_prepender(filename, line):
+    with open(filename, 'r+') as f:
+        content = f.read()
+        f.seek(0, 0)
+        f.write(line.rstrip('\r\n') + '\n' + content)
+
+def df2gff3(annotation_df, outpath, genome_record):
+    gff_df = annotation_df[['seq_id', 'source', 'type', 'start', 'end', 'score', 'strand', 'phase', 'attributes']]
+    gff_df['seq_id'] = genome_record.id
+    gff_df.to_csv(outpath, sep='\t', index=False, header=False)
+    line_prepender(outpath, f"##sequence-region {genome_record.id} 1 {len(genome_record.seq)}")
+    line_prepender(outpath, "##gff-version 3")
+
+def analyse_variant_effect(filtered_variant_df, ref_record, ref_gff_df, alt_genome_dir=None):
+    ref_seq = ref_record.seq
     
-    return variants_w_nearby_genes_df
+    unique_genomes = filtered_variant_df['genome_name'].unique()
+
+    num_genes = len(ref_gff_df)
+
+    dfs_to_concat = []
+
+    for unique_genome in unique_genomes:
+        print(unique_genome)
+
+        genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
+
+        genome_df = ref_gff_df.copy()
+        genome_df['genome_name'] = unique_genome
+        
+        # genome_df['Nearby Variant Ref Positions'] = ""
+        genome_df['Intragenic Variant Ref Positions'] = ""
+        genome_df['Genbank aa equals ref aa'] = None
+        genome_df['ref nuc equals alt nuc'] = None
+        genome_df['Ref Translation'] = None
+        genome_df['Alt Translation'] = None
+        genome_df['ref aa equals alt aa'] = None
+        genome_df['Effect'] = None
+
+        alt_gff_df, alt_seq = applyVariants2Genome(genome_variants, ref_seq, ref_gff_df)
+
+        if alt_genome_dir:
+            alt_seq_id = f"{ref_record.id}_{unique_genome}_alt"
+            alt_seq_record = SeqRecord(alt_seq, id=alt_seq_id)
+
+            gff_out_path = alt_genome_dir / f"{unique_genome}_alt.gff3"
+            alt_ref_path = alt_genome_dir / f"{unique_genome}_alt.fasta"
+            df2gff3(alt_gff_df, gff_out_path, alt_seq_record)
+            
+            SeqIO.write(alt_seq_record, alt_ref_path, "fasta")
+
+        assert len(ref_gff_df) == len(alt_gff_df) == len(genome_df)
+
+        for i in range(num_genes):
+            ref_start = int(genome_df.loc[i, 'start'])
+            alt_start = int(alt_gff_df.loc[i, 'start'])
+            ref_end = int(genome_df.loc[i, 'end'])
+            alt_end = int(alt_gff_df.loc[i, 'end'])
+
+            intragenic = False
+            for j, variant in genome_variants.iterrows():
+                var_pos = variant['POS'] 
+
+                if ref_start <= var_pos <= ref_end:
+                    intragenic = True
+                    genome_df.loc[i, 'Intragenic Variant Ref Positions'] = str(var_pos) + ", " + str(genome_df.loc[i, 'Intragenic Variant Ref Positions'])
+
+                # elif ((ref_end > var_pos - 1000) & (ref_end < var_pos + 1000)) | ((ref_start > var_pos - 1000) & (ref_start < var_pos + 1000)):
+                #     genome_df.loc[j, 'Nearby Variant Ref Positions'] = str(var_pos) + ", " + genome_df.loc[j, 'Nearby Variant Ref Positions']
+
+            if intragenic:
+                print(i)
+
+                strand = genome_df.loc[i, 'strand']
+                transl_table = genome_df.loc[i, 'transl_table']
+                aa_seq_genbank = genome_df.loc[i, 'translation']
+
+                print([ref_start, ref_end, alt_start, alt_end])
+
+                nuc_seq_ref = ref_seq[ref_start-1:ref_end]
+                nuc_seq_alt = alt_seq[alt_start-1:alt_end]
+
+                offset = len(nuc_seq_alt) - len(nuc_seq_ref)
+
+                genome_df.loc[i, 'ref nuc equals alt nuc'] = nuc_seq_ref == nuc_seq_alt
+
+                if strand == '-':
+                    nuc_seq_ref = nuc_seq_ref.reverse_complement()
+                    nuc_seq_alt = nuc_seq_alt.reverse_complement()
+
+                aa_seq_ref = nuc_seq_ref.translate(table=transl_table, stop_symbol="")
+                aa_seq_alt = nuc_seq_alt.translate(table=transl_table, stop_symbol="")
+
+                genome_df.loc[i, 'Genbank aa equals ref aa'] = aa_seq_genbank[1:] == aa_seq_ref[1:]
+                genome_df.loc[i, 'Ref Translation'] = str(aa_seq_ref)
+                genome_df.loc[i, 'Alt Translation'] = str(aa_seq_alt)
+                genome_df.loc[i, 'ref aa equals alt aa'] = aa_seq_ref == aa_seq_alt
+
+                print(genome_df.loc[i])
+
+                effect = None
+                if offset % 3 != 0:
+                    k = 0
+                    while k < len(aa_seq_alt) and k < len(aa_seq_ref):
+                        if aa_seq_alt[k] != aa_seq_ref[k]:
+                            break
+                        k += 1
+                    effect = "frameshift starting at {} in translated sequence".format(k)
+                else:
+                    effect = determineEffect(aa_seq_ref, aa_seq_alt)
+
+                genome_df.loc[i, 'Effect'] = effect
+                
+                print(effect)
+                print()
+
+        # filter genome_df for just nearby or intergenic rows
+        # genome_df = genome_df[(genome_df['Nearby Variant Ref Positions'] != "") | (genome_df['Intragenic Variant Ref Positions'] != "")]
+        genome_df = genome_df[genome_df['Intragenic Variant Ref Positions'] != ""]
+        dfs_to_concat.append(genome_df)
+
+    # concatenate genome_dfs
+    concatenated_genomes_df = pd.concat(dfs_to_concat, axis=0)
+
+    # rename columns
+    columns2keep = ['genome_name','seq_id','type','start','end','strand','Intragenic Variant Ref Positions','Genbank aa equals ref aa',
+                    'ref nuc equals alt nuc','ref aa equals alt aa','Effect','Ref Translation','Alt Translation',
+                    'Name','locus_tag','note','product','translation']
+    sliced_concat_genomes_df = concatenated_genomes_df[columns2keep]
+
+    return sliced_concat_genomes_df
 
 
-def df_analysis(full_variant_df_path, gff_path, ref_path, filtered_variant_df_outpath, variant_effect_df_outpath):
+def df_filtered_analysis(full_variant_df_path, gff_path, ref_path, filtered_variant_df_outpath, variant_effect_df_outpath, alt_genome_dir=None):
     full_variant_df = readVariantDF(full_variant_df_path)
     filtered_variant_df = filterOutNonSigVariants(full_variant_df)
     saveVariantDF(filtered_variant_df, filtered_variant_df_outpath)
+    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir)
 
+
+def df_standard_analysis(filtered_variant_df_path, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir=None):
+    filtered_variant_df = readVariantDF(filtered_variant_df_path)
+    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir)
+
+
+def df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir=None):
     gff_df = get_gff_df(gff_path)
     gff_cds_df = gff_df[gff_df['type']=='CDS']
+    gff_cds_df = gff_cds_df.reset_index()
     ref_genome_record = SeqIO.read(ref_path, 'fasta')
-    ref_genome_seq = ref_genome_record.seq
 
     print(gff_cds_df.columns)
 
-    variants_w_nearby_genes_df = indicate_nearby_genes(filtered_variant_df, gff_cds_df)
-    variant_effect_df = analyse_variant_effect(variants_w_nearby_genes_df, ref_genome_seq)
+    variant_effect_df = analyse_variant_effect(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir)
     saveVariantDF(variant_effect_df, variant_effect_df_outpath)
     

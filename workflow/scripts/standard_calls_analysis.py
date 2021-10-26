@@ -16,8 +16,8 @@ reference_genome_annotation_file = input_dir / "annotations" / "SynechococcusRS9
 io_dir = output_dir / 'all_calls_for_pandas'
 all_calls_dir = io_dir / 'vcf_pre_df'
 variant_dfs_dir = io_dir / 'variant_dfs'
-variant_df_outpath = variant_dfs_dir / 'all_genomes_all_variants.tsv'
-filtered_variant_df_outpath = variant_dfs_dir / 'all_genomes_filtered_variants.tsv'
-variant_effect_df_outpath = variant_dfs_dir / 'all_genomes_variant_effects.tsv'
+filtered_variant_df_path = variant_dfs_dir / 'standard_calls_filtered.tsv'
+variant_effect_df_outpath = variant_dfs_dir / 'all_genomes_standard_variant_effects.tsv'
+alt_genome_dir = output_dir / "alt_genomes"
 
-dvc.df_analysis(variant_df_outpath, reference_genome_annotation_file, reference_genome_file, filtered_variant_df_outpath, variant_effect_df_outpath)
+dvc.df_standard_analysis(filtered_variant_df_path, reference_genome_annotation_file, reference_genome_file, variant_effect_df_outpath, alt_genome_dir)
