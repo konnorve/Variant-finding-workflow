@@ -546,4 +546,3 @@ def df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpa
         variant_effect_df = analyse_variant_effects(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
         saveVariantDF(variant_effect_df, variant_effect_df_outpath)
     
-    
