@@ -19,5 +19,12 @@ variant_dfs_dir = io_dir / 'variant_dfs'
 filtered_variant_df_path = variant_dfs_dir / 'standard_calls_filtered.tsv'
 variant_effect_df_outpath = variant_dfs_dir / 'all_genomes_standard_variant_effects.tsv'
 alt_genome_dir = output_dir / "alt_genomes"
+intergenic_figure_dir = output_dir / "intergenic_variant_positions"
+intragenic_figure_dir = output_dir / "intragenic_variant_positions"
 
-dvc.df_standard_analysis(filtered_variant_df_path, reference_genome_annotation_file, reference_genome_file, variant_effect_df_outpath, alt_genome_dir)
+dvc.df_standard_analysis(filtered_variant_df_path, reference_genome_annotation_file, reference_genome_file, 
+                        variant_effect_df_outpath= variant_effect_df_outpath, 
+                        alt_genome_dir=alt_genome_dir, 
+                        # intergenic_figure_dir=intergenic_figure_dir,
+                        intragenic_figure_dir=intragenic_figure_dir
+                        )
