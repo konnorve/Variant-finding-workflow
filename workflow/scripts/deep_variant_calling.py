@@ -416,6 +416,7 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
 
                 print()
 
+
         # filter genome_df for just nearby or intergenic rows
         # genome_df = genome_df[(genome_df['Nearby Variant Ref Positions'] != "") | (genome_df['Intragenic Variant Ref Positions'] != "")]
         genome_df = genome_df[genome_df['Intragenic Variant Ref Positions'] != ""]
@@ -439,6 +440,8 @@ def plot_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure
 
     graphic_record = BiopythonTranslator().translate_record(ref_record)
 
+    all_intergenic_variant_dfs = []
+
     for unique_genome in unique_genomes:
         print(unique_genome)
 
@@ -455,6 +458,10 @@ def plot_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure
             if len(genome_df) == 0:
                 var_effect = f"{variant['REF']} to {variant['ALT']}"
                 plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE)
+            
+        all_intergenic_variant_dfs.append(genome_variants)
+    
+    return pd.concat(all_intergenic_variant_dfs)
 
 def plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE=5000):
 
@@ -501,7 +508,103 @@ def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effe
     plt.savefig(out_path)
     plt.close()
 
+def analyze_chi_sites(filtered_variant_df, chi_gff_df):
+    
+    chi_gff_df["midpoint"] = (chi_gff_df["start"] + chi_gff_df["end"]) / 2
+    chi_sites = chi_gff_df["midpoint"].to_numpy()
 
+    unique_genomes = filtered_variant_df['genome_name'].unique()
+
+    var2chi_dfs = []
+
+    for unique_genome in unique_genomes:
+        print(unique_genome)
+
+        genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
+
+        var_pos = genome_variants['POS'].to_numpy()
+
+        var_dist2chi = np.zeros(shape=(len(var_pos)))
+
+        for i in range(len(var_pos)):
+            var_dist2chi[i] = np.min(np.abs(chi_sites - var_pos[i]))
+
+        genome_variants['dist_to_chi_site'] = var_dist2chi
+
+        var2chi_dfs.append(genome_variants)
+    
+    return pd.concat(var2chi_dfs)
+
+
+def chi_summary_statistics(filtered_variant_df_chi):
+
+    unique_genomes = filtered_variant_df_chi['genome_name'].unique()
+
+    dist_dict = {}
+
+    for unique_genome in unique_genomes:
+
+        genome_variants = filtered_variant_df_chi[filtered_variant_df_chi['genome_name'] == unique_genome]
+
+        chi_distances = genome_variants['dist_to_chi_site'].to_numpy()
+
+        dist_dict[unique_genome] = np.median(chi_distances)
+
+    return dist_dict
+
+    
+        
+def get_chi_distribution(chi_gff_df, genome_len):
+    # calculate distribution for genome
+
+    chi_gff_df["midpoint"] = (chi_gff_df["start"] + chi_gff_df["end"]) / 2
+    chi_sites = chi_gff_df["midpoint"].to_numpy()
+
+    dist2chi = np.zeros(shape=(genome_len))
+
+    for i in range(genome_len):
+        dist2chi[i] = int(np.min(np.abs(chi_sites - i + 1)))
+        if i % 100000 == 0: print(i,'\t',dist2chi[i])
+
+    print(f"median dist to chi whole genome:\t{np.sort(dist2chi)[int(len(dist2chi)/2)]}")
+
+    dist2chi_distribution = np.zeros(shape=(int(max(dist2chi)+1)))
+
+    unique, counts = np.unique(dist2chi, return_counts=True)
+    distribution_dictionary = dict(zip(unique, counts))
+
+    for i in range(len(dist2chi_distribution)):
+        if i in distribution_dictionary.keys():
+            dist2chi_distribution[i] = distribution_dictionary[i]
+
+    return dist2chi_distribution
+
+def plot_chi_distribution(figure_outpath, chi_dist_distribution, average_feature_dist_dict=None):
+
+    fig, ax = plt.subplots(1, 1, figsize=(30, 5))
+
+    ax.fill_between(range(len(chi_dist_distribution)), 0, chi_dist_distribution, label="distance to chi site (nt)")
+    
+    ax.set_xlabel("distance from chi site")
+
+    ax.set_ylabel("count of nucleotides with this distance")
+
+    sum_distribution = np.sum(chi_dist_distribution*np.arange(len(chi_dist_distribution)))
+    count_distribution = np.sum(chi_dist_distribution)
+    avg_distribution = sum_distribution / count_distribution
+
+    ax.axvline(avg_distribution, label="average dist to chi across genome", c='k')
+    print(f"average dist to chi whole genome:\t{avg_distribution}")
+
+    if average_feature_dist_dict is not None:
+        for key, value in average_feature_dist_dict.items():
+            color = np.random.rand(3) / 2 + 0.25
+            ax.axvline(value, label=key, c=color)
+            print(f"median dist var to chi {key}:\t{value}")
+        ax.legend()
+
+    plt.savefig(figure_outpath)
+    plt.close()
 
 def get_seq_record(fasta_path, gff_path):
     
@@ -527,22 +630,40 @@ def df_filtered_analysis(full_variant_df_path, gff_path, ref_path, filtered_vari
     df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir)
 
 
-def df_standard_analysis(filtered_variant_df_path, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None):
+def df_standard_analysis(filtered_variant_df_path, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None, intergenic_df_outpath=None, chi_distribution_figure_outpath=None):
     filtered_variant_df = readVariantDF(filtered_variant_df_path)
-    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir, intergenic_figure_dir, intragenic_figure_dir)
+    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir, intergenic_figure_dir, intragenic_figure_dir, intergenic_df_outpath, chi_distribution_figure_outpath)
 
 
-def df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None):
+def df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None, intergenic_df_outpath=None, chi_distribution_figure_outpath=None):
     gff_df = get_gff_df(gff_path)
+
     gff_cds_df = gff_df[gff_df['type']=='CDS']
     gff_cds_df = gff_cds_df.reset_index()
+
+    gff_chi_df = gff_df[gff_df['type']=='CHI_Pro']
+    gff_chi_df = gff_chi_df.reset_index()
+
     ref_genome_record = get_seq_record(ref_path, gff_path)
+
+    if chi_distribution_figure_outpath is not None:
+
+        var2chi_df = analyze_chi_sites(filtered_variant_df, gff_chi_df)
+
+        average_feature_dist_dict = chi_summary_statistics(var2chi_df)
+
+        dist2chi_distribution = get_chi_distribution(gff_chi_df, len(ref_genome_record.seq))
+
+        plot_chi_distribution(chi_distribution_figure_outpath, dist2chi_distribution, average_feature_dist_dict=average_feature_dist_dict)
 
     if intergenic_figure_dir is not None:
         for ws in [5000, 10000]:
-            plot_intergenic_variants(filtered_variant_df, gff_cds_df, ref_genome_record, intergenic_figure_dir, WINDOW_SIZE = ws)
+            intergenic_variants_df = plot_intergenic_variants(filtered_variant_df, gff_cds_df, ref_genome_record, intergenic_figure_dir, WINDOW_SIZE = ws)
 
-    if variant_effect_df_outpath is not None:
+            if intergenic_df_outpath is not None:
+                saveVariantDF(intergenic_variants_df, intergenic_df_outpath)
+
+    if variant_effect_df_outpath is not None and intragenic_figure_dir is not None:
         variant_effect_df = analyse_variant_effects(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
         saveVariantDF(variant_effect_df, variant_effect_df_outpath)
     

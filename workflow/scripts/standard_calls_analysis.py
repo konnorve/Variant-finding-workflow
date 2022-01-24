@@ -21,10 +21,13 @@ variant_effect_df_outpath = variant_dfs_dir / 'all_genomes_standard_variant_effe
 alt_genome_dir = output_dir / "alt_genomes"
 intergenic_figure_dir = output_dir / "intergenic_variant_positions"
 intragenic_figure_dir = output_dir / "intragenic_variant_positions"
+chi_distribution_figure_outpath = output_dir / "chi_analysis" / "chi_distribution.png"
 
 dvc.df_standard_analysis(filtered_variant_df_path, reference_genome_annotation_file, reference_genome_file, 
-                        variant_effect_df_outpath= variant_effect_df_outpath, 
-                        alt_genome_dir=alt_genome_dir, 
+                        # variant_effect_df_outpath= variant_effect_df_outpath, 
+                        # alt_genome_dir=alt_genome_dir, 
                         # intergenic_figure_dir=intergenic_figure_dir,
-                        intragenic_figure_dir=intragenic_figure_dir
+                        # intragenic_figure_dir=intragenic_figure_dir,
+                        # intergenic_df_outpath=None, 
+                        chi_distribution_figure_outpath=chi_distribution_figure_outpath
                         )
