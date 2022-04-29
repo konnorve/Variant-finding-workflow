@@ -1,12 +1,12 @@
 
 rule run_trim:
     input:
-        r1 = resequenced_genome_reads_dir / "{sample}1.fastq.gz",
-        r2 = resequenced_genome_reads_dir / "{sample}2.fastq.gz",
-        ref = adapter_file,
+        r1 = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'fwd_read'],
+        r2 = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'rev_read'],
+        ref = Path(config["input"]["adapter_file"]),
     output:
-        o1 = trimmed_reads_dir / "{sample}_1_trimmed.fastq.gz",
-        o2 = trimmed_reads_dir / "{sample}_2_trimmed.fastq.gz",
+        o1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq.gz",
+        o2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq.gz",
     resources:
         mem_mb=100000,
     conda:

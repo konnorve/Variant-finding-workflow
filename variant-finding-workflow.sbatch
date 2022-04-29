@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 # 
-#SBATCH --job-name=var_call
+#SBATCH --job-name=vcfsmk
 #
 # Number of tasks/cores for job
-#SBATCH -n 10
+#SBATCH -n 20
 #
 # Specifies using a centos7 node
 #SBATCH -C centos7
@@ -38,12 +38,8 @@ SNAKEFILE=workflow/Snakefile
 # lints and formats snakefile
 snakemake --snakefile $SNAKEFILE --lint --unlock
 
-# examine full workflow using:
-snakemake --forceall -n --snakefile $SNAKEFILE --dag | dot -T pdf > all_rules_dag.pdf
-# examine workflow steps to run using:
-snakemake -n --snakefile $SNAKEFILE --dag | dot -T pdf > current_rules_dag.pdf
-
 # run job:
-snakemake --cores all --resources mem_mb=250000 --snakefile $SNAKEFILE --use-conda --conda-frontend conda --latency-wait 60
+snakemake --cores all --resources mem_mb=250000 --snakefile $SNAKEFILE --use-conda --conda-frontend conda # --latency-wait 60
+
 # get report once job is finished
 snakemake --snakefile $SNAKEFILE --report report.html

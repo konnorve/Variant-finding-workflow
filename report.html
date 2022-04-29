@@ -406,8 +406,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="https://snakemake.readthedocs.io">Snakemake Report</a>
       <div class="nav navbar-nav navbar-center" id="brand"></div>
       <ul class="nav navbar-nav navbar-right" style="padding-right: 10px;">
-        <li class="text-white">Fri Oct  1 16:10:29 2021 EST</li>
-        <li><a class="text-white" href="https://snakemake.readthedocs.io">Snakemake 6.8.0</a></li>
+        <li class="text-white">Wed Apr 27 19:13:20 2022 EST</li>
+        <li><a class="text-white" href="https://snakemake.readthedocs.io">Snakemake 7.0.0</a></li>
       </ul>
       <!--<input id="searchbar" class="invisible form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search">-->
     </nav>
@@ -427,6 +427,12 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                 <a class="nav-link panel-link" data-panel="statistics" href="javascript:void(0)">
                   <span data-feather="bar-chart-2"></span>
                   Statistics
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link panel-link" data-panel="configuration" href="javascript:void(0)">
+                  <span data-feather="settings"></span>
+                  Configuration
                 </a>
               </li>
             </ul>
@@ -471,6 +477,69 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
             </div>
           </div>
 
+          <div class="panel" id="configuration">
+            <h2>Configuration</h2>
+            <table class="table">
+              <caption>Configuration files</caption>
+              <thead>
+                <tr>
+                  <th scope="col">File</th>
+                  <th scope="col">Code</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                    <td></td>
+                    <td>
+                      <a data-toggle="collapse" role="button" href="#configfile-" aria-expanded="false" aria-controls="collapse-env"><span data-feather="plus-circle"></span></a>
+                      <div class="collapse" id="configfile-">
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code><span class="nt">experiment_name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;2022_Population_Genomics_9313&#39;</span><span class="w"></span>
+
+<span class="nt">config</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;config/config.yaml&quot;</span><span class="w"></span>
+<span class="nt">samples</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;config/samples.tsv&quot;</span><span class="w"></span>
+
+<span class="c1"># options are &#39;bwa&#39; &#39;hisat2&#39; and &#39;bowtie2&#39;</span><span class="w"></span>
+<span class="nt">aligner</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;bwa&#39;</span><span class="w"></span>
+
+<span class="nt">input</span><span class="p">:</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">genome_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</span><span class="w"></span>
+<span class="w">  </span><span class="nt">gff_ref</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.gff</span><span class="w"></span>
+<span class="w">  </span><span class="nt">adapter_file</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa</span><span class="w"></span>
+<span class="nt">scratch_dir</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates</span><span class="w"></span>
+<span class="nt">results</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/results</span><span class="w"></span>
+
+<span class="nt">variant_calling_methods</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="w"></span>
+<span class="w">  </span><span class="s">&#39;freebayes&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">  </span><span class="s">&#39;bcftools_standard&#39;</span><span class="p p-Indicator">,</span><span class="w"> </span>
+<span class="w">  </span><span class="s">&#39;bcftools_all&#39;</span><span class="w"></span>
+<span class="w">  </span><span class="p p-Indicator">]</span><span class="w"></span>
+</code></pre></div>
+</td></tr></table>
+                      </div>
+                    </td>
+                  </tr>
+              </tbody>
+            </table>
+          </div>
 
           <div class="panel" id="panel-loading-screen">
             <p class="animation">Loading...</p>
@@ -496,6 +565,120 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
           </div>
         </div>
 
+        <div data-rule="cut_metadata" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule cut_metadata</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>108</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/all_calls/raw_vcf/{sample}.{method}.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/all_calls/vcf_calls_only/{sample}.{method}.tsv</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>grep -v <span class="s1">&#39;##&#39;</span> <span class="o">{</span>input<span class="o">}</span> &gt; <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div data-rule="link_bcftool_all" class="modal rule-properties" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Rule link_bcftool_all</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <table class="table w-auto table-sm table-borderless ruletable">
+                  <caption>Rule properties</caption>
+                  <tbody>
+                    <tr>
+                      <th scope="row">Jobs</th><td>108</td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Input files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/5_variant_calls/{sample}/{sample}.{method}.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+                    <tr>
+                      <th scope="row" colspan=2>Output files</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <ul>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/all_calls/raw_vcf/{sample}.{method}.vcf</li>
+                        </ul>
+                      </td>
+                    </tr>
+
+
+
+                    <tr>
+                      <th scope="row" colspan=2>Code</th>
+                    </tr>
+                    <tr>
+                      <td class="rule-property" colspan=2>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>ln -s <span class="o">{</span>input<span class="o">}</span> <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
+</code></pre></div>
+</td></tr></table>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
         <div data-rule="call_variants_freebayes" class="modal rule-properties" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -510,7 +693,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -519,8 +702,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/PCR_duplicates_removed/{sample}_deduped.bam</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/4_PCR_duplicates_removed/{sample}_deduped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</li>
                         </ul>
                       </td>
                     </tr>
@@ -531,7 +714,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_freebayes.vcf</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/5_variant_calls/{sample}/{sample}.freebayes.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -578,7 +761,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -587,7 +770,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped_sorted.bam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped_sorted.bam</li>
                         </ul>
                       </td>
                     </tr>
@@ -598,8 +781,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/PCR_duplicates_removed/{sample}_deduped.bam</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/PCR_duplicates_removed/{sample}_deduped_metadata.txt</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/4_PCR_duplicates_removed/{sample}_deduped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/4_PCR_duplicates_removed/{sample}_deduped_metadata.txt</li>
                         </ul>
                       </td>
                     </tr>
@@ -646,7 +829,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -655,7 +838,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped.bam</li>
                         </ul>
                       </td>
                     </tr>
@@ -666,7 +849,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped_sorted.bam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped_sorted.bam</li>
                         </ul>
                       </td>
                     </tr>
@@ -713,7 +896,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -722,7 +905,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped.sam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped.sam</li>
                         </ul>
                       </td>
                     </tr>
@@ -733,7 +916,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped.bam</li>
                         </ul>
                       </td>
                     </tr>
@@ -766,11 +949,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
             </div>
           </div>
         </div>
-        <div data-rule="map_reads" class="modal rule-properties" tabindex="-1" role="dialog">
+        <div data-rule="map_reads_PE" class="modal rule-properties" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Rule map_reads</h5>
+                <h5 class="modal-title">Rule map_reads_PE</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -780,7 +963,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -789,10 +972,10 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{sample}_1_trimmed.fastq</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{sample}_2_trimmed.fastq</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/genome_index/{sample}/concat_genome</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/done_files/build_hisat2_index.{sample}.done</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{sample}_1_trimmed.fastq</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{sample}_2_trimmed.fastq</li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/done_files/index.done</li>
                         </ul>
                       </td>
                     </tr>
@@ -803,7 +986,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/mapped_reads/{sample}_mapped.sam</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/3_mapped_reads/{sample}_mapped.sam</li>
                         </ul>
                       </td>
                     </tr>
@@ -815,7 +998,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>hisat2</li>
+                            <li>bwa</li>
                         </ul>
                       </td>
                     </tr>
@@ -826,7 +1009,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>        hisat2 -x <span class="o">{</span>input.index_dir<span class="o">}</span> -1 <span class="o">{</span>input.r1<span class="o">}</span> -2 <span class="o">{</span>input.r2<span class="o">}</span> &gt; <span class="o">{</span>output<span class="o">}</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>        bwa mem <span class="o">{</span>input.ref<span class="o">}</span> <span class="o">{</span>input.r1<span class="o">}</span> <span class="o">{</span>input.r2<span class="o">}</span> &gt; <span class="o">{</span>output.sam_out<span class="o">}</span>
         
 </code></pre></div>
 </td></tr></table>
@@ -852,7 +1035,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>10</td>
+                      <th scope="row">Jobs</th><td>70</td>
                     </tr>
 
                     <tr>
@@ -861,7 +1044,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{anything}.fastq.gz</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{anything}.fastq.gz</li>
                         </ul>
                       </td>
                     </tr>
@@ -872,7 +1055,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{anything}.fastq</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{anything}.fastq</li>
                         </ul>
                       </td>
                     </tr>
@@ -919,7 +1102,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>35</td>
                     </tr>
 
                     <tr>
@@ -928,9 +1111,9 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/resequenced_genome_reads/{sample}1.fastq.gz</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/resequenced_genome_reads/{sample}2.fastq.gz</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/adapters/all_illumina_adapters.fa</li>
+                            <li><function <lambda> at 0x2aab54722cb0></li>
+                            <li><function <lambda> at 0x2aab54722d40></li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa</li>
                         </ul>
                       </td>
                     </tr>
@@ -941,8 +1124,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{sample}_1_trimmed.fastq.gz</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/trimmed_reads/{sample}_2_trimmed.fastq.gz</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{sample}_1_trimmed.fastq.gz</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/1_trimmed_reads/{sample}_2_trimmed.fastq.gz</li>
                         </ul>
                       </td>
                     </tr>
@@ -975,11 +1158,11 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
             </div>
           </div>
         </div>
-        <div data-rule="make_sample_index_dir" class="modal rule-properties" tabindex="-1" role="dialog">
+        <div data-rule="index_genome" class="modal rule-properties" tabindex="-1" role="dialog">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title">Rule make_sample_index_dir</h5>
+                <h5 class="modal-title">Rule index_genome</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -989,54 +1172,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
-                    </tr>
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/genome_index/{sample}/concat_genome</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>mkdir -p <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="build_hisat2_index" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule build_hisat2_index</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>1</td>
                     </tr>
 
                     <tr>
@@ -1045,8 +1181,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/genome_index/{sample}/concat_genome</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</li>
                         </ul>
                       </td>
                     </tr>
@@ -1057,7 +1192,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/done_files/build_hisat2_index.{sample}.done</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/done_files/index.done</li>
                         </ul>
                       </td>
                     </tr>
@@ -1069,7 +1204,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>hisat2</li>
+                            <li>bwa</li>
                         </ul>
                       </td>
                     </tr>
@@ -1079,7 +1214,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     </tr>
                     <tr>
                       <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>hisat2-build <span class="o">{</span>input.ref<span class="o">}</span> <span class="o">{</span>input.out_dir<span class="o">}</span>
+                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>bwa index <span class="o">{</span>input.ref<span class="o">}</span>
 </code></pre></div>
 </td></tr></table>
                       </td>
@@ -1104,7 +1239,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -1113,8 +1248,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/PCR_duplicates_removed/{sample}_deduped.bam</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/4_PCR_duplicates_removed/{sample}_deduped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</li>
                         </ul>
                       </td>
                     </tr>
@@ -1125,7 +1260,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_standard.vcf</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/5_variant_calls/{sample}/{sample}.bcftools_standard.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -1172,7 +1307,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                   <caption>Rule properties</caption>
                   <tbody>
                     <tr>
-                      <th scope="row">Jobs</th><td>5</td>
+                      <th scope="row">Jobs</th><td>36</td>
                     </tr>
 
                     <tr>
@@ -1181,8 +1316,8 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/PCR_duplicates_removed/{sample}_deduped.bam</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/4_PCR_duplicates_removed/{sample}_deduped.bam</li>
+                            <li>/nfs/chisholmlab001/kve/genomic_resources/strains/pro/MIT9313/MIT9313.fna</li>
                         </ul>
                       </td>
                     </tr>
@@ -1193,7 +1328,7 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_all.vcf</li>
+                            <li>/nfs/chisholmlab001/kve/2022_Population_Genomics_9313/intermediates/5_variant_calls/{sample}/{sample}.bcftools_all.vcf</li>
                         </ul>
                       </td>
                     </tr>
@@ -1216,327 +1351,6 @@ span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 
                     <tr>
                       <td class="rule-property" colspan=2>
                         <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>bcftools mpileup -Ou -q30 -x -d3000 -f <span class="o">{</span>input.ref_genome<span class="o">}</span> <span class="o">{</span>input.deduped_bam<span class="o">}</span> <span class="p">|</span> bcftools call -c -Ov -o <span class="o">{</span>output<span class="o">}</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="analyze_variants_vep" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule analyze_variants_vep</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>10</td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Input files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_{variant_call_tool}.vcf</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz.tbi</li>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/reference_genome/SynechococcusRS9916.fna</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_{variant_call_tool}_vep_results.txt</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Conda software stack</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>ensembl-vep</li>
-                            <li>samtools</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>vep -i <span class="o">{</span>input.vcf<span class="o">}</span> -o <span class="o">{</span>output<span class="o">}</span> --sift b --gff <span class="o">{</span>input.annotation<span class="o">}</span> --fasta <span class="o">{</span>input.reference<span class="o">}</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="prep_gff_vep" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule prep_gff_vep</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>1</td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Input files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/input_data/annotations/SynechococcusRS9916.gff</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Conda software stack</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>ensembl-vep</li>
-                            <li>samtools</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>grep -v <span class="s2">&quot;#&quot;</span> <span class="o">{</span>input<span class="o">}</span> <span class="p">|</span> sort -k1,1 -k4,4n -k5,5n -t<span class="s2">$&quot;	&quot;</span> <span class="p">|</span> bgzip -c &gt; <span class="o">{</span>output<span class="o">}</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="index_gff" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule index_gff</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>1</td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Input files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/vep_input_annotations/vep_annotations_SynechococcusRS9916.gff.gz.tbi</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Conda software stack</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>ensembl-vep</li>
-                            <li>samtools</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>tabix -p gff <span class="o">{</span>input<span class="o">}</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="cut_metadata" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule cut_metadata</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>5</td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Input files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/raw_vcf/{sample}_bcftools_all.vcf</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/vcf_pre_df/{sample}_bcftools_all.tsv</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>grep -v <span class="s1">&#39;##&#39;</span> <span class="o">{</span>input<span class="o">}</span> &gt; <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
-</code></pre></div>
-</td></tr></table>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div data-rule="link_bcftool_all" class="modal rule-properties" tabindex="-1" role="dialog">
-          <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Rule link_bcftool_all</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                <table class="table w-auto table-sm table-borderless ruletable">
-                  <caption>Rule properties</caption>
-                  <tbody>
-                    <tr>
-                      <th scope="row">Jobs</th><td>5</td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Input files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/variant_analysis/{sample}/{sample}_bcftools_all.vcf</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-                    <tr>
-                      <th scope="row" colspan=2>Output files</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <ul>
-                            <li>/nobackup1/kve/2021_sean_prochlorosin_SNP_ident/output_data/all_calls_for_pandas/raw_vcf/{sample}_bcftools_all.vcf</li>
-                        </ul>
-                      </td>
-                    </tr>
-
-
-
-                    <tr>
-                      <th scope="row" colspan=2>Code</th>
-                    </tr>
-                    <tr>
-                      <td class="rule-property" colspan=2>
-                        <table class="sourcetable"><tr><td class="linenos"><div class="linenodiv"><pre><span class="normal">1</span></pre></div></td><td class="code"><div class="source"><pre><span></span><code>ln -s <span class="o">{</span>input<span class="o">}</span> <span class="o">{</span>output<span class="o">}</span><span class="p">;</span> sleep <span class="m">1</span>
 </code></pre></div>
 </td></tr></table>
                       </td>
@@ -2208,7 +2022,7 @@ if (typeof module !== 'undefined') {
 
       var rulegraph_spec = {
         "$schema": "https://vega.github.io/schema/vega/v5.json",
-        "width": 748.94,
+        "width": 632.04,
         "height": 686.0,
         "padding": 0,
         "autosize": "none",
@@ -2221,11 +2035,11 @@ if (typeof module !== 'undefined') {
         "data": [
           {
             "name": "node-data",
-            "values": [{'rule': 'all', 'fx': 283.94, 'fy': 666.0}, {'rule': 'analyze_variants_vep', 'fx': 405.94, 'fy': 594.0}, {'rule': 'build_hisat2_index', 'fx': 287.94, 'fy': 90.0}, {'rule': 'call_variants_bcftools', 'fx': 628.94, 'fy': 522.0}, {'rule': 'call_variants_bcftools_all', 'fx': 157.94, 'fy': 450.0}, {'rule': 'call_variants_freebayes', 'fx': 283.94, 'fy': 522.0}, {'rule': 'convert_sam2bam', 'fx': 287.94, 'fy': 234.0}, {'rule': 'cut_metadata', 'fx': 71.944, 'fy': 594.0}, {'rule': 'index_gff', 'fx': 477.94, 'fy': 522.0}, {'rule': 'link_bcftool_all', 'fx': 66.944, 'fy': 522.0}, {'rule': 'make_sample_index_dir', 'fx': 219.94, 'fy': 18.0}, {'rule': 'map_reads', 'fx': 287.94, 'fy': 162.0}, {'rule': 'prep_gff_vep', 'fx': 439.94, 'fy': 450.0}, {'rule': 'remove_PCR_duplicates', 'fx': 287.94, 'fy': 378.0}, {'rule': 'run_trim', 'fx': 414.94, 'fy': 18.0}, {'rule': 'sort_bam', 'fx': 287.94, 'fy': 306.0}, {'rule': 'unzip', 'fx': 414.94, 'fy': 90.0}]
+            "values": [{'rule': 'all', 'fx': 298.04, 'fy': 666.0}, {'rule': 'call_variants_bcftools', 'fx': 89.042, 'fy': 450.0}, {'rule': 'call_variants_bcftools_all', 'fx': 298.04, 'fy': 450.0}, {'rule': 'call_variants_freebayes', 'fx': 512.04, 'fy': 450.0}, {'rule': 'convert_sam2bam', 'fx': 298.04, 'fy': 234.0}, {'rule': 'cut_metadata', 'fx': 298.04, 'fy': 594.0}, {'rule': 'index_genome', 'fx': 242.04, 'fy': 90.0}, {'rule': 'link_bcftool_all', 'fx': 298.04, 'fy': 522.0}, {'rule': 'map_reads_PE', 'fx': 298.04, 'fy': 162.0}, {'rule': 'remove_PCR_duplicates', 'fx': 298.04, 'fy': 378.0}, {'rule': 'run_trim', 'fx': 354.04, 'fy': 18.0}, {'rule': 'sort_bam', 'fx': 298.04, 'fy': 306.0}, {'rule': 'unzip', 'fx': 354.04, 'fy': 90.0}]
           },
           {
             "name": "link-data",
-            "values": [{'target': 1, 'source': 0, 'value': 1}, {'target': 2, 'source': 11, 'value': 1}, {'target': 3, 'source': 0, 'value': 1}, {'target': 3, 'source': 1, 'value': 1}, {'target': 4, 'source': 0, 'value': 1}, {'target': 4, 'source': 9, 'value': 1}, {'target': 5, 'source': 0, 'value': 1}, {'target': 5, 'source': 1, 'value': 1}, {'target': 6, 'source': 15, 'value': 1}, {'target': 7, 'source': 0, 'value': 1}, {'target': 8, 'source': 1, 'value': 1}, {'target': 9, 'source': 7, 'value': 1}, {'target': 10, 'source': 11, 'value': 1}, {'target': 10, 'source': 2, 'value': 1}, {'target': 11, 'source': 6, 'value': 1}, {'target': 12, 'source': 1, 'value': 1}, {'target': 12, 'source': 8, 'value': 1}, {'target': 13, 'source': 5, 'value': 1}, {'target': 13, 'source': 3, 'value': 1}, {'target': 13, 'source': 4, 'value': 1}, {'target': 14, 'source': 16, 'value': 1}, {'target': 15, 'source': 13, 'value': 1}, {'target': 16, 'source': 11, 'value': 1}]
+            "values": [{'target': 1, 'source': 7, 'value': 1}, {'target': 2, 'source': 7, 'value': 1}, {'target': 3, 'source': 7, 'value': 1}, {'target': 4, 'source': 11, 'value': 1}, {'target': 5, 'source': 0, 'value': 1}, {'target': 6, 'source': 8, 'value': 1}, {'target': 7, 'source': 5, 'value': 1}, {'target': 8, 'source': 4, 'value': 1}, {'target': 9, 'source': 3, 'value': 1}, {'target': 9, 'source': 1, 'value': 1}, {'target': 9, 'source': 2, 'value': 1}, {'target': 10, 'source': 12, 'value': 1}, {'target': 11, 'source': 9, 'value': 1}, {'target': 12, 'source': 8, 'value': 1}]
           }
         ],
 
@@ -2333,7 +2147,7 @@ if (typeof module !== 'undefined') {
       var runtimes_spec = {
         "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
         "description": "Runtimes of jobs.",
-        "data": {"values": [{'rule': 'analyze_variants_vep', 'runtime': 19.183979988098145}, {'rule': 'analyze_variants_vep', 'runtime': 1.0065500736236572}, {'rule': 'analyze_variants_vep', 'runtime': 11.237519979476929}, {'rule': 'analyze_variants_vep', 'runtime': 0.8690199851989746}, {'rule': 'analyze_variants_vep', 'runtime': 5.35102391242981}, {'rule': 'analyze_variants_vep', 'runtime': 2.824968099594116}, {'rule': 'analyze_variants_vep', 'runtime': 2.905229091644287}, {'rule': 'analyze_variants_vep', 'runtime': 0.6477959156036377}, {'rule': 'analyze_variants_vep', 'runtime': 7.278670072555542}, {'rule': 'analyze_variants_vep', 'runtime': 1.0008699893951416}, {'rule': 'build_hisat2_index', 'runtime': 0.9410150051116943}, {'rule': 'build_hisat2_index', 'runtime': 0.8430449962615967}, {'rule': 'build_hisat2_index', 'runtime': 1.0820469856262207}, {'rule': 'build_hisat2_index', 'runtime': 0.8360490798950195}, {'rule': 'build_hisat2_index', 'runtime': 1.2410390377044678}, {'rule': 'call_variants_bcftools', 'runtime': 26.69459104537964}, {'rule': 'call_variants_bcftools', 'runtime': 58.70211911201477}, {'rule': 'call_variants_bcftools', 'runtime': 14.109988927841187}, {'rule': 'call_variants_bcftools', 'runtime': 11.741864919662476}, {'rule': 'call_variants_bcftools', 'runtime': 16.081895112991333}, {'rule': 'call_variants_bcftools_all', 'runtime': 26.55475091934204}, {'rule': 'call_variants_bcftools_all', 'runtime': 60.062220096588135}, {'rule': 'call_variants_bcftools_all', 'runtime': 14.325942993164062}, {'rule': 'call_variants_bcftools_all', 'runtime': 12.522849082946777}, {'rule': 'call_variants_bcftools_all', 'runtime': 16.86182403564453}, {'rule': 'call_variants_freebayes', 'runtime': 3903.5427548885345}, {'rule': 'call_variants_freebayes', 'runtime': 4959.423481941223}, {'rule': 'call_variants_freebayes', 'runtime': 1399.18199801445}, {'rule': 'call_variants_freebayes', 'runtime': 395.84688901901245}, {'rule': 'call_variants_freebayes', 'runtime': 1479.8368859291077}, {'rule': 'convert_sam2bam', 'runtime': 5.067965030670166}, {'rule': 'convert_sam2bam', 'runtime': 11.329633951187134}, {'rule': 'convert_sam2bam', 'runtime': 2.3240249156951904}, {'rule': 'convert_sam2bam', 'runtime': 2.508002996444702}, {'rule': 'convert_sam2bam', 'runtime': 2.3489298820495605}, {'rule': 'cut_metadata', 'runtime': 1.1227080821990967}, {'rule': 'cut_metadata', 'runtime': 1.6481130123138428}, {'rule': 'cut_metadata', 'runtime': 1.330915927886963}, {'rule': 'cut_metadata', 'runtime': 1.8138248920440674}, {'rule': 'cut_metadata', 'runtime': 1.578794002532959}, {'rule': 'index_gff', 'runtime': -0.7029600143432617}, {'rule': 'link_bcftool_all', 'runtime': 0.18170690536499023}, {'rule': 'link_bcftool_all', 'runtime': 0.6901159286499023}, {'rule': 'link_bcftool_all', 'runtime': 0.4079170227050781}, {'rule': 'link_bcftool_all', 'runtime': 0.8728229999542236}, {'rule': 'link_bcftool_all', 'runtime': 0.6397910118103027}, {'rule': 'make_sample_index_dir', 'runtime': 0.974052906036377}, {'rule': 'make_sample_index_dir', 'runtime': 0.947052001953125}, {'rule': 'make_sample_index_dir', 'runtime': 0.9880568981170654}, {'rule': 'make_sample_index_dir', 'runtime': 0.9350531101226807}, {'rule': 'make_sample_index_dir', 'runtime': 0.9610509872436523}, {'rule': 'map_reads', 'runtime': 16.197999000549316}, {'rule': 'map_reads', 'runtime': 40.60870003700256}, {'rule': 'map_reads', 'runtime': 7.087037086486816}, {'rule': 'map_reads', 'runtime': 8.291017055511475}, {'rule': 'map_reads', 'runtime': 8.431947946548462}, {'rule': 'prep_gff_vep', 'runtime': 0.0020530223846435547}, {'rule': 'remove_PCR_duplicates', 'runtime': 21.285784006118774}, {'rule': 'remove_PCR_duplicates', 'runtime': 38.581542015075684}, {'rule': 'remove_PCR_duplicates', 'runtime': 11.01101803779602}, {'rule': 'remove_PCR_duplicates', 'runtime': 14.395920991897583}, {'rule': 'remove_PCR_duplicates', 'runtime': 13.086920022964478}, {'rule': 'run_trim', 'runtime': 2.0220448970794678}, {'rule': 'run_trim', 'runtime': 5.200962066650391}, {'rule': 'run_trim', 'runtime': 2.921056032180786}, {'rule': 'run_trim', 'runtime': 1.7280290126800537}, {'rule': 'run_trim', 'runtime': 2.447050094604492}, {'rule': 'sort_bam', 'runtime': 6.433957099914551}, {'rule': 'sort_bam', 'runtime': 11.712616920471191}, {'rule': 'sort_bam', 'runtime': 1.6860170364379883}, {'rule': 'sort_bam', 'runtime': 2.900994062423706}, {'rule': 'sort_bam', 'runtime': 2.106926918029785}, {'rule': 'unzip', 'runtime': 1.135037899017334}, {'rule': 'unzip', 'runtime': 1.506032943725586}, {'rule': 'unzip', 'runtime': 3.1937129497528076}, {'rule': 'unzip', 'runtime': 2.7509520053863525}, {'rule': 'unzip', 'runtime': 0.05404400825500488}, {'rule': 'unzip', 'runtime': 0.23604297637939453}, {'rule': 'unzip', 'runtime': 1.266021966934204}, {'rule': 'unzip', 'runtime': 0.24903011322021484}, {'rule': 'unzip', 'runtime': 0.12502598762512207}, {'rule': 'unzip', 'runtime': 0.10901904106140137}]},
+        "data": {"values": [{'rule': 'call_variants_bcftools', 'runtime': 100.99225950241089}, {'rule': 'call_variants_bcftools', 'runtime': 102.92517733573914}, {'rule': 'call_variants_bcftools', 'runtime': 99.5626049041748}, {'rule': 'call_variants_bcftools', 'runtime': 110.72749280929565}, {'rule': 'call_variants_bcftools', 'runtime': 106.58787536621094}, {'rule': 'call_variants_bcftools', 'runtime': 111.15231275558472}, {'rule': 'call_variants_bcftools', 'runtime': 116.57824969291687}, {'rule': 'call_variants_bcftools', 'runtime': 98.04103875160217}, {'rule': 'call_variants_bcftools', 'runtime': 110.40194392204285}, {'rule': 'call_variants_bcftools', 'runtime': 105.94955277442932}, {'rule': 'call_variants_bcftools', 'runtime': 112.10851287841797}, {'rule': 'call_variants_bcftools', 'runtime': 108.8251678943634}, {'rule': 'call_variants_bcftools', 'runtime': 108.50791549682617}, {'rule': 'call_variants_bcftools', 'runtime': 96.13403940200806}, {'rule': 'call_variants_bcftools', 'runtime': 105.18423676490784}, {'rule': 'call_variants_bcftools', 'runtime': 102.94378852844238}, {'rule': 'call_variants_bcftools', 'runtime': 114.39712715148926}, {'rule': 'call_variants_bcftools', 'runtime': 107.84231567382812}, {'rule': 'call_variants_bcftools', 'runtime': 109.91227006912231}, {'rule': 'call_variants_bcftools', 'runtime': 105.846670627594}, {'rule': 'call_variants_bcftools', 'runtime': 119.83319759368896}, {'rule': 'call_variants_bcftools', 'runtime': 112.09070992469788}, {'rule': 'call_variants_bcftools', 'runtime': 103.45525240898132}, {'rule': 'call_variants_bcftools', 'runtime': 108.44287896156311}, {'rule': 'call_variants_bcftools', 'runtime': 109.18967485427856}, {'rule': 'call_variants_bcftools', 'runtime': 101.42011833190918}, {'rule': 'call_variants_bcftools', 'runtime': 104.07111954689026}, {'rule': 'call_variants_bcftools', 'runtime': 104.02560138702393}, {'rule': 'call_variants_bcftools', 'runtime': 100.9037389755249}, {'rule': 'call_variants_bcftools', 'runtime': 112.88320708274841}, {'rule': 'call_variants_bcftools', 'runtime': 86.08650779724121}, {'rule': 'call_variants_bcftools', 'runtime': 103.53918743133545}, {'rule': 'call_variants_bcftools', 'runtime': 102.30579423904419}, {'rule': 'call_variants_bcftools', 'runtime': 110.76323080062866}, {'rule': 'call_variants_bcftools', 'runtime': 106.74927186965942}, {'rule': 'call_variants_bcftools', 'runtime': 99.59022331237793}, {'rule': 'call_variants_bcftools_all', 'runtime': 155.37447214126587}, {'rule': 'call_variants_bcftools_all', 'runtime': 148.56257128715515}, {'rule': 'call_variants_bcftools_all', 'runtime': 120.94297361373901}, {'rule': 'call_variants_bcftools_all', 'runtime': 169.1020667552948}, {'rule': 'call_variants_bcftools_all', 'runtime': 166.21132493019104}, {'rule': 'call_variants_bcftools_all', 'runtime': 168.59141540527344}, {'rule': 'call_variants_bcftools_all', 'runtime': 188.83456444740295}, {'rule': 'call_variants_bcftools_all', 'runtime': 131.93055987358093}, {'rule': 'call_variants_bcftools_all', 'runtime': 162.66982865333557}, {'rule': 'call_variants_bcftools_all', 'runtime': 157.36390113830566}, {'rule': 'call_variants_bcftools_all', 'runtime': 168.47916793823242}, {'rule': 'call_variants_bcftools_all', 'runtime': 145.92237949371338}, {'rule': 'call_variants_bcftools_all', 'runtime': 151.19633388519287}, {'rule': 'call_variants_bcftools_all', 'runtime': 130.05506873130798}, {'rule': 'call_variants_bcftools_all', 'runtime': 149.06552243232727}, {'rule': 'call_variants_bcftools_all', 'runtime': 139.66774344444275}, {'rule': 'call_variants_bcftools_all', 'runtime': 193.10741329193115}, {'rule': 'call_variants_bcftools_all', 'runtime': 145.89048600196838}, {'rule': 'call_variants_bcftools_all', 'runtime': 194.37364506721497}, {'rule': 'call_variants_bcftools_all', 'runtime': 132.84315419197083}, {'rule': 'call_variants_bcftools_all', 'runtime': 210.9136848449707}, {'rule': 'call_variants_bcftools_all', 'runtime': 160.56148767471313}, {'rule': 'call_variants_bcftools_all', 'runtime': 149.72143173217773}, {'rule': 'call_variants_bcftools_all', 'runtime': 167.63366746902466}, {'rule': 'call_variants_bcftools_all', 'runtime': 159.61807942390442}, {'rule': 'call_variants_bcftools_all', 'runtime': 134.76361322402954}, {'rule': 'call_variants_bcftools_all', 'runtime': 166.23167872428894}, {'rule': 'call_variants_bcftools_all', 'runtime': 142.99994373321533}, {'rule': 'call_variants_bcftools_all', 'runtime': 121.61159038543701}, {'rule': 'call_variants_bcftools_all', 'runtime': 171.98207116127014}, {'rule': 'call_variants_bcftools_all', 'runtime': 91.2529788017273}, {'rule': 'call_variants_bcftools_all', 'runtime': 139.4920938014984}, {'rule': 'call_variants_bcftools_all', 'runtime': 163.71958708763123}, {'rule': 'call_variants_bcftools_all', 'runtime': 140.3573727607727}, {'rule': 'call_variants_bcftools_all', 'runtime': 139.30352354049683}, {'rule': 'call_variants_bcftools_all', 'runtime': 114.61919164657593}, {'rule': 'call_variants_freebayes', 'runtime': 196.28876185417175}, {'rule': 'call_variants_freebayes', 'runtime': 185.64093112945557}, {'rule': 'call_variants_freebayes', 'runtime': 156.277339220047}, {'rule': 'call_variants_freebayes', 'runtime': 200.39971351623535}, {'rule': 'call_variants_freebayes', 'runtime': 206.44246888160706}, {'rule': 'call_variants_freebayes', 'runtime': 195.62917637825012}, {'rule': 'call_variants_freebayes', 'runtime': 219.231112241745}, {'rule': 'call_variants_freebayes', 'runtime': 172.9949390888214}, {'rule': 'call_variants_freebayes', 'runtime': 197.77689838409424}, {'rule': 'call_variants_freebayes', 'runtime': 185.20647549629211}, {'rule': 'call_variants_freebayes', 'runtime': 204.5380415916443}, {'rule': 'call_variants_freebayes', 'runtime': 180.06381154060364}, {'rule': 'call_variants_freebayes', 'runtime': 183.84842467308044}, {'rule': 'call_variants_freebayes', 'runtime': 166.01964044570923}, {'rule': 'call_variants_freebayes', 'runtime': 186.32754826545715}, {'rule': 'call_variants_freebayes', 'runtime': 176.96367955207825}, {'rule': 'call_variants_freebayes', 'runtime': 226.75013661384583}, {'rule': 'call_variants_freebayes', 'runtime': 186.05985379219055}, {'rule': 'call_variants_freebayes', 'runtime': 219.3028519153595}, {'rule': 'call_variants_freebayes', 'runtime': 167.768239736557}, {'rule': 'call_variants_freebayes', 'runtime': 240.90374970436096}, {'rule': 'call_variants_freebayes', 'runtime': 204.75656032562256}, {'rule': 'call_variants_freebayes', 'runtime': 180.66440963745117}, {'rule': 'call_variants_freebayes', 'runtime': 204.79438424110413}, {'rule': 'call_variants_freebayes', 'runtime': 195.3584794998169}, {'rule': 'call_variants_freebayes', 'runtime': 167.0508906841278}, {'rule': 'call_variants_freebayes', 'runtime': 201.67031574249268}, {'rule': 'call_variants_freebayes', 'runtime': 178.71426963806152}, {'rule': 'call_variants_freebayes', 'runtime': 152.33487010002136}, {'rule': 'call_variants_freebayes', 'runtime': 200.9669897556305}, {'rule': 'call_variants_freebayes', 'runtime': 126.07129263877869}, {'rule': 'call_variants_freebayes', 'runtime': 178.58657932281494}, {'rule': 'call_variants_freebayes', 'runtime': 199.0188181400299}, {'rule': 'call_variants_freebayes', 'runtime': 180.860178232193}, {'rule': 'call_variants_freebayes', 'runtime': 171.5888271331787}, {'rule': 'call_variants_freebayes', 'runtime': 175.33731150627136}, {'rule': 'convert_sam2bam', 'runtime': 46.79427099227905}, {'rule': 'convert_sam2bam', 'runtime': 46.10250997543335}, {'rule': 'convert_sam2bam', 'runtime': 39.00252342224121}, {'rule': 'convert_sam2bam', 'runtime': 49.281052589416504}, {'rule': 'convert_sam2bam', 'runtime': 52.9926860332489}, {'rule': 'convert_sam2bam', 'runtime': 51.907684326171875}, {'rule': 'convert_sam2bam', 'runtime': 53.93906331062317}, {'rule': 'convert_sam2bam', 'runtime': 42.238834857940674}, {'rule': 'convert_sam2bam', 'runtime': 53.62024688720703}, {'rule': 'convert_sam2bam', 'runtime': 46.8289852142334}, {'rule': 'convert_sam2bam', 'runtime': 53.23543906211853}, {'rule': 'convert_sam2bam', 'runtime': 46.357441663742065}, {'rule': 'convert_sam2bam', 'runtime': 48.99206805229187}, {'rule': 'convert_sam2bam', 'runtime': 41.38264870643616}, {'rule': 'convert_sam2bam', 'runtime': 48.1400842666626}, {'rule': 'convert_sam2bam', 'runtime': 47.10126447677612}, {'rule': 'convert_sam2bam', 'runtime': 64.03096795082092}, {'rule': 'convert_sam2bam', 'runtime': 48.9614896774292}, {'rule': 'convert_sam2bam', 'runtime': 56.67479372024536}, {'rule': 'convert_sam2bam', 'runtime': 42.26915621757507}, {'rule': 'convert_sam2bam', 'runtime': 60.73032736778259}, {'rule': 'convert_sam2bam', 'runtime': 51.04486680030823}, {'rule': 'convert_sam2bam', 'runtime': 48.45499038696289}, {'rule': 'convert_sam2bam', 'runtime': 52.44556736946106}, {'rule': 'convert_sam2bam', 'runtime': 49.42086148262024}, {'rule': 'convert_sam2bam', 'runtime': 46.607897996902466}, {'rule': 'convert_sam2bam', 'runtime': 53.04836845397949}, {'rule': 'convert_sam2bam', 'runtime': 46.50911498069763}, {'rule': 'convert_sam2bam', 'runtime': 40.62106657028198}, {'rule': 'convert_sam2bam', 'runtime': 55.33225631713867}, {'rule': 'convert_sam2bam', 'runtime': 33.091931104660034}, {'rule': 'convert_sam2bam', 'runtime': 46.35616707801819}, {'rule': 'convert_sam2bam', 'runtime': 48.268415689468384}, {'rule': 'convert_sam2bam', 'runtime': 43.999056816101074}, {'rule': 'convert_sam2bam', 'runtime': 43.3076810836792}, {'rule': 'convert_sam2bam', 'runtime': 41.91294288635254}, {'rule': 'cut_metadata', 'runtime': 1.0235562324523926}, {'rule': 'cut_metadata', 'runtime': 1.0231754779815674}, {'rule': 'cut_metadata', 'runtime': 1.9963629245758057}, {'rule': 'cut_metadata', 'runtime': 1.030747890472412}, {'rule': 'cut_metadata', 'runtime': 1.0240962505340576}, {'rule': 'cut_metadata', 'runtime': 1.96150803565979}, {'rule': 'cut_metadata', 'runtime': 1.0971226692199707}, {'rule': 'cut_metadata', 'runtime': 1.0235121250152588}, {'rule': 'cut_metadata', 'runtime': 2.0928592681884766}, {'rule': 'cut_metadata', 'runtime': 2.126540422439575}, {'rule': 'cut_metadata', 'runtime': 1.0464441776275635}, {'rule': 'cut_metadata', 'runtime': 2.0629303455352783}, {'rule': 'cut_metadata', 'runtime': 1.373323917388916}, {'rule': 'cut_metadata', 'runtime': 1.024778127670288}, {'rule': 'cut_metadata', 'runtime': 2.086172103881836}, {'rule': 'cut_metadata', 'runtime': 1.0169439315795898}, {'rule': 'cut_metadata', 'runtime': 1.015226125717163}, {'rule': 'cut_metadata', 'runtime': 2.0972936153411865}, {'rule': 'cut_metadata', 'runtime': 1.0238971710205078}, {'rule': 'cut_metadata', 'runtime': 1.0191490650177002}, {'rule': 'cut_metadata', 'runtime': 2.0794169902801514}, {'rule': 'cut_metadata', 'runtime': 1.095766305923462}, {'rule': 'cut_metadata', 'runtime': 1.0249409675598145}, {'rule': 'cut_metadata', 'runtime': 2.078439474105835}, {'rule': 'cut_metadata', 'runtime': 1.0216877460479736}, {'rule': 'cut_metadata', 'runtime': 1.198857307434082}, {'rule': 'cut_metadata', 'runtime': 3.1427345275878906}, {'rule': 'cut_metadata', 'runtime': 1.0223209857940674}, {'rule': 'cut_metadata', 'runtime': 1.0194425582885742}, {'rule': 'cut_metadata', 'runtime': 2.154864549636841}, {'rule': 'cut_metadata', 'runtime': 1.2848501205444336}, {'rule': 'cut_metadata', 'runtime': 1.0224504470825195}, {'rule': 'cut_metadata', 'runtime': 2.3400492668151855}, {'rule': 'cut_metadata', 'runtime': 1.0237269401550293}, {'rule': 'cut_metadata', 'runtime': 1.0211060047149658}, {'rule': 'cut_metadata', 'runtime': 1.9362664222717285}, {'rule': 'cut_metadata', 'runtime': 1.0212185382843018}, {'rule': 'cut_metadata', 'runtime': 1.0928270816802979}, {'rule': 'cut_metadata', 'runtime': 1.8761799335479736}, {'rule': 'cut_metadata', 'runtime': 1.0524494647979736}, {'rule': 'cut_metadata', 'runtime': 1.0209696292877197}, {'rule': 'cut_metadata', 'runtime': 2.8479630947113037}, {'rule': 'cut_metadata', 'runtime': 1.3133907318115234}, {'rule': 'cut_metadata', 'runtime': 1.0191519260406494}, {'rule': 'cut_metadata', 'runtime': 2.8353734016418457}, {'rule': 'cut_metadata', 'runtime': 1.167536735534668}, {'rule': 'cut_metadata', 'runtime': 1.0217704772949219}, {'rule': 'cut_metadata', 'runtime': 3.6006598472595215}, {'rule': 'cut_metadata', 'runtime': 1.0219271183013916}, {'rule': 'cut_metadata', 'runtime': 1.0210697650909424}, {'rule': 'cut_metadata', 'runtime': 2.2002522945404053}, {'rule': 'cut_metadata', 'runtime': 1.0206503868103027}, {'rule': 'cut_metadata', 'runtime': 1.0222501754760742}, {'rule': 'cut_metadata', 'runtime': 2.180325984954834}, {'rule': 'cut_metadata', 'runtime': 1.0136559009552002}, {'rule': 'cut_metadata', 'runtime': 1.0531895160675049}, {'rule': 'cut_metadata', 'runtime': 2.1274607181549072}, {'rule': 'cut_metadata', 'runtime': 1.0850474834442139}, {'rule': 'cut_metadata', 'runtime': 1.1465599536895752}, {'rule': 'cut_metadata', 'runtime': 2.9990549087524414}, {'rule': 'cut_metadata', 'runtime': 1.017479419708252}, {'rule': 'cut_metadata', 'runtime': 1.019056797027588}, {'rule': 'cut_metadata', 'runtime': 1.9645428657531738}, {'rule': 'cut_metadata', 'runtime': 1.0233755111694336}, {'rule': 'cut_metadata', 'runtime': 1.0255804061889648}, {'rule': 'cut_metadata', 'runtime': 1.9863343238830566}, {'rule': 'cut_metadata', 'runtime': 1.0242609977722168}, {'rule': 'cut_metadata', 'runtime': 1.0241365432739258}, {'rule': 'cut_metadata', 'runtime': 1.991309642791748}, {'rule': 'cut_metadata', 'runtime': 1.0551934242248535}, {'rule': 'cut_metadata', 'runtime': 1.0148303508758545}, {'rule': 'cut_metadata', 'runtime': 2.043513059616089}, {'rule': 'cut_metadata', 'runtime': 1.2033476829528809}, {'rule': 'cut_metadata', 'runtime': 1.8276185989379883}, {'rule': 'cut_metadata', 'runtime': 2.16493821144104}, {'rule': 'cut_metadata', 'runtime': 1.0826404094696045}, {'rule': 'cut_metadata', 'runtime': 1.1510286331176758}, {'rule': 'cut_metadata', 'runtime': 2.1534266471862793}, {'rule': 'cut_metadata', 'runtime': 1.1811037063598633}, {'rule': 'cut_metadata', 'runtime': 3.1680452823638916}, {'rule': 'cut_metadata', 'runtime': 2.0705034732818604}, {'rule': 'cut_metadata', 'runtime': 1.0160763263702393}, {'rule': 'cut_metadata', 'runtime': 2.751483678817749}, {'rule': 'cut_metadata', 'runtime': 2.0658373832702637}, {'rule': 'cut_metadata', 'runtime': 1.2627413272857666}, {'rule': 'cut_metadata', 'runtime': 1.0356998443603516}, {'rule': 'cut_metadata', 'runtime': 1.9385075569152832}, {'rule': 'cut_metadata', 'runtime': 1.0227761268615723}, {'rule': 'cut_metadata', 'runtime': 1.0200889110565186}, {'rule': 'cut_metadata', 'runtime': 2.0699007511138916}, {'rule': 'cut_metadata', 'runtime': 1.3202273845672607}, {'rule': 'cut_metadata', 'runtime': 1.169480323791504}, {'rule': 'cut_metadata', 'runtime': 1.8779113292694092}, {'rule': 'cut_metadata', 'runtime': 1.0244004726409912}, {'rule': 'cut_metadata', 'runtime': 1.0221424102783203}, {'rule': 'cut_metadata', 'runtime': 2.195991277694702}, {'rule': 'cut_metadata', 'runtime': 1.0266242027282715}, {'rule': 'cut_metadata', 'runtime': 1.0176951885223389}, {'rule': 'cut_metadata', 'runtime': 3.5144059658050537}, {'rule': 'cut_metadata', 'runtime': 1.0269198417663574}, {'rule': 'cut_metadata', 'runtime': 1.022167682647705}, {'rule': 'cut_metadata', 'runtime': 2.0712108612060547}, {'rule': 'cut_metadata', 'runtime': 1.0716948509216309}, {'rule': 'cut_metadata', 'runtime': 1.0211329460144043}, {'rule': 'cut_metadata', 'runtime': 2.0203866958618164}, {'rule': 'cut_metadata', 'runtime': 1.0331737995147705}, {'rule': 'cut_metadata', 'runtime': 1.0181334018707275}, {'rule': 'cut_metadata', 'runtime': 2.0801305770874023}, {'rule': 'index_genome', 'runtime': 3.2813901901245117}, {'rule': 'link_bcftool_all', 'runtime': 1.0205588340759277}, {'rule': 'link_bcftool_all', 'runtime': 1.022176742553711}, {'rule': 'link_bcftool_all', 'runtime': 2.6023364067077637}, {'rule': 'link_bcftool_all', 'runtime': 1.0517315864562988}, {'rule': 'link_bcftool_all', 'runtime': 1.0270659923553467}, {'rule': 'link_bcftool_all', 'runtime': 1.022451639175415}, {'rule': 'link_bcftool_all', 'runtime': 1.0211310386657715}, {'rule': 'link_bcftool_all', 'runtime': 1.0184786319732666}, {'rule': 'link_bcftool_all', 'runtime': 1.018860101699829}, {'rule': 'link_bcftool_all', 'runtime': 1.1184978485107422}, {'rule': 'link_bcftool_all', 'runtime': 1.0183861255645752}, {'rule': 'link_bcftool_all', 'runtime': 1.0228779315948486}, {'rule': 'link_bcftool_all', 'runtime': 1.0232467651367188}, {'rule': 'link_bcftool_all', 'runtime': 1.275775671005249}, {'rule': 'link_bcftool_all', 'runtime': 1.0241608619689941}, {'rule': 'link_bcftool_all', 'runtime': 1.0159554481506348}, {'rule': 'link_bcftool_all', 'runtime': 1.7402174472808838}, {'rule': 'link_bcftool_all', 'runtime': 1.1222631931304932}, {'rule': 'link_bcftool_all', 'runtime': 1.0268821716308594}, {'rule': 'link_bcftool_all', 'runtime': 1.0211403369903564}, {'rule': 'link_bcftool_all', 'runtime': 1.0213680267333984}, {'rule': 'link_bcftool_all', 'runtime': 1.0217409133911133}, {'rule': 'link_bcftool_all', 'runtime': 1.256929636001587}, {'rule': 'link_bcftool_all', 'runtime': 1.1424131393432617}, {'rule': 'link_bcftool_all', 'runtime': 3.2656705379486084}, {'rule': 'link_bcftool_all', 'runtime': 2.4788448810577393}, {'rule': 'link_bcftool_all', 'runtime': 1.2026762962341309}, {'rule': 'link_bcftool_all', 'runtime': 1.0192997455596924}, {'rule': 'link_bcftool_all', 'runtime': 1.03444504737854}, {'rule': 'link_bcftool_all', 'runtime': 1.0218210220336914}, {'rule': 'link_bcftool_all', 'runtime': 1.0268514156341553}, {'rule': 'link_bcftool_all', 'runtime': 1.215446949005127}, {'rule': 'link_bcftool_all', 'runtime': 1.042001724243164}, {'rule': 'link_bcftool_all', 'runtime': 4.839707612991333}, {'rule': 'link_bcftool_all', 'runtime': 1.021073341369629}, {'rule': 'link_bcftool_all', 'runtime': 1.0222184658050537}, {'rule': 'link_bcftool_all', 'runtime': 1.0192160606384277}, {'rule': 'link_bcftool_all', 'runtime': 1.0208022594451904}, {'rule': 'link_bcftool_all', 'runtime': 1.0301580429077148}, {'rule': 'link_bcftool_all', 'runtime': 1.0194499492645264}, {'rule': 'link_bcftool_all', 'runtime': 1.0279438495635986}, {'rule': 'link_bcftool_all', 'runtime': 1.017914056777954}, {'rule': 'link_bcftool_all', 'runtime': 1.0293660163879395}, {'rule': 'link_bcftool_all', 'runtime': 1.0221126079559326}, {'rule': 'link_bcftool_all', 'runtime': 1.0273587703704834}, {'rule': 'link_bcftool_all', 'runtime': 1.0695476531982422}, {'rule': 'link_bcftool_all', 'runtime': 1.0177109241485596}, {'rule': 'link_bcftool_all', 'runtime': 1.0186336040496826}, {'rule': 'link_bcftool_all', 'runtime': 1.389913558959961}, {'rule': 'link_bcftool_all', 'runtime': 1.1050634384155273}, {'rule': 'link_bcftool_all', 'runtime': 1.1462233066558838}, {'rule': 'link_bcftool_all', 'runtime': 1.0166335105895996}, {'rule': 'link_bcftool_all', 'runtime': 1.0182340145111084}, {'rule': 'link_bcftool_all', 'runtime': 1.0172996520996094}, {'rule': 'link_bcftool_all', 'runtime': 1.0166611671447754}, {'rule': 'link_bcftool_all', 'runtime': 1.1491553783416748}, {'rule': 'link_bcftool_all', 'runtime': 1.016437292098999}, {'rule': 'link_bcftool_all', 'runtime': 1.024040937423706}, {'rule': 'link_bcftool_all', 'runtime': 1.0345649719238281}, {'rule': 'link_bcftool_all', 'runtime': 1.0249931812286377}, {'rule': 'link_bcftool_all', 'runtime': 1.0214598178863525}, {'rule': 'link_bcftool_all', 'runtime': 1.025038719177246}, {'rule': 'link_bcftool_all', 'runtime': 1.0275163650512695}, {'rule': 'link_bcftool_all', 'runtime': 3.2353692054748535}, {'rule': 'link_bcftool_all', 'runtime': 1.1505951881408691}, {'rule': 'link_bcftool_all', 'runtime': 1.0233075618743896}, {'rule': 'link_bcftool_all', 'runtime': 1.025242567062378}, {'rule': 'link_bcftool_all', 'runtime': 1.0281367301940918}, {'rule': 'link_bcftool_all', 'runtime': 1.0202906131744385}, {'rule': 'link_bcftool_all', 'runtime': 1.018186092376709}, {'rule': 'link_bcftool_all', 'runtime': 1.0197679996490479}, {'rule': 'link_bcftool_all', 'runtime': 1.1294772624969482}, {'rule': 'link_bcftool_all', 'runtime': 4.497338771820068}, {'rule': 'link_bcftool_all', 'runtime': 1.1435956954956055}, {'rule': 'link_bcftool_all', 'runtime': 1.0189356803894043}, {'rule': 'link_bcftool_all', 'runtime': 1.142594337463379}, {'rule': 'link_bcftool_all', 'runtime': 1.0220115184783936}, {'rule': 'link_bcftool_all', 'runtime': 1.0503969192504883}, {'rule': 'link_bcftool_all', 'runtime': 1.024082899093628}, {'rule': 'link_bcftool_all', 'runtime': 1.0220069885253906}, {'rule': 'link_bcftool_all', 'runtime': 1.024503231048584}, {'rule': 'link_bcftool_all', 'runtime': 1.0271103382110596}, {'rule': 'link_bcftool_all', 'runtime': 1.0164928436279297}, {'rule': 'link_bcftool_all', 'runtime': 1.1377654075622559}, {'rule': 'link_bcftool_all', 'runtime': 1.0237195491790771}, {'rule': 'link_bcftool_all', 'runtime': 1.0186827182769775}, {'rule': 'link_bcftool_all', 'runtime': 1.1974523067474365}, {'rule': 'link_bcftool_all', 'runtime': 1.018770694732666}, {'rule': 'link_bcftool_all', 'runtime': 1.0680513381958008}, {'rule': 'link_bcftool_all', 'runtime': 1.0218651294708252}, {'rule': 'link_bcftool_all', 'runtime': 1.0222020149230957}, {'rule': 'link_bcftool_all', 'runtime': 1.0224900245666504}, {'rule': 'link_bcftool_all', 'runtime': 1.0178992748260498}, {'rule': 'link_bcftool_all', 'runtime': 1.0173883438110352}, {'rule': 'link_bcftool_all', 'runtime': 1.020111083984375}, {'rule': 'link_bcftool_all', 'runtime': 1.018953800201416}, {'rule': 'link_bcftool_all', 'runtime': 1.1216347217559814}, {'rule': 'link_bcftool_all', 'runtime': 1.0716850757598877}, {'rule': 'link_bcftool_all', 'runtime': 1.1313724517822266}, {'rule': 'link_bcftool_all', 'runtime': 1.0319063663482666}, {'rule': 'link_bcftool_all', 'runtime': 1.1921193599700928}, {'rule': 'link_bcftool_all', 'runtime': 1.0251991748809814}, {'rule': 'link_bcftool_all', 'runtime': 1.136645793914795}, {'rule': 'link_bcftool_all', 'runtime': 1.0591583251953125}, {'rule': 'link_bcftool_all', 'runtime': 1.1553680896759033}, {'rule': 'link_bcftool_all', 'runtime': 1.0201432704925537}, {'rule': 'link_bcftool_all', 'runtime': 1.0221333503723145}, {'rule': 'link_bcftool_all', 'runtime': 4.650088548660278}, {'rule': 'map_reads_PE', 'runtime': 304.42318630218506}, {'rule': 'map_reads_PE', 'runtime': 291.4293677806854}, {'rule': 'map_reads_PE', 'runtime': 239.5135018825531}, {'rule': 'map_reads_PE', 'runtime': 325.56794333457947}, {'rule': 'map_reads_PE', 'runtime': 334.245493888855}, {'rule': 'map_reads_PE', 'runtime': 328.4285705089569}, {'rule': 'map_reads_PE', 'runtime': 351.11695098876953}, {'rule': 'map_reads_PE', 'runtime': 285.05775928497314}, {'rule': 'map_reads_PE', 'runtime': 321.65111207962036}, {'rule': 'map_reads_PE', 'runtime': 302.7408540248871}, {'rule': 'map_reads_PE', 'runtime': 335.21244382858276}, {'rule': 'map_reads_PE', 'runtime': 276.1033229827881}, {'rule': 'map_reads_PE', 'runtime': 312.76199555397034}, {'rule': 'map_reads_PE', 'runtime': 252.99958395957947}, {'rule': 'map_reads_PE', 'runtime': 312.0789363384247}, {'rule': 'map_reads_PE', 'runtime': 305.4191269874573}, {'rule': 'map_reads_PE', 'runtime': 380.56474590301514}, {'rule': 'map_reads_PE', 'runtime': 279.4803857803345}, {'rule': 'map_reads_PE', 'runtime': 361.1477062702179}, {'rule': 'map_reads_PE', 'runtime': 272.84408473968506}, {'rule': 'map_reads_PE', 'runtime': 399.6912660598755}, {'rule': 'map_reads_PE', 'runtime': 332.17077565193176}, {'rule': 'map_reads_PE', 'runtime': 286.721853017807}, {'rule': 'map_reads_PE', 'runtime': 324.8534083366394}, {'rule': 'map_reads_PE', 'runtime': 317.49069571495056}, {'rule': 'map_reads_PE', 'runtime': 254.24785327911377}, {'rule': 'map_reads_PE', 'runtime': 305.29821038246155}, {'rule': 'map_reads_PE', 'runtime': 279.0090363025665}, {'rule': 'map_reads_PE', 'runtime': 256.5099313259125}, {'rule': 'map_reads_PE', 'runtime': 334.8360798358917}, {'rule': 'map_reads_PE', 'runtime': 192.43583297729492}, {'rule': 'map_reads_PE', 'runtime': 279.9140326976776}, {'rule': 'map_reads_PE', 'runtime': 291.82641077041626}, {'rule': 'map_reads_PE', 'runtime': 276.6660599708557}, {'rule': 'map_reads_PE', 'runtime': 293.878671169281}, {'rule': 'map_reads_PE', 'runtime': 256.33382177352905}, {'rule': 'remove_PCR_duplicates', 'runtime': 144.65310168266296}, {'rule': 'remove_PCR_duplicates', 'runtime': 144.5963158607483}, {'rule': 'remove_PCR_duplicates', 'runtime': 117.39901280403137}, {'rule': 'remove_PCR_duplicates', 'runtime': 155.69701766967773}, {'rule': 'remove_PCR_duplicates', 'runtime': 159.87771344184875}, {'rule': 'remove_PCR_duplicates', 'runtime': 151.9525809288025}, {'rule': 'remove_PCR_duplicates', 'runtime': 171.6352469921112}, {'rule': 'remove_PCR_duplicates', 'runtime': 131.02748489379883}, {'rule': 'remove_PCR_duplicates', 'runtime': 161.44826459884644}, {'rule': 'remove_PCR_duplicates', 'runtime': 148.65985989570618}, {'rule': 'remove_PCR_duplicates', 'runtime': 167.391459941864}, {'rule': 'remove_PCR_duplicates', 'runtime': 141.9982852935791}, {'rule': 'remove_PCR_duplicates', 'runtime': 141.96187472343445}, {'rule': 'remove_PCR_duplicates', 'runtime': 126.66124606132507}, {'rule': 'remove_PCR_duplicates', 'runtime': 146.13999032974243}, {'rule': 'remove_PCR_duplicates', 'runtime': 152.34922456741333}, {'rule': 'remove_PCR_duplicates', 'runtime': 176.24121713638306}, {'rule': 'remove_PCR_duplicates', 'runtime': 147.03729462623596}, {'rule': 'remove_PCR_duplicates', 'runtime': 178.41197681427002}, {'rule': 'remove_PCR_duplicates', 'runtime': 129.7088339328766}, {'rule': 'remove_PCR_duplicates', 'runtime': 196.08874535560608}, {'rule': 'remove_PCR_duplicates', 'runtime': 155.36285305023193}, {'rule': 'remove_PCR_duplicates', 'runtime': 151.21789479255676}, {'rule': 'remove_PCR_duplicates', 'runtime': 162.5076355934143}, {'rule': 'remove_PCR_duplicates', 'runtime': 152.7738001346588}, {'rule': 'remove_PCR_duplicates', 'runtime': 137.33751368522644}, {'rule': 'remove_PCR_duplicates', 'runtime': 155.00530338287354}, {'rule': 'remove_PCR_duplicates', 'runtime': 138.599782705307}, {'rule': 'remove_PCR_duplicates', 'runtime': 118.60959553718567}, {'rule': 'remove_PCR_duplicates', 'runtime': 162.01931476593018}, {'rule': 'remove_PCR_duplicates', 'runtime': 104.92725396156311}, {'rule': 'remove_PCR_duplicates', 'runtime': 145.4300343990326}, {'rule': 'remove_PCR_duplicates', 'runtime': 152.28227353096008}, {'rule': 'remove_PCR_duplicates', 'runtime': 136.502685546875}, {'rule': 'remove_PCR_duplicates', 'runtime': 142.83945775032043}, {'rule': 'remove_PCR_duplicates', 'runtime': 145.60780024528503}, {'rule': 'run_trim', 'runtime': 12.39734148979187}, {'rule': 'run_trim', 'runtime': 19.341540813446045}, {'rule': 'run_trim', 'runtime': 8.42623519897461}, {'rule': 'run_trim', 'runtime': 29.49062705039978}, {'rule': 'run_trim', 'runtime': 19.03739070892334}, {'rule': 'run_trim', 'runtime': 15.675023317337036}, {'rule': 'run_trim', 'runtime': 19.18885111808777}, {'rule': 'run_trim', 'runtime': 23.257005214691162}, {'rule': 'run_trim', 'runtime': 10.186506032943726}, {'rule': 'run_trim', 'runtime': 17.854919910430908}, {'rule': 'run_trim', 'runtime': 14.228734016418457}, {'rule': 'run_trim', 'runtime': 14.597459077835083}, {'rule': 'run_trim', 'runtime': 11.94205617904663}, {'rule': 'run_trim', 'runtime': 11.011032819747925}, {'rule': 'run_trim', 'runtime': 10.095186710357666}, {'rule': 'run_trim', 'runtime': 9.921979427337646}, {'rule': 'run_trim', 'runtime': 18.821385860443115}, {'rule': 'run_trim', 'runtime': 13.362805128097534}, {'rule': 'run_trim', 'runtime': 17.901983976364136}, {'rule': 'run_trim', 'runtime': 8.532617568969727}, {'rule': 'run_trim', 'runtime': 18.407519578933716}, {'rule': 'run_trim', 'runtime': 11.066606998443604}, {'rule': 'run_trim', 'runtime': 10.71705436706543}, {'rule': 'run_trim', 'runtime': 9.518332719802856}, {'rule': 'run_trim', 'runtime': 17.823909997940063}, {'rule': 'run_trim', 'runtime': 13.931702852249146}, {'rule': 'run_trim', 'runtime': 17.63958430290222}, {'rule': 'run_trim', 'runtime': 10.889553546905518}, {'rule': 'run_trim', 'runtime': 26.29359221458435}, {'rule': 'run_trim', 'runtime': 12.512404918670654}, {'rule': 'run_trim', 'runtime': 85992.81819581985}, {'rule': 'run_trim', 'runtime': 20.402374982833862}, {'rule': 'run_trim', 'runtime': 17.76297664642334}, {'rule': 'run_trim', 'runtime': 12.614841938018799}, {'rule': 'run_trim', 'runtime': 9.604260444641113}, {'rule': 'sort_bam', 'runtime': 66.3158540725708}, {'rule': 'sort_bam', 'runtime': 66.4901008605957}, {'rule': 'sort_bam', 'runtime': 53.6810245513916}, {'rule': 'sort_bam', 'runtime': 67.92165970802307}, {'rule': 'sort_bam', 'runtime': 71.00625848770142}, {'rule': 'sort_bam', 'runtime': 71.59626245498657}, {'rule': 'sort_bam', 'runtime': 75.22173953056335}, {'rule': 'sort_bam', 'runtime': 57.472339153289795}, {'rule': 'sort_bam', 'runtime': 79.01288962364197}, {'rule': 'sort_bam', 'runtime': 66.55054569244385}, {'rule': 'sort_bam', 'runtime': 73.10103130340576}, {'rule': 'sort_bam', 'runtime': 66.25902771949768}, {'rule': 'sort_bam', 'runtime': 67.04366278648376}, {'rule': 'sort_bam', 'runtime': 55.79315209388733}, {'rule': 'sort_bam', 'runtime': 68.62366533279419}, {'rule': 'sort_bam', 'runtime': 69.30685997009277}, {'rule': 'sort_bam', 'runtime': 81.35162854194641}, {'rule': 'sort_bam', 'runtime': 64.75102853775024}, {'rule': 'sort_bam', 'runtime': 73.60542750358582}, {'rule': 'sort_bam', 'runtime': 59.240702390670776}, {'rule': 'sort_bam', 'runtime': 86.37906408309937}, {'rule': 'sort_bam', 'runtime': 71.73248767852783}, {'rule': 'sort_bam', 'runtime': 65.45256447792053}, {'rule': 'sort_bam', 'runtime': 71.36522150039673}, {'rule': 'sort_bam', 'runtime': 68.4314591884613}, {'rule': 'sort_bam', 'runtime': 59.34239459037781}, {'rule': 'sort_bam', 'runtime': 70.17096185684204}, {'rule': 'sort_bam', 'runtime': 58.81264042854309}, {'rule': 'sort_bam', 'runtime': 55.717533826828}, {'rule': 'sort_bam', 'runtime': 76.32192778587341}, {'rule': 'sort_bam', 'runtime': 44.12432932853699}, {'rule': 'sort_bam', 'runtime': 64.88674306869507}, {'rule': 'sort_bam', 'runtime': 67.34597659111023}, {'rule': 'sort_bam', 'runtime': 60.115545988082886}, {'rule': 'sort_bam', 'runtime': 59.12721014022827}, {'rule': 'sort_bam', 'runtime': 59.76753211021423}, {'rule': 'unzip', 'runtime': 12.623169660568237}, {'rule': 'unzip', 'runtime': 12.39458179473877}, {'rule': 'unzip', 'runtime': 10.873713970184326}, {'rule': 'unzip', 'runtime': 11.33577847480774}, {'rule': 'unzip', 'runtime': 8.911097049713135}, {'rule': 'unzip', 'runtime': 8.806323289871216}, {'rule': 'unzip', 'runtime': 11.579332828521729}, {'rule': 'unzip', 'runtime': 12.760944366455078}, {'rule': 'unzip', 'runtime': 13.57924222946167}, {'rule': 'unzip', 'runtime': 12.501716136932373}, {'rule': 'unzip', 'runtime': 12.481578350067139}, {'rule': 'unzip', 'runtime': 13.275319576263428}, {'rule': 'unzip', 'runtime': 13.793242692947388}, {'rule': 'unzip', 'runtime': 13.656749963760376}, {'rule': 'unzip', 'runtime': 18.557210445404053}, {'rule': 'unzip', 'runtime': 10.641581773757935}, {'rule': 'unzip', 'runtime': 12.58997917175293}, {'rule': 'unzip', 'runtime': 12.489608764648438}, {'rule': 'unzip', 'runtime': 12.30763864517212}, {'rule': 'unzip', 'runtime': 11.372126340866089}, {'rule': 'unzip', 'runtime': 15.821469783782959}, {'rule': 'unzip', 'runtime': 12.5267653465271}, {'rule': 'unzip', 'runtime': 12.629555225372314}, {'rule': 'unzip', 'runtime': 12.339781761169434}, {'rule': 'unzip', 'runtime': 12.291165351867676}, {'rule': 'unzip', 'runtime': 12.519994974136353}, {'rule': 'unzip', 'runtime': 10.314833402633667}, {'rule': 'unzip', 'runtime': 10.720778942108154}, {'rule': 'unzip', 'runtime': 12.97127079963684}, {'rule': 'unzip', 'runtime': 13.99069857597351}, {'rule': 'unzip', 'runtime': 13.062335968017578}, {'rule': 'unzip', 'runtime': 11.538077592849731}, {'rule': 'unzip', 'runtime': 14.09384560585022}, {'rule': 'unzip', 'runtime': 17.72069263458252}, {'rule': 'unzip', 'runtime': 10.309219121932983}, {'rule': 'unzip', 'runtime': 11.10708212852478}, {'rule': 'unzip', 'runtime': 13.076174259185791}, {'rule': 'unzip', 'runtime': 14.008273363113403}, {'rule': 'unzip', 'runtime': 13.91791296005249}, {'rule': 'unzip', 'runtime': 11.989212036132812}, {'rule': 'unzip', 'runtime': 14.396625757217407}, {'rule': 'unzip', 'runtime': 13.92753005027771}, {'rule': 'unzip', 'runtime': 13.185243129730225}, {'rule': 'unzip', 'runtime': 13.17556381225586}, {'rule': 'unzip', 'runtime': 12.99916386604309}, {'rule': 'unzip', 'runtime': 11.290145635604858}, {'rule': 'unzip', 'runtime': 13.50741195678711}, {'rule': 'unzip', 'runtime': 12.150437116622925}, {'rule': 'unzip', 'runtime': 11.439620733261108}, {'rule': 'unzip', 'runtime': 16.14504337310791}, {'rule': 'unzip', 'runtime': 10.056729316711426}, {'rule': 'unzip', 'runtime': 10.657645463943481}, {'rule': 'unzip', 'runtime': 12.831737756729126}, {'rule': 'unzip', 'runtime': 15.722098112106323}, {'rule': 'unzip', 'runtime': 11.680634498596191}, {'rule': 'unzip', 'runtime': 16.112513303756714}, {'rule': 'unzip', 'runtime': 10.266241312026978}, {'rule': 'unzip', 'runtime': 11.268677473068237}, {'rule': 'unzip', 'runtime': 13.44551968574524}, {'rule': 'unzip', 'runtime': 12.080770492553711}, {'rule': 'unzip', 'runtime': 9.14107370376587}, {'rule': 'unzip', 'runtime': 85992.48527669907}, {'rule': 'unzip', 'runtime': 89339.67045974731}, {'rule': 'unzip', 'runtime': 15.97551679611206}, {'rule': 'unzip', 'runtime': 9.846191644668579}, {'rule': 'unzip', 'runtime': 10.14315676689148}, {'rule': 'unzip', 'runtime': 11.11604642868042}, {'rule': 'unzip', 'runtime': 11.304021835327148}, {'rule': 'unzip', 'runtime': 10.269851922988892}, {'rule': 'unzip', 'runtime': 11.540351390838623}]},
         "mark": "point",
         "encoding": {
           "x": {"field": "runtime", "type": "quantitative",
@@ -2350,7 +2164,7 @@ if (typeof module !== 'undefined') {
         "$schema": "https://vega.github.io/schema/vega-lite/v3.json",
         "description": "Timeline of jobs.",
         "data": {
-          "values": [{'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:49:50.816020', 'endtime': '2021-10-01T15:50:10'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:46:48.993450', 'endtime': '2021-10-01T14:46:50'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T16:10:10.762480', 'endtime': '2021-10-01T16:10:22'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:52:03.130980', 'endtime': '2021-10-01T14:52:04'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:05:42.648976', 'endtime': '2021-10-01T15:05:48'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:42:41.175032', 'endtime': '2021-10-01T14:42:44'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:50:00.094771', 'endtime': '2021-10-01T14:50:03'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:44:22.352204', 'endtime': '2021-10-01T14:44:23'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T15:08:04.721330', 'endtime': '2021-10-01T15:08:12'}, {'rule': 'analyze_variants_vep', 'starttime': '2021-10-01T14:43:38.999130', 'endtime': '2021-10-01T14:43:40'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:42:08.058985', 'endtime': '2021-10-01T14:42:09'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:52.156955', 'endtime': '2021-10-01T14:41:53'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:54.917953', 'endtime': '2021-10-01T14:41:56'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:52.163951', 'endtime': '2021-10-01T14:41:53'}, {'rule': 'build_hisat2_index', 'starttime': '2021-10-01T14:41:53.758961', 'endtime': '2021-10-01T14:41:55'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:46:21.305409', 'endtime': '2021-10-01T14:46:48'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:51:04.297881', 'endtime': '2021-10-01T14:52:03'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:42:26.890011', 'endtime': '2021-10-01T14:42:41'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:43:40.258135', 'endtime': '2021-10-01T14:43:52'}, {'rule': 'call_variants_bcftools', 'starttime': '2021-10-01T14:43:21.918105', 'endtime': '2021-10-01T14:43:38'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:44:45.445249', 'endtime': '2021-10-01T14:45:12'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:50:03.937780', 'endtime': '2021-10-01T14:51:04'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:42:53.674057', 'endtime': '2021-10-01T14:43:08'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:43:52.477151', 'endtime': '2021-10-01T14:44:05'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2021-10-01T14:44:05.138176', 'endtime': '2021-10-01T14:44:22'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:44:45.457245', 'endtime': '2021-10-01T15:49:49'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:47:29.576518', 'endtime': '2021-10-01T16:10:09'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:42:22.818002', 'endtime': '2021-10-01T15:05:42'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:43:24.153111', 'endtime': '2021-10-01T14:50:00'}, {'rule': 'call_variants_freebayes', 'starttime': '2021-10-01T14:43:24.163114', 'endtime': '2021-10-01T15:08:04'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:39.932035', 'endtime': '2021-10-01T14:42:45'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:45:57.670366', 'endtime': '2021-10-01T14:46:09'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:05.675975', 'endtime': '2021-10-01T14:42:08'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:42:19.491997', 'endtime': '2021-10-01T14:42:22'}, {'rule': 'convert_sam2bam', 'starttime': '2021-10-01T14:43:01.651070', 'endtime': '2021-10-01T14:43:04'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:45:13.877292', 'endtime': '2021-10-01T14:45:15'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:51:05.351887', 'endtime': '2021-10-01T14:51:07'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:43:09.669084', 'endtime': '2021-10-01T14:43:11'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:44:06.186175', 'endtime': '2021-10-01T14:44:08'}, {'rule': 'cut_metadata', 'starttime': '2021-10-01T14:44:23.421206', 'endtime': '2021-10-01T14:44:25'}, {'rule': 'index_gff', 'starttime': '2021-10-01T14:41:55.702960', 'endtime': '2021-10-01T14:41:55'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:45:12.818293', 'endtime': '2021-10-01T14:45:13'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:51:04.309884', 'endtime': '2021-10-01T14:51:05'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:43:08.592083', 'endtime': '2021-10-01T14:43:09'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:44:05.127177', 'endtime': '2021-10-01T14:44:06'}, {'rule': 'link_bcftool_all', 'starttime': '2021-10-01T14:44:22.360209', 'endtime': '2021-10-01T14:44:23'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.025947', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.052948', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.011943', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.064947', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'make_sample_index_dir', 'starttime': '2021-10-01T14:41:49.038949', 'endtime': '2021-10-01T14:41:50'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:22.802001', 'endtime': '2021-10-01T14:42:39'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:45:16.391300', 'endtime': '2021-10-01T14:45:57'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:41:57.912963', 'endtime': '2021-10-01T14:42:05'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:10.708983', 'endtime': '2021-10-01T14:42:19'}, {'rule': 'map_reads', 'starttime': '2021-10-01T14:42:52.568052', 'endtime': '2021-10-01T14:43:01'}, {'rule': 'prep_gff_vep', 'starttime': '2021-10-01T14:41:48.997947', 'endtime': '2021-10-01T14:41:49'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:44:23.714216', 'endtime': '2021-10-01T14:44:45'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:46:50.418458', 'endtime': '2021-10-01T14:47:29'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:42:10.988982', 'endtime': '2021-10-01T14:42:22'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:43:08.604079', 'endtime': '2021-10-01T14:43:23'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2021-10-01T14:43:07.913080', 'endtime': '2021-10-01T14:43:21'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:55.977955', 'endtime': '2021-10-01T14:41:58'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:42:44.799038', 'endtime': '2021-10-01T14:42:50'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:49.078944', 'endtime': '2021-10-01T14:41:52'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:42:02.271971', 'endtime': '2021-10-01T14:42:04'}, {'rule': 'run_trim', 'starttime': '2021-10-01T14:41:49.552950', 'endtime': '2021-10-01T14:41:52'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:45.566043', 'endtime': '2021-10-01T14:42:52'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:46:09.287383', 'endtime': '2021-10-01T14:46:21'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:08.313983', 'endtime': '2021-10-01T14:42:10'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:42:23.099006', 'endtime': '2021-10-01T14:42:26'}, {'rule': 'sort_bam', 'starttime': '2021-10-01T14:43:04.893073', 'endtime': '2021-10-01T14:43:07'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:58.864962', 'endtime': '2021-10-01T14:42:00'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:00.493967', 'endtime': '2021-10-01T14:42:02'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:45:12.806287', 'endtime': '2021-10-01T14:45:16'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:50.249048', 'endtime': '2021-10-01T14:42:53'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:53.945956', 'endtime': '2021-10-01T14:41:54'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:41:56.763957', 'endtime': '2021-10-01T14:41:57'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:06.733978', 'endtime': '2021-10-01T14:42:08'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:04.750970', 'endtime': '2021-10-01T14:42:05'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:05.874974', 'endtime': '2021-10-01T14:42:06'}, {'rule': 'unzip', 'starttime': '2021-10-01T14:42:09.890981', 'endtime': '2021-10-01T14:42:10'}]
+          "values": [{'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:56:32.381206', 'endtime': '2022-04-27T18:58:13.373466'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:50:29.085767', 'endtime': '2022-04-27T17:52:12.010944'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:14:07.330898', 'endtime': '2022-04-27T16:15:46.893503'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:02:20.491839', 'endtime': '2022-04-27T17:04:11.219332'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:25:21.695183', 'endtime': '2022-04-27T17:27:08.283058'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T15:41:58.851654', 'endtime': '2022-04-27T15:43:50.003967'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:23:05.844860', 'endtime': '2022-04-27T18:25:02.423110'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T19:08:31.428028', 'endtime': '2022-04-27T19:10:09.469067'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:33:32.929686', 'endtime': '2022-04-27T17:35:23.331630'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:50:25.996128', 'endtime': '2022-04-27T16:52:11.945681'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:36:09.451297', 'endtime': '2022-04-27T16:38:01.559810'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:46:14.068476', 'endtime': '2022-04-27T17:48:02.893644'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:49:27.090698', 'endtime': '2022-04-27T18:51:15.598614'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:58:13.543314', 'endtime': '2022-04-27T18:59:49.677353'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:19:09.454591', 'endtime': '2022-04-27T18:20:54.638828'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:37:31.540976', 'endtime': '2022-04-27T17:39:14.484765'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:37:17.764336', 'endtime': '2022-04-27T16:39:12.161463'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:25:37.241619', 'endtime': '2022-04-27T16:27:25.083935'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:05:52.642016', 'endtime': '2022-04-27T17:07:42.554286'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T19:09:42.016116', 'endtime': '2022-04-27T19:11:27.862787'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T15:54:09.248516', 'endtime': '2022-04-27T15:56:09.081714'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:59:17.052376', 'endtime': '2022-04-27T19:01:09.143086'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T19:06:47.895910', 'endtime': '2022-04-27T19:08:31.351162'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:35:32.161834', 'endtime': '2022-04-27T17:37:20.604713'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:48:35.909017', 'endtime': '2022-04-27T16:50:25.098692'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:33:26.721087', 'endtime': '2022-04-27T16:35:08.141205'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T19:02:22.595603', 'endtime': '2022-04-27T19:04:06.666723'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T15:23:46.501342', 'endtime': '2022-04-27T15:25:30.526943'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:35:24.136830', 'endtime': '2022-04-27T17:37:05.040569'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:14:46.269267', 'endtime': '2022-04-27T18:16:39.152474'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:39:15.195058', 'endtime': '2022-04-27T17:40:41.281566'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:17:59.732759', 'endtime': '2022-04-27T17:19:43.271946'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:12:24.067787', 'endtime': '2022-04-27T16:14:06.373581'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T17:03:45.997892', 'endtime': '2022-04-27T17:05:36.761123'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T16:00:53.158014', 'endtime': '2022-04-27T16:02:39.907286'}, {'rule': 'call_variants_bcftools', 'starttime': '2022-04-27T18:29:34.213307', 'endtime': '2022-04-27T18:31:13.803530'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:26:58.508138', 'endtime': '2022-04-27T18:29:33.882610'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:57:46.829580', 'endtime': '2022-04-27T17:00:15.392151'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:28:28.013690', 'endtime': '2022-04-27T15:30:28.956664'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:22:32.294004', 'endtime': '2022-04-27T17:25:21.396071'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:51:16.407829', 'endtime': '2022-04-27T18:54:02.619154'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:18:33.655173', 'endtime': '2022-04-27T16:21:22.246588'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:10:01.113982', 'endtime': '2022-04-27T18:13:09.948546'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:29:37.642300', 'endtime': '2022-04-27T18:31:49.572860'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:05:14.642368', 'endtime': '2022-04-27T16:07:57.312197'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:00:17.311723', 'endtime': '2022-04-27T17:02:54.675624'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:15:17.559728', 'endtime': '2022-04-27T15:18:06.038896'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:48:03.018613', 'endtime': '2022-04-27T17:50:28.940993'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:59:51.051426', 'endtime': '2022-04-27T19:02:22.247760'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:47:16.532539', 'endtime': '2022-04-27T18:49:26.587608'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:54:03.082010', 'endtime': '2022-04-27T18:56:32.147532'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:52:12.475234', 'endtime': '2022-04-27T16:54:32.142977'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:54:32.520353', 'endtime': '2022-04-27T16:57:45.627766'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:39:32.822466', 'endtime': '2022-04-27T15:41:58.712952'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:08:20.288545', 'endtime': '2022-04-27T16:11:34.662190'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T19:10:10.567142', 'endtime': '2022-04-27T19:12:23.410296'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:27:09.443332', 'endtime': '2022-04-27T17:30:40.357017'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T19:04:06.790716', 'endtime': '2022-04-27T19:06:47.352204'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:16:39.583426', 'endtime': '2022-04-27T18:19:09.304858'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:19:44.044835', 'endtime': '2022-04-27T17:22:31.678503'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:30:52.656525', 'endtime': '2022-04-27T17:33:32.274604'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T14:59:27.865336', 'endtime': '2022-04-27T15:01:42.628949'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:41:37.522135', 'endtime': '2022-04-27T18:44:23.753814'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:48:58.770147', 'endtime': '2022-04-27T15:51:21.770091'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:22:28.428006', 'endtime': '2022-04-27T17:24:30.039596'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:44:24.485336', 'endtime': '2022-04-27T18:47:16.467407'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:34:00.184726', 'endtime': '2022-04-27T17:35:31.437705'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T17:25:10.719167', 'endtime': '2022-04-27T17:27:30.211261'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:11:57.517444', 'endtime': '2022-04-27T15:14:41.237031'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T15:18:19.520924', 'endtime': '2022-04-27T15:20:39.878297'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T16:02:54.302172', 'endtime': '2022-04-27T16:05:13.605695'}, {'rule': 'call_variants_bcftools_all', 'starttime': '2022-04-27T18:25:02.745977', 'endtime': '2022-04-27T18:26:57.365169'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:22:36.948816', 'endtime': '2022-04-27T18:25:53.237578'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:25:23.776597', 'endtime': '2022-04-27T16:28:29.417528'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:28:27.959646', 'endtime': '2022-04-27T15:31:04.236985'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:18:33.619168', 'endtime': '2022-04-27T16:21:54.018882'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:14:32.868517', 'endtime': '2022-04-27T17:17:59.310986'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:35:50.619203', 'endtime': '2022-04-27T15:39:06.248379'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:00:18.948350', 'endtime': '2022-04-27T18:03:58.179462'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:29:37.759300', 'endtime': '2022-04-27T18:32:30.754239'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:54:09.260527', 'endtime': '2022-04-27T15:57:27.037425'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:48:45.314007', 'endtime': '2022-04-27T16:51:50.520483'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:12:14.843519', 'endtime': '2022-04-27T15:15:39.381561'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:46:13.394484', 'endtime': '2022-04-27T17:49:13.458296'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:49:02.826660', 'endtime': '2022-04-27T18:52:06.675085'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:39:29.367989', 'endtime': '2022-04-27T18:42:15.387630'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:10:01.434978', 'endtime': '2022-04-27T18:13:07.762526'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:37:17.771363', 'endtime': '2022-04-27T16:40:14.735043'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:33:11.166084', 'endtime': '2022-04-27T16:36:57.916221'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:39:32.693463', 'endtime': '2022-04-27T15:42:38.753317'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:08:18.496550', 'endtime': '2022-04-27T16:11:57.799402'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T19:09:42.010115', 'endtime': '2022-04-27T19:12:29.778355'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:48:49.239148', 'endtime': '2022-04-27T15:52:50.142898'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:59:17.060380', 'endtime': '2022-04-27T19:02:41.816940'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:01:39.660441', 'endtime': '2022-04-27T18:04:40.324851'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:02:20.541818', 'endtime': '2022-04-27T17:05:45.336202'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:48:35.917010', 'endtime': '2022-04-27T16:51:51.275490'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T14:59:27.536349', 'endtime': '2022-04-27T15:02:14.587240'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:42:15.782178', 'endtime': '2022-04-27T18:45:37.452494'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:23:46.483354', 'endtime': '2022-04-27T15:26:45.197624'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:22:28.419010', 'endtime': '2022-04-27T17:25:00.753880'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T18:14:46.366297', 'endtime': '2022-04-27T18:18:07.333287'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:34:00.215734', 'endtime': '2022-04-27T17:36:06.287027'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:17:19.411688', 'endtime': '2022-04-27T17:20:17.998267'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T15:11:57.476534', 'endtime': '2022-04-27T15:15:16.495352'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T14:59:47.244366', 'endtime': '2022-04-27T15:02:48.104544'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T16:00:53.117053', 'endtime': '2022-04-27T16:03:44.705880'}, {'rule': 'call_variants_freebayes', 'starttime': '2022-04-27T17:49:22.963691', 'endtime': '2022-04-27T17:52:18.301003'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:18:15.047518', 'endtime': '2022-04-27T18:19:01.841789'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:21:02.991326', 'endtime': '2022-04-27T16:21:49.093836'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:24:53.505438', 'endtime': '2022-04-27T15:25:32.507962'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:13:57.824902', 'endtime': '2022-04-27T16:14:47.105955'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:09:46.207233', 'endtime': '2022-04-27T17:10:39.199919'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:31:12.111846', 'endtime': '2022-04-27T15:32:04.019530'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:55:14.923068', 'endtime': '2022-04-27T17:56:08.862131'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:25:42.491033', 'endtime': '2022-04-27T18:26:24.729868'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:49:12.678155', 'endtime': '2022-04-27T15:50:06.298402'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:44:18.940751', 'endtime': '2022-04-27T16:45:05.769736'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:07:18.279044', 'endtime': '2022-04-27T15:08:11.514483'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:41:55.754240', 'endtime': '2022-04-27T17:42:42.111682'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:44:42.432370', 'endtime': '2022-04-27T18:45:31.424438'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:35:43.947751', 'endtime': '2022-04-27T18:36:25.330400'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:05:31.231679', 'endtime': '2022-04-27T18:06:19.371763'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:32:45.191057', 'endtime': '2022-04-27T16:33:32.292321'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:27:44.228734', 'endtime': '2022-04-27T16:28:48.259702'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:35:09.283176', 'endtime': '2022-04-27T15:35:58.244666'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:02:57.574174', 'endtime': '2022-04-27T16:03:54.248968'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T19:05:43.130845', 'endtime': '2022-04-27T19:06:25.400001'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:42:59.624734', 'endtime': '2022-04-27T15:44:00.355061'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:54:35.085057', 'endtime': '2022-04-27T18:55:26.129924'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:57:12.258174', 'endtime': '2022-04-27T17:58:00.713164'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:57:31.120550', 'endtime': '2022-04-27T16:58:23.566117'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T16:44:02.870750', 'endtime': '2022-04-27T16:44:52.291611'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T14:55:16.942970', 'endtime': '2022-04-27T14:56:03.550868'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:36:55.917803', 'endtime': '2022-04-27T18:37:48.966172'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:19:37.913041', 'endtime': '2022-04-27T15:20:24.422156'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:18:50.884771', 'endtime': '2022-04-27T17:19:31.505838'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T18:09:49.820956', 'endtime': '2022-04-27T18:10:45.153212'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:30:55.607532', 'endtime': '2022-04-27T17:31:28.699463'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:12:57.807461', 'endtime': '2022-04-27T17:13:44.163628'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:07:21.664053', 'endtime': '2022-04-27T15:08:09.932469'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T14:55:40.870005', 'endtime': '2022-04-27T14:56:24.869062'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T15:56:45.036756', 'endtime': '2022-04-27T15:57:28.344437'}, {'rule': 'convert_sam2bam', 'starttime': '2022-04-27T17:45:01.933417', 'endtime': '2022-04-27T17:45:43.846360'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:25:56.694063', 'endtime': '2022-04-27T18:25:57.717619'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:58:14.842313', 'endtime': '2022-04-27T18:58:15.865489'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:29:37.100295', 'endtime': '2022-04-27T18:29:39.096658'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:28:30.763802', 'endtime': '2022-04-27T16:28:31.794550'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:52:13.352870', 'endtime': '2022-04-27T17:52:14.376966'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:00:18.915694', 'endtime': '2022-04-27T17:00:20.877202'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:31:07.679904', 'endtime': '2022-04-27T15:31:08.777027'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:15:48.173012', 'endtime': '2022-04-27T16:15:49.196524'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:30:30.437837', 'endtime': '2022-04-27T15:30:32.530696'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:21:55.905378', 'endtime': '2022-04-27T16:21:58.031919'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:04:13.016914', 'endtime': '2022-04-27T17:04:14.063358'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:25:23.505179', 'endtime': '2022-04-27T17:25:25.568109'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:18:04.453722', 'endtime': '2022-04-27T17:18:05.827046'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:27:11.130316', 'endtime': '2022-04-27T17:27:12.155094'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:54:04.669020', 'endtime': '2022-04-27T18:54:06.755192'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:39:07.366455', 'endtime': '2022-04-27T15:39:08.383399'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:43:52.748775', 'endtime': '2022-04-27T15:43:53.764001'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:21:26.012349', 'endtime': '2022-04-27T16:21:28.109643'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:03:59.971591', 'endtime': '2022-04-27T18:04:00.995488'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:25:03.822983', 'endtime': '2022-04-27T18:25:04.842132'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:13:12.497172', 'endtime': '2022-04-27T18:13:14.576589'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:32:32.208496', 'endtime': '2022-04-27T18:32:33.304262'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:10:11.923158', 'endtime': '2022-04-27T19:10:12.948099'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:31:51.475457', 'endtime': '2022-04-27T18:31:53.553896'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:57:30.574779', 'endtime': '2022-04-27T15:57:31.596467'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:35:28.443831', 'endtime': '2022-04-27T17:35:29.642688'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:08:01.245527', 'endtime': '2022-04-27T16:08:04.388262'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:51:56.152223', 'endtime': '2022-04-27T16:51:57.174544'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:52:14.150268', 'endtime': '2022-04-27T16:52:15.169711'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:03:02.613853', 'endtime': '2022-04-27T17:03:04.768718'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:15:42.112747', 'endtime': '2022-04-27T15:15:43.397597'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:38:07.516424', 'endtime': '2022-04-27T16:38:08.538874'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:18:10.982913', 'endtime': '2022-04-27T15:18:13.322962'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:49:24.176677', 'endtime': '2022-04-27T17:49:25.200404'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:48:08.602600', 'endtime': '2022-04-27T17:48:09.623706'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:50:30.790761', 'endtime': '2022-04-27T17:50:32.727027'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:52:08.018888', 'endtime': '2022-04-27T18:52:09.040107'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:51:17.511814', 'endtime': '2022-04-27T18:51:18.604641'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:02:23.744611', 'endtime': '2022-04-27T19:02:25.620791'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:42:16.944204', 'endtime': '2022-04-27T18:42:17.996654'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:59:52.711421', 'endtime': '2022-04-27T18:59:53.732391'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:49:28.759691', 'endtime': '2022-04-27T18:49:31.607654'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:13:09.736166', 'endtime': '2022-04-27T18:13:11.049557'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:20:56.135699', 'endtime': '2022-04-27T18:20:57.154851'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:56:33.954202', 'endtime': '2022-04-27T18:56:36.789575'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:40:18.472551', 'endtime': '2022-04-27T16:40:19.640088'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:39:18.654042', 'endtime': '2022-04-27T17:39:19.675812'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:54:34.005368', 'endtime': '2022-04-27T16:54:37.606028'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:37:00.828330', 'endtime': '2022-04-27T16:37:01.850257'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:39:19.290469', 'endtime': '2022-04-27T16:39:20.311539'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:57:48.728563', 'endtime': '2022-04-27T16:57:50.928815'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:42:39.889686', 'endtime': '2022-04-27T15:42:40.910336'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:27:28.450725', 'endtime': '2022-04-27T16:27:29.472975'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:41:59.951657', 'endtime': '2022-04-27T15:42:02.131983'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:12:00.157777', 'endtime': '2022-04-27T16:12:01.171433'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:07:44.489124', 'endtime': '2022-04-27T17:07:45.542314'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:11:36.550766', 'endtime': '2022-04-27T16:11:38.678227'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:12:31.185330', 'endtime': '2022-04-27T19:12:32.270377'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:11:29.926256', 'endtime': '2022-04-27T19:11:31.072816'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:12:27.811309', 'endtime': '2022-04-27T19:12:30.810364'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:52:51.858443', 'endtime': '2022-04-27T15:52:52.875922'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:56:10.253677', 'endtime': '2022-04-27T15:56:11.272734'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:30:41.546503', 'endtime': '2022-04-27T17:30:43.511046'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:02:47.879630', 'endtime': '2022-04-27T19:02:48.903006'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:01:11.322535', 'endtime': '2022-04-27T19:01:12.348115'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:06:50.417916', 'endtime': '2022-04-27T19:06:52.404250'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:04:43.700630', 'endtime': '2022-04-27T18:04:44.724891'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:08:32.599047', 'endtime': '2022-04-27T19:08:33.623183'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:19:10.993582', 'endtime': '2022-04-27T18:19:12.984892'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:05:46.906033', 'endtime': '2022-04-27T17:05:47.961226'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:37:23.873922', 'endtime': '2022-04-27T17:37:24.888752'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:22:34.137031', 'endtime': '2022-04-27T17:22:36.180544'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:51:56.786204', 'endtime': '2022-04-27T16:51:57.989552'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:50:29.945135', 'endtime': '2022-04-27T16:50:31.772754'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:33:34.412706', 'endtime': '2022-04-27T17:33:36.577644'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:02:17.014631', 'endtime': '2022-04-27T15:02:18.097271'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:35:09.930204', 'endtime': '2022-04-27T16:35:11.081233'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:01:44.155556', 'endtime': '2022-04-27T15:01:46.308983'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:45:40.379428', 'endtime': '2022-04-27T18:45:41.560532'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T19:04:08.366722', 'endtime': '2022-04-27T19:04:11.534767'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:44:26.292353', 'endtime': '2022-04-27T18:44:28.362856'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:26:46.432568', 'endtime': '2022-04-27T15:26:47.448644'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:25:32.399502', 'endtime': '2022-04-27T15:25:35.150986'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:51:27.003320', 'endtime': '2022-04-27T15:51:29.069157'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:25:03.295174', 'endtime': '2022-04-27T17:25:04.557915'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:37:08.201908', 'endtime': '2022-04-27T17:37:09.237608'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:24:32.587130', 'endtime': '2022-04-27T17:24:34.525638'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:18:08.504531', 'endtime': '2022-04-27T18:18:09.527307'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:16:42.001421', 'endtime': '2022-04-27T18:16:43.021510'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:47:17.582536', 'endtime': '2022-04-27T18:47:19.652437'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:36:10.252848', 'endtime': '2022-04-27T17:36:11.573075'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:40:47.414153', 'endtime': '2022-04-27T17:40:48.583633'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:35:33.719832', 'endtime': '2022-04-27T17:35:35.597743'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:20:19.263888', 'endtime': '2022-04-27T17:20:20.288288'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:19:45.947838', 'endtime': '2022-04-27T17:19:46.969980'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:27:36.073344', 'endtime': '2022-04-27T17:27:38.269335'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:15:19.224762', 'endtime': '2022-04-27T15:15:20.251386'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:14:08.512915', 'endtime': '2022-04-27T16:14:09.530610'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:14:45.510696', 'endtime': '2022-04-27T15:14:49.025102'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:02:49.437646', 'endtime': '2022-04-27T15:02:50.464566'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:05:40.912003', 'endtime': '2022-04-27T17:05:41.934171'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T15:20:42.319127', 'endtime': '2022-04-27T15:20:44.390338'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:03:47.286219', 'endtime': '2022-04-27T16:03:48.357914'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:02:41.717179', 'endtime': '2022-04-27T16:02:42.738312'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T16:05:17.053359', 'endtime': '2022-04-27T16:05:19.073746'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T17:52:19.802852', 'endtime': '2022-04-27T17:52:20.836026'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:31:15.060418', 'endtime': '2022-04-27T18:31:16.078551'}, {'rule': 'cut_metadata', 'starttime': '2022-04-27T18:27:03.635115', 'endtime': '2022-04-27T18:27:05.715245'}, {'rule': 'index_genome', 'starttime': '2022-04-26T15:47:06.012760', 'endtime': '2022-04-26T15:47:09.294150'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:25:55.259047', 'endtime': '2022-04-27T18:25:56.279606'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:58:13.561300', 'endtime': '2022-04-27T18:58:14.583477'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:29:34.160300', 'endtime': '2022-04-27T18:29:36.762636'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:28:29.630808', 'endtime': '2022-04-27T16:28:30.682540'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:52:12.127889', 'endtime': '2022-04-27T17:52:13.154955'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:00:17.014724', 'endtime': '2022-04-27T17:00:18.037176'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:31:05.172872', 'endtime': '2022-04-27T15:31:06.194003'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:15:47.034035', 'endtime': '2022-04-27T16:15:48.052514'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:30:29.300816', 'endtime': '2022-04-27T15:30:30.319676'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:21:54.338397', 'endtime': '2022-04-27T16:21:55.456895'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:04:11.525958', 'endtime': '2022-04-27T17:04:12.544344'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:25:21.787206', 'endtime': '2022-04-27T17:25:22.810084'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:17:59.915754', 'endtime': '2022-04-27T17:18:00.939001'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:27:09.186303', 'endtime': '2022-04-27T17:27:10.462079'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:54:03.187008', 'endtime': '2022-04-27T18:54:04.211169'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:39:06.313434', 'endtime': '2022-04-27T15:39:07.329389'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:43:50.543770', 'endtime': '2022-04-27T15:43:52.283988'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:21:23.484347', 'endtime': '2022-04-27T16:21:24.606610'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:03:58.793595', 'endtime': '2022-04-27T18:03:59.820477'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:25:02.758982', 'endtime': '2022-04-27T18:25:03.780122'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:13:11.035198', 'endtime': '2022-04-27T18:13:12.056566'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:32:31.134511', 'endtime': '2022-04-27T18:32:32.156252'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:10:10.150155', 'endtime': '2022-04-27T19:10:11.407085'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:31:49.983461', 'endtime': '2022-04-27T18:31:51.125874'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:57:27.189786', 'endtime': '2022-04-27T15:57:30.455456'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:35:24.514819', 'endtime': '2022-04-27T17:35:26.993664'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:07:59.122548', 'endtime': '2022-04-27T16:08:00.325224'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:51:51.263199', 'endtime': '2022-04-27T16:51:52.282499'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:52:12.560251', 'endtime': '2022-04-27T16:52:13.594696'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:02:58.206845', 'endtime': '2022-04-27T17:02:59.228666'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:15:40.220726', 'endtime': '2022-04-27T15:15:41.247577'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:38:05.124407', 'endtime': '2022-04-27T16:38:06.339854'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:18:08.701928', 'endtime': '2022-04-27T15:18:09.743930'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:49:18.169676', 'endtime': '2022-04-27T17:49:23.009384'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:48:03.000581', 'endtime': '2022-04-27T17:48:04.021654'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:50:29.092785', 'endtime': '2022-04-27T17:50:30.115003'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:52:06.786879', 'endtime': '2022-04-27T18:52:07.806095'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:51:16.397828', 'endtime': '2022-04-27T18:51:17.418630'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:02:22.640615', 'endtime': '2022-04-27T19:02:23.670773'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:42:15.727192', 'endtime': '2022-04-27T18:42:16.746642'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:59:50.978431', 'endtime': '2022-04-27T18:59:52.006375'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:49:27.018707', 'endtime': '2022-04-27T18:49:28.036621'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:13:08.206174', 'endtime': '2022-04-27T18:13:09.235540'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:20:54.913727', 'endtime': '2022-04-27T18:20:55.935840'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:56:32.455186', 'endtime': '2022-04-27T18:56:33.482545'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:40:15.422511', 'endtime': '2022-04-27T16:40:16.492059'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:39:15.360071', 'endtime': '2022-04-27T17:39:16.377782'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:54:32.462356', 'endtime': '2022-04-27T16:54:33.480990'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:36:58.886329', 'endtime': '2022-04-27T16:37:00.276242'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:39:16.041446', 'endtime': '2022-04-27T16:39:17.146509'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:57:46.519562', 'endtime': '2022-04-27T16:57:47.665785'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:42:38.809693', 'endtime': '2022-04-27T15:42:39.826327'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:27:26.698725', 'endtime': '2022-04-27T16:27:27.716959'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:41:58.863663', 'endtime': '2022-04-27T15:41:59.880963'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:11:59.066762', 'endtime': '2022-04-27T16:12:00.083423'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:07:42.969145', 'endtime': '2022-04-27T17:07:44.118300'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:11:35.220767', 'endtime': '2022-04-27T16:11:36.237204'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:12:30.002325', 'endtime': '2022-04-27T19:12:31.026366'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:11:28.312235', 'endtime': '2022-04-27T19:11:29.346800'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:12:24.361321', 'endtime': '2022-04-27T19:12:25.386314'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:52:50.590451', 'endtime': '2022-04-27T15:52:51.611911'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:56:09.159685', 'endtime': '2022-04-27T15:56:10.184724'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:30:40.461511', 'endtime': '2022-04-27T17:30:41.489027'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:02:44.217623', 'endtime': '2022-04-27T19:02:47.452992'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:01:09.955509', 'endtime': '2022-04-27T19:01:11.106104'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:06:48.052912', 'endtime': '2022-04-27T19:06:49.076220'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:04:41.159625', 'endtime': '2022-04-27T18:04:42.184868'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:08:31.434036', 'endtime': '2022-04-27T19:08:32.462173'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:19:09.461578', 'endtime': '2022-04-27T18:19:10.481869'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:05:45.505027', 'endtime': '2022-04-27T17:05:46.523213'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:37:21.012958', 'endtime': '2022-04-27T17:37:22.032726'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:22:32.161040', 'endtime': '2022-04-27T17:22:33.290517'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:51:51.665196', 'endtime': '2022-04-27T16:51:56.162535'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:50:27.821132', 'endtime': '2022-04-27T16:50:28.964728'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:33:33.135686', 'endtime': '2022-04-27T17:33:34.154622'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:02:15.172661', 'endtime': '2022-04-27T15:02:16.315255'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:35:08.645208', 'endtime': '2022-04-27T16:35:09.667219'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:01:42.750563', 'endtime': '2022-04-27T15:01:43.800960'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:45:38.518430', 'endtime': '2022-04-27T18:45:39.542513'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T19:04:06.783726', 'endtime': '2022-04-27T19:04:07.805733'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:44:24.730329', 'endtime': '2022-04-27T18:44:25.754832'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:26:45.330524', 'endtime': '2022-04-27T15:26:46.357634'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:25:30.643461', 'endtime': '2022-04-27T15:25:31.659954'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:51:22.993347', 'endtime': '2022-04-27T15:51:24.131112'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:25:01.616178', 'endtime': '2022-04-27T17:25:02.639898'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:37:07.109915', 'endtime': '2022-04-27T17:37:08.128598'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:24:30.779162', 'endtime': '2022-04-27T17:24:31.976614'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:18:07.384526', 'endtime': '2022-04-27T18:18:08.403297'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:16:39.603437', 'endtime': '2022-04-27T18:16:40.671488'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:47:16.520552', 'endtime': '2022-04-27T18:47:17.542417'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:36:07.566846', 'endtime': '2022-04-27T17:36:08.589048'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:40:45.778127', 'endtime': '2022-04-27T17:40:46.800617'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:35:32.411824', 'endtime': '2022-04-27T17:35:33.429723'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:20:18.172890', 'endtime': '2022-04-27T17:20:19.190278'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:19:44.368855', 'endtime': '2022-04-27T17:19:45.388966'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:27:31.133325', 'endtime': '2022-04-27T17:27:32.152279'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:15:17.428736', 'endtime': '2022-04-27T15:15:18.550371'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:14:07.260914', 'endtime': '2022-04-27T16:14:08.332599'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:14:42.908684', 'endtime': '2022-04-27T15:14:44.040056'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:02:48.295649', 'endtime': '2022-04-27T15:02:49.327555'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:05:37.584022', 'endtime': '2022-04-27T17:05:38.776141'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T15:20:40.107109', 'endtime': '2022-04-27T15:20:41.132308'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:03:45.709254', 'endtime': '2022-04-27T16:03:46.845900'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:02:40.421142', 'endtime': '2022-04-27T16:02:41.480300'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T16:05:14.893350', 'endtime': '2022-04-27T16:05:16.048718'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T17:52:18.466870', 'endtime': '2022-04-27T17:52:19.487013'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:31:13.998408', 'endtime': '2022-04-27T18:31:15.020541'}, {'rule': 'link_bcftool_all', 'starttime': '2022-04-27T18:26:58.597134', 'endtime': '2022-04-27T18:27:03.247223'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:13:10.571171', 'endtime': '2022-04-27T18:18:14.994357'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:16:11.452042', 'endtime': '2022-04-27T16:21:02.881410'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:20:53.588101', 'endtime': '2022-04-27T15:24:53.101603'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:08:31.664554', 'endtime': '2022-04-27T16:13:57.232497'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:04:11.675933', 'endtime': '2022-04-27T17:09:45.921427'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:25:43.615486', 'endtime': '2022-04-27T15:31:12.044056'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:49:22.775673', 'endtime': '2022-04-27T17:55:13.892624'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:20:54.849696', 'endtime': '2022-04-27T18:25:39.907455'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:43:50.445795', 'endtime': '2022-04-27T15:49:12.096907'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:39:15.783445', 'endtime': '2022-04-27T16:44:18.524299'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:01:42.787553', 'endtime': '2022-04-27T15:07:17.999997'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:37:19.463929', 'endtime': '2022-04-27T17:41:55.567252'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:39:29.373988', 'endtime': '2022-04-27T18:44:42.135983'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:31:30.719432', 'endtime': '2022-04-27T18:35:43.719016'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:00:18.930381', 'endtime': '2022-04-27T18:05:31.009317'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:27:39.654759', 'endtime': '2022-04-27T16:32:45.073886'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:21:23.193361', 'endtime': '2022-04-27T16:27:43.758107'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:30:29.312829', 'endtime': '2022-04-27T15:35:08.793215'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:56:56.364741', 'endtime': '2022-04-27T16:02:57.512447'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T19:01:09.838523', 'endtime': '2022-04-27T19:05:42.682608'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:36:19.810240', 'endtime': '2022-04-27T15:42:59.501506'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:49:02.837677', 'endtime': '2022-04-27T18:54:35.008453'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:52:24.910858', 'endtime': '2022-04-27T17:57:11.632711'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:52:04.964212', 'endtime': '2022-04-27T16:57:29.817620'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T16:38:44.923454', 'endtime': '2022-04-27T16:44:02.414150'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T14:51:02.245587', 'endtime': '2022-04-27T14:55:16.493440'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:31:50.116467', 'endtime': '2022-04-27T18:36:55.414677'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:14:58.766695', 'endtime': '2022-04-27T15:19:37.775731'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:14:32.981518', 'endtime': '2022-04-27T17:18:49.491449'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T18:04:14.491618', 'endtime': '2022-04-27T18:09:49.327698'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:27:43.118324', 'endtime': '2022-04-27T17:30:55.554157'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:08:16.486154', 'endtime': '2022-04-27T17:12:56.400187'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:02:29.043612', 'endtime': '2022-04-27T15:07:20.870023'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T14:51:03.763598', 'endtime': '2022-04-27T14:55:40.429658'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T15:51:50.872368', 'endtime': '2022-04-27T15:56:44.751039'}, {'rule': 'map_reads_PE', 'starttime': '2022-04-27T17:40:45.464150', 'endtime': '2022-04-27T17:45:01.797972'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:20:10.730654', 'endtime': '2022-04-27T18:22:35.383756'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:22:57.526485', 'endtime': '2022-04-27T16:25:22.122801'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:26:29.362537', 'endtime': '2022-04-27T15:28:26.761550'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:15:56.875006', 'endtime': '2022-04-27T16:18:32.572024'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:11:52.370359', 'endtime': '2022-04-27T17:14:32.248072'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:33:18.410013', 'endtime': '2022-04-27T15:35:50.362594'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:57:26.063182', 'endtime': '2022-04-27T18:00:17.698429'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:27:26.083155', 'endtime': '2022-04-27T18:29:37.110640'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:51:27.454352', 'endtime': '2022-04-27T15:54:08.902617'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:46:15.078894', 'endtime': '2022-04-27T16:48:43.738754'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:09:27.126235', 'endtime': '2022-04-27T15:12:14.517695'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:43:50.468339', 'endtime': '2022-04-27T17:46:12.466624'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:46:40.550511', 'endtime': '2022-04-27T18:49:02.512386'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:37:22.531850', 'endtime': '2022-04-27T18:39:29.193096'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:07:33.550803', 'endtime': '2022-04-27T18:09:59.690793'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:34:45.190178', 'endtime': '2022-04-27T16:37:17.539402'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:30:13.375895', 'endtime': '2022-04-27T16:33:09.617112'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:37:04.650317', 'endtime': '2022-04-27T15:39:31.687612'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:05:13.394353', 'endtime': '2022-04-27T16:08:11.806330'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T19:07:30.806966', 'endtime': '2022-04-27T19:09:40.515800'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:45:29.530920', 'endtime': '2022-04-27T15:48:45.619665'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:56:41.194195', 'endtime': '2022-04-27T18:59:16.557048'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:59:07.808285', 'endtime': '2022-04-27T18:01:39.026180'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:59:37.492668', 'endtime': '2022-04-27T17:02:20.000304'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T16:46:02.893879', 'endtime': '2022-04-27T16:48:35.667679'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T14:57:05.242163', 'endtime': '2022-04-27T14:59:22.579677'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:39:02.118973', 'endtime': '2022-04-27T18:41:37.124276'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:21:26.419200', 'endtime': '2022-04-27T15:23:45.018983'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:20:29.179871', 'endtime': '2022-04-27T17:22:27.789467'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T18:12:03.261110', 'endtime': '2022-04-27T18:14:45.280425'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:32:14.916605', 'endtime': '2022-04-27T17:33:59.843859'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:14:51.542560', 'endtime': '2022-04-27T17:17:16.972594'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:09:18.695207', 'endtime': '2022-04-27T15:11:50.977481'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T14:57:27.206183', 'endtime': '2022-04-27T14:59:43.708869'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T15:58:29.975846', 'endtime': '2022-04-27T16:00:52.815304'}, {'rule': 'remove_PCR_duplicates', 'starttime': '2022-04-27T17:46:52.574539', 'endtime': '2022-04-27T17:49:18.182339'}, {'rule': 'run_trim', 'starttime': '2022-04-27T16:27:26.088717', 'endtime': '2022-04-27T16:27:38.486058'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:51:11.771059', 'endtime': '2022-04-26T15:51:31.112600'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:48:42.841869', 'endtime': '2022-04-26T15:48:51.268104'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:05.884767', 'endtime': '2022-04-26T15:47:35.375394'}, {'rule': 'run_trim', 'starttime': '2022-04-27T15:56:36.834750', 'endtime': '2022-04-27T15:56:55.872141'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:50:13.289995', 'endtime': '2022-04-26T15:50:28.965018'}, {'rule': 'run_trim', 'starttime': '2022-04-27T16:07:59.317540', 'endtime': '2022-04-27T16:08:18.506391'}, {'rule': 'run_trim', 'starttime': '2022-04-27T17:02:55.652843', 'endtime': '2022-04-27T17:03:18.909848'}, {'rule': 'run_trim', 'starttime': '2022-04-26T16:03:34.556977', 'endtime': '2022-04-26T16:03:44.743483'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:49:55.452952', 'endtime': '2022-04-26T15:50:13.307872'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:35.438794', 'endtime': '2022-04-26T15:47:49.667528'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:49:03.600897', 'endtime': '2022-04-26T15:49:18.198356'}, {'rule': 'run_trim', 'starttime': '2022-04-27T17:27:30.953322', 'endtime': '2022-04-27T17:27:42.895378'}, {'rule': 'run_trim', 'starttime': '2022-04-27T15:18:07.751979', 'endtime': '2022-04-27T15:18:18.763012'}, {'rule': 'run_trim', 'starttime': '2022-04-27T16:35:17.803201', 'endtime': '2022-04-27T16:35:27.898388'}, {'rule': 'run_trim', 'starttime': '2022-04-26T16:18:53.902110', 'endtime': '2022-04-26T16:19:03.824090'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:50:52.397028', 'endtime': '2022-04-26T15:51:11.218414'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:47.341826', 'endtime': '2022-04-26T15:48:00.704631'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:48:03.497841', 'endtime': '2022-04-26T15:48:21.399825'}, {'rule': 'run_trim', 'starttime': '2022-04-27T15:48:49.171158', 'endtime': '2022-04-27T15:48:57.703776'}, {'rule': 'run_trim', 'starttime': '2022-04-27T14:50:45.012618', 'endtime': '2022-04-27T14:51:03.420138'}, {'rule': 'run_trim', 'starttime': '2022-04-27T16:15:47.040999', 'endtime': '2022-04-27T16:15:58.107606'}, {'rule': 'run_trim', 'starttime': '2022-04-26T16:25:13.358592', 'endtime': '2022-04-26T16:25:24.075646'}, {'rule': 'run_trim', 'starttime': '2022-04-26T16:03:12.810940', 'endtime': '2022-04-26T16:03:22.329273'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:49:55.385961', 'endtime': '2022-04-26T15:50:13.209871'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:32.842798', 'endtime': '2022-04-26T15:47:46.774501'}, {'rule': 'run_trim', 'starttime': '2022-04-27T14:50:44.456541', 'endtime': '2022-04-27T14:51:02.096125'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:49:19.316915', 'endtime': '2022-04-26T15:49:30.206469'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:05.998773', 'endtime': '2022-04-26T15:47:32.292365'}, {'rule': 'run_trim', 'starttime': '2022-04-27T16:35:42.859237', 'endtime': '2022-04-27T16:35:55.371642'}, {'rule': 'run_trim', 'starttime': '2022-04-26T16:18:31.529083', 'endtime': '2022-04-27T16:11:44.347279'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:50:48.917021', 'endtime': '2022-04-26T15:51:09.319396'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:48:00.838822', 'endtime': '2022-04-26T15:48:18.601799'}, {'rule': 'run_trim', 'starttime': '2022-04-26T15:47:50.747814', 'endtime': '2022-04-26T15:48:03.362656'}, {'rule': 'run_trim', 'starttime': '2022-04-27T17:07:42.838117', 'endtime': '2022-04-27T17:07:52.442377'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:19:03.945565', 'endtime': '2022-04-27T18:20:10.261419'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:21:50.352360', 'endtime': '2022-04-27T16:22:56.842461'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:25:35.141450', 'endtime': '2022-04-27T15:26:28.822474'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:14:48.086927', 'endtime': '2022-04-27T16:15:56.008587'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:10:40.329327', 'endtime': '2022-04-27T17:11:51.335586'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:32:05.604935', 'endtime': '2022-04-27T15:33:17.201197'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:56:10.225099', 'endtime': '2022-04-27T17:57:25.446839'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:26:27.774086', 'endtime': '2022-04-27T18:27:25.246425'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:50:08.000249', 'endtime': '2022-04-27T15:51:27.013139'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:45:06.786816', 'endtime': '2022-04-27T16:46:13.337362'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:08:12.665127', 'endtime': '2022-04-27T15:09:25.766158'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:42:42.986274', 'endtime': '2022-04-27T17:43:49.245302'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:45:32.845407', 'endtime': '2022-04-27T18:46:39.889070'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:36:26.264771', 'endtime': '2022-04-27T18:37:22.057923'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:06:21.934754', 'endtime': '2022-04-27T18:07:30.558419'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:33:33.336110', 'endtime': '2022-04-27T16:34:42.642970'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:28:49.610836', 'endtime': '2022-04-27T16:30:10.962465'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:35:59.188236', 'endtime': '2022-04-27T15:37:03.939265'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:03:56.954240', 'endtime': '2022-04-27T16:05:10.559668'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T19:06:30.603893', 'endtime': '2022-04-27T19:07:29.844595'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:44:02.689807', 'endtime': '2022-04-27T15:45:29.068871'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:55:28.787122', 'endtime': '2022-04-27T18:56:40.519610'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:58:01.553212', 'endtime': '2022-04-27T17:59:07.005776'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:58:25.335572', 'endtime': '2022-04-27T16:59:36.700794'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T16:44:53.424796', 'endtime': '2022-04-27T16:46:01.856255'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T14:56:05.563031', 'endtime': '2022-04-27T14:57:04.905426'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:37:51.226878', 'endtime': '2022-04-27T18:39:01.397840'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:20:25.917065', 'endtime': '2022-04-27T15:21:24.729705'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:19:32.929832', 'endtime': '2022-04-27T17:20:28.647366'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T18:10:46.600001', 'endtime': '2022-04-27T18:12:02.921929'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:31:30.062554', 'endtime': '2022-04-27T17:32:14.186883'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:13:45.824500', 'endtime': '2022-04-27T17:14:50.711243'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:08:10.897113', 'endtime': '2022-04-27T15:09:18.243090'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T14:56:26.748079', 'endtime': '2022-04-27T14:57:26.863625'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T15:57:30.430786', 'endtime': '2022-04-27T15:58:29.557996'}, {'rule': 'sort_bam', 'starttime': '2022-04-27T17:45:51.548451', 'endtime': '2022-04-27T17:46:51.315983'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:33:10.913071', 'endtime': '2022-04-27T16:33:23.536241'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:24:31.127139', 'endtime': '2022-04-27T17:24:43.521721'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:04:00.275017', 'endtime': '2022-04-26T16:04:11.148731'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:51:48.888094', 'endtime': '2022-04-26T15:52:00.223872'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:50:29.420009', 'endtime': '2022-04-26T15:50:38.331106'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:54.115890', 'endtime': '2022-04-26T15:49:02.922213'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:51.930886', 'endtime': '2022-04-26T15:49:03.510219'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:08:18.092560', 'endtime': '2022-04-27T16:08:30.853504'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:02:40.641175', 'endtime': '2022-04-27T16:02:54.220417'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:15:58.509008', 'endtime': '2022-04-27T16:16:11.010724'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:25:30.653480', 'endtime': '2022-04-27T15:25:43.135058'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:20:40.078100', 'endtime': '2022-04-27T15:20:53.353420'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:05:37.763017', 'endtime': '2022-04-27T17:05:51.556260'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:11:54.596748', 'endtime': '2022-04-27T16:12:08.253498'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:03:26.654881', 'endtime': '2022-04-27T17:03:45.212091'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:30:40.450534', 'endtime': '2022-04-27T17:30:51.092116'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:25:00.559565', 'endtime': '2022-04-26T16:25:13.149544'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:03:44.789992', 'endtime': '2022-04-26T16:03:57.279601'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:51:31.180077', 'endtime': '2022-04-26T15:51:43.487716'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:50:29.757006', 'endtime': '2022-04-26T15:50:41.129132'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:02.985892', 'endtime': '2022-04-26T15:49:18.807362'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:42.873939', 'endtime': '2022-04-26T15:49:55.400704'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:18.284920', 'endtime': '2022-04-26T15:49:30.914475'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:37:06.977919', 'endtime': '2022-04-27T17:37:19.317701'}, {'rule': 'unzip', 'starttime': '2022-04-27T18:22:52.581862', 'endtime': '2022-04-27T18:23:04.873027'}, {'rule': 'unzip', 'starttime': '2022-04-27T18:03:58.661587', 'endtime': '2022-04-27T18:04:11.181582'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:12:13.366806', 'endtime': '2022-04-27T16:12:23.681639'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:38:32.463416', 'endtime': '2022-04-27T16:38:43.184195'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:35:29.222249', 'endtime': '2022-04-27T16:35:42.193520'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:24:44.243158', 'endtime': '2022-04-27T17:24:58.233857'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:25:23.484598', 'endtime': '2022-04-27T16:25:36.546934'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:19:04.473126', 'endtime': '2022-04-26T16:19:16.011204'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:04:11.303019', 'endtime': '2022-04-26T16:04:25.396865'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:51:31.102073', 'endtime': '2022-04-26T15:51:48.822766'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:50:41.182010', 'endtime': '2022-04-26T15:50:51.491229'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:21.464847', 'endtime': '2022-04-26T15:48:32.571929'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:30.505858', 'endtime': '2022-04-26T15:48:43.582032'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:56:22.212688', 'endtime': '2022-04-27T15:56:36.220961'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:51:23.112317', 'endtime': '2022-04-27T15:51:37.030230'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:52:12.121844', 'endtime': '2022-04-27T17:52:24.111056'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:36:04.794231', 'endtime': '2022-04-27T15:36:19.190857'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:35:50.613193', 'endtime': '2022-04-27T15:36:04.540723'}, {'rule': 'unzip', 'starttime': '2022-04-27T18:31:14.065411', 'endtime': '2022-04-27T18:31:27.250654'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:38:05.335403', 'endtime': '2022-04-27T16:38:18.510967'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:56:09.154669', 'endtime': '2022-04-27T15:56:22.153833'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:25:24.126607', 'endtime': '2022-04-26T16:25:35.416753'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:51:51.106201', 'endtime': '2022-04-27T16:52:04.613613'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:03:22.358950', 'endtime': '2022-04-26T16:03:34.509387'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:03:47.966000', 'endtime': '2022-04-26T16:03:59.405621'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:50:13.357980', 'endtime': '2022-04-26T15:50:29.503023'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:42.574949', 'endtime': '2022-04-26T15:49:52.631678'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:31.610936', 'endtime': '2022-04-26T15:49:42.268581'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:02:15.313625', 'endtime': '2022-04-27T15:02:28.145363'}, {'rule': 'unzip', 'starttime': '2022-04-27T18:22:36.650814', 'endtime': '2022-04-27T18:22:52.372912'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:49:30.904950', 'endtime': '2022-04-26T15:49:42.585584'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:14:42.503676', 'endtime': '2022-04-27T15:14:58.616189'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:43.792889', 'endtime': '2022-04-26T15:48:54.059130'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:38:19.011398', 'endtime': '2022-04-27T16:38:30.280076'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:35:55.938252', 'endtime': '2022-04-27T16:36:09.383772'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:24:58.570201', 'endtime': '2022-04-27T17:25:10.650971'}, {'rule': 'unzip', 'starttime': '2022-04-27T16:35:08.497219', 'endtime': '2022-04-27T16:35:17.638293'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:18:41.878094', 'endtime': '2022-04-27T16:11:54.363371'}, {'rule': 'unzip', 'starttime': '2022-04-26T16:19:16.387136', 'endtime': '2022-04-27T17:08:16.057596'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:51:10.633041', 'endtime': '2022-04-26T15:51:26.608558'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:50:38.380007', 'endtime': '2022-04-26T15:50:48.226199'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:32.633868', 'endtime': '2022-04-26T15:48:42.777025'}, {'rule': 'unzip', 'starttime': '2022-04-26T15:48:18.889859', 'endtime': '2022-04-26T15:48:30.005905'}, {'rule': 'unzip', 'starttime': '2022-04-27T15:51:39.507334', 'endtime': '2022-04-27T15:51:50.811356'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:37:21.073960', 'endtime': '2022-04-27T17:37:31.343812'}, {'rule': 'unzip', 'starttime': '2022-04-27T17:07:52.705135', 'endtime': '2022-04-27T17:08:04.245486'}]
         },
         "mark": "point",
         "encoding": {

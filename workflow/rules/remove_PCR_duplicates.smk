@@ -1,9 +1,9 @@
 rule remove_PCR_duplicates:
     input:
-        mapped_reads_dir / "{sample}_mapped_sorted.bam",
+        scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam",
     output:
-        out_bam = deduped_dir / "{sample}_deduped.bam",
-        dedup_metadata = deduped_dir / "{sample}_deduped_metadata.txt"
+        out_bam = scratch_dict["deduped"] / "{sample}_deduped.bam",
+        dedup_metadata = scratch_dict["deduped"] / "{sample}_deduped_metadata.txt"
     resources:
         mem_mb=100000,
     conda:

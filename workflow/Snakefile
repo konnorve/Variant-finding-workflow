@@ -1,50 +1,56 @@
 # The main entry point of your workflow.
 # After configuring, running snakemake -n in a clone of this repository should successfully execute a dry-run of the workflow.
 from pathlib import Path
+import pandas as pd
 
-# report: "report/workflow.rst"
+configfile: "config/config.yaml"
 
-VARIANT_CALLING_METHODS = ['freebayes', 'bcftools_standard', 'bcftools_all']
-VARIANT_CALLING_METHODS_FOR_VEP = ['freebayes', 'bcftools_standard']
-ORGANISM = 'SynechococcusRS9916'
+SAMPLE_TABLE = pd.read_csv(config["samples"], index_col="sample_name", sep="\t")
+SAMPLE_TABLE.index = SAMPLE_TABLE.index.map(str)
+SAMPLES = SAMPLE_TABLE.index.values
 
-global_dir = Path("/nobackup1/kve/2021_sean_prochlorosin_SNP_ident")
+scratch_dir = Path(config["scratch_dir"])
+results_dir = Path(config["results"])
+scratch_dict = {
+    "trimmed_reads": scratch_dir / "1_trimmed_reads", 
+    "genome_index": scratch_dir / "2_genome_index",
+    "mapped_reads": scratch_dir / "3_mapped_reads",
+    "deduped": scratch_dir / "4_PCR_duplicates_removed",
+    "vcfs": scratch_dir / "5_variant_calls",
+    "all_calls": {
+        "raw": scratch_dir / "all_calls" / "raw_vcf",
+        "calls_only": scratch_dir / "all_calls" / "vcf_calls_only",
+        "header": scratch_dir / "all_calls" / "vcf_headers",
+    },
+    "done_files": {
+        "index": scratch_dir / "done_files" / "index.done",
+    }
+}
 
-input_dir = global_dir / "input_data"
-output_dir = global_dir / "output_data"
-results_dir = global_dir / "results"
+results_dict = {
+    "all_variants_df" : results_dir / "variant_dfs" / "all_genomes_all_variants.tsv",
+    "annotated_vcfs" : results_dir / "annotated_vcfs"
+}
 
-resequenced_genome_reads_dir = input_dir / "resequenced_genome_reads"
-reference_genome_file = input_dir / "reference_genome" / "SynechococcusRS9916.fna"
-reference_genome_index_file  = input_dir / "reference_genome" / "SynechococcusRS9916.fna.fai"
-adapter_file = input_dir / "adapters" / "all_illumina_adapters.fa"
-reference_genome_annotation_file = input_dir / "annotations" / "SynechococcusRS9916.gff"
-
-trimmed_reads_dir = output_dir / "trimmed_reads"
-deduped_dir = output_dir / "PCR_duplicates_removed"
-genome_index_parent_dir = output_dir / "genome_index"
-mapped_reads_dir = output_dir / "mapped_reads"
-new_annotation_dir = output_dir / "vep_input_annotations"
-new_annotation_file = new_annotation_dir / "vep_annotations_{}.gff.gz".format(ORGANISM)
-new_annotation_index = new_annotation_dir / "vep_annotations_{}.gff.gz.tbi".format(ORGANISM)
-
-variant_dir = output_dir / "variant_analysis"
-all_calls_dir = output_dir / "all_calls_for_pandas"
-raw_all_calls_vcf_dir = all_calls_dir / "raw_vcf"
-all_calls_vcf_pre_df_dir = all_calls_dir / "vcf_pre_df"
-all_calls_vcf_header_dir = all_calls_dir / "vcf_headers"
-
-done_file_dir = output_dir / "done_files"
-
-SAMPLES = glob_wildcards(resequenced_genome_reads_dir / "{sample}1.fastq.gz").sample
 
 rule all:
     input:
-        expand(variant_dir / "{sample}" / "{sample}_{variant_call_tool}.vcf", sample=SAMPLES, variant_call_tool=VARIANT_CALLING_METHODS),
-        expand(variant_dir / "{sample}" / "{sample}_{variant_call_tool}_vep_results.txt", sample=SAMPLES, variant_call_tool=VARIANT_CALLING_METHODS_FOR_VEP),
-        expand(all_calls_vcf_pre_df_dir / "{sample}_bcftools_all.tsv", sample=SAMPLES)
+        
 
-include: "rules/map_reads.smk"
+
+if config["aligner"] == "hisat2":
+
+    include: "rules/map_reads_hisat2.smk"
+
+
+if config["aligner"] == "bwa":
+
+    include: "rules/map_reads_bwa.smk"
+
+
+if config["aligner"] == "bowtie2":
+
+    include: "rules/map_reads_bowtie2.smk"
 
 
 include: "rules/run_trim.smk"
@@ -59,10 +65,5 @@ include: "rules/unzip.smk"
 include: "rules/remove_PCR_duplicates.smk"
 
 
-include: "rules/call_variants_freebayes.smk"
+include: "rules/call_variants.smk"
 
-
-include: "rules/call_variants_bcftools.smk"
-
-
-include: "rules/analyze_variants_vep.smk"

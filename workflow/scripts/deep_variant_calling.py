@@ -16,39 +16,12 @@ import matplotlib.pyplot as plt
 from textwrap import wrap
 
 
-def convert_list_column_to_columns(df, col, output_names, deliminator):
-    col_list = df[col].to_numpy()
-    col_arr = np.empty((len(col_list), len(output_names)), dtype=object)
-    r = range(len(output_names))
-    for i in range(len(col_list)):
-        s = col_list[i]
-        if s is None:
-            elements = [None] * len(output_names)
-        else:
-            elements = s.split(deliminator)
-        for j in r:
-            col_arr[i][j] = elements[j]
-    return col_arr
-
-
-def convert_dict_column_to_columns(df, col, output_names, element_deliminator, key_value_deliminator, DEBUG=False):
-    col_list = df[col].to_numpy()
-    col_arr = np.empty((len(col_list), len(output_names)), dtype=object)
-    for i in range(len(col_list)):
-        row_dict = dict(ele.split("=") for ele in col_list[i].split(element_deliminator) if len(ele.split(key_value_deliminator))==2)
-        for j, col in enumerate(output_names):
-            col_arr[i][j] = row_dict.get(col)
-        if DEBUG and i % 10000 == 0: print(i, "\t", row_dict, "\t", col_arr[i])
-    return col_arr
-
-
-def get_unique_INFO_elements(position_call_df, DEBUG=False):
-    info_list = position_call_df['INFO'].to_numpy()
+def get_unique_INFO_elements(vcf_df):
+    info_list = vcf_df['INFO'].to_numpy()
     
     info_columns = []
     for i in range(info_list.size):
         s = info_list[i]
-        if DEBUG and i % 10000 == 0: print(i, "\t", info_columns)
         for ele in s.split(';'):
             col = ele[:ele.find('=')]
             if col not in info_columns:
@@ -57,39 +30,38 @@ def get_unique_INFO_elements(position_call_df, DEBUG=False):
     return info_columns
 
 
-def get_parsed_position_call_df(position_call_df, info_columns=None, DEBUG=False):
+def convert_dict_column_to_columns(df, col, element_deliminator, key_value_deliminator):
+    
+    out_col_names = get_unique_INFO_elements(vcf_df)
 
-    if info_columns is None:
-        info_columns = get_unique_INFO_elements(position_call_df)
+    col_list = df[col].to_numpy()
+    col_arr = np.empty((len(col_list), len(out_col_names)), dtype=object)
+    for i in range(len(col_list)):
+        row_dict = dict(ele.split("=") for ele in col_list[i].split(element_deliminator) if len(ele.split(key_value_deliminator))==2)
+        for j, col in enumerate(out_col_names):
+            col_arr[i][j] = row_dict.get(col)
 
-    if DEBUG: print('current columns:', position_call_df.columns)
-    if DEBUG: print('info columns:', info_columns)
+    df[out_col_names] = col_arr
 
-    info_arr = convert_dict_column_to_columns(position_call_df, 'INFO', info_columns, ';', '=', DEBUG=DEBUG)
-    position_call_df[info_columns] = info_arr
+    return df
 
-    # must convert DP4 and PV4 to columns
-    dp4_columns = ['ref_forward_reads', 'ref_reverse_reads', 'alt_forward_reads', 'alt_reverse_reads']
-    dp4_arr = convert_list_column_to_columns(position_call_df, 'DP4', dp4_columns, ',')
-    position_call_df[dp4_columns] = dp4_arr
 
-    pv4_columns = ['strand_bias_pVal', 'baseQ_bias_pVal', 'mapQ_bias_pVal', 'tail_dist_bias_pVal']
-    pv4_arr = convert_list_column_to_columns(position_call_df, 'PV4', pv4_columns, ',')
-    position_call_df[pv4_columns] = pv4_arr
+def convert_list_column_to_columns(df, col, out_col_names, deliminator):
+    col_list = df[col].to_numpy()
+    col_arr = np.empty((len(col_list), len(out_col_names)), dtype=object)
+    r = range(len(out_col_names))
+    for i in range(len(col_list)):
+        s = col_list[i]
+        if s is None:
+            elements = [None] * len(out_col_names)
+        else:
+            elements = s.split(deliminator)
+        for j in r:
+            col_arr[i][j] = elements[j]
 
-    position_call_parsed_df = change_datatypes(position_call_df)
+    df[out_col_names] = col_arr
 
-    position_call_parsed_df['fwd_strand_coverage'] = position_call_parsed_df['ref_forward_reads'] + position_call_parsed_df['alt_forward_reads']
-    position_call_parsed_df['rev_strand_coverage'] = position_call_parsed_df['ref_reverse_reads'] + position_call_parsed_df['alt_reverse_reads']
-
-    if DEBUG: print(position_call_df.head())
-    if DEBUG: print(position_call_df.columns)
-
-    print(position_call_parsed_df.dtypes)
-    for col in position_call_parsed_df.columns:
-        print(col, '\t', position_call_parsed_df[col].unique()[:5])
-
-    return position_call_parsed_df
+    return df
 
 
 def change_datatypes(df):
@@ -106,7 +78,30 @@ def change_datatypes(df):
     return df.astype(column_datatype_dict)
 
 
-def get_position_call_df(all_calls_path):
+def get_parsed_vcf_df(vcf_df):
+
+    vcf_df = convert_dict_column_to_columns(vcf_df, 'INFO', ';', '=')
+
+    # must convert DP4 and PV4 to columns
+    dp4_columns = ['ref_forward_reads', 'ref_reverse_reads', 'alt_forward_reads', 'alt_reverse_reads']
+    vcf_df = convert_list_column_to_columns(vcf_df, 'DP4', dp4_columns, ',')
+
+    pv4_columns = ['strand_bias_pVal', 'baseQ_bias_pVal', 'mapQ_bias_pVal', 'tail_dist_bias_pVal']
+    vcf_df = convert_list_column_to_columns(vcf_df, 'PV4', pv4_columns, ',')
+
+    vcf_parsed_df = change_datatypes(vcf_df)
+
+    vcf_parsed_df['fwd_strand_coverage'] = vcf_parsed_df['ref_forward_reads'] + vcf_parsed_df['alt_forward_reads']
+    vcf_parsed_df['rev_strand_coverage'] = vcf_parsed_df['ref_reverse_reads'] + vcf_parsed_df['alt_reverse_reads']
+
+    print(vcf_parsed_df.dtypes)
+    for col in vcf_parsed_df.columns:
+        print(col, '\t', vcf_parsed_df[col].unique()[:5])
+
+    return vcf_parsed_df
+
+
+def get_vcf_df(all_calls_path):
     raw_df = pd.read_csv(all_calls_path, sep='\t')
     narrow_df = raw_df[['POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT']]
     return narrow_df
@@ -118,11 +113,11 @@ def get_gff_df(gff_path):
     return attributes_df
 
 
-def get_position_call_df_all_samples(all_calls_dir):
+def agg_vcf_df(files):
     dfs2concat = []
-    for sample_path in all_calls_dir.iterdir():
-        sample_name = sample_path.stem.split('_')[0]
-        sample_df = get_position_call_df(sample_path)
+    for sample_path in files:
+        sample_name = Path(sample_path).name.split('.')[0]
+        sample_df = get_vcf_df(sample_path)
         col_order = list(sample_df.columns)
         sample_df['genome_name'] = sample_name
         col_order.insert(0, 'genome_name')
@@ -132,8 +127,8 @@ def get_position_call_df_all_samples(all_calls_dir):
     return pd.concat(dfs2concat, axis=0, ignore_index=True)
 
 
-def filterVariants(all_position_calls_df):
-    return all_position_calls_df[all_position_calls_df['ALT'] != '.']
+def removeNonVariants(all_vcfs_df):
+    return all_vcfs_df[all_vcfs_df['ALT'] != '.']
 
 
 def filterOutNonSigVariants(variant_df):
@@ -175,10 +170,10 @@ def readVariantDF(inpath):
     return variant_df
 
 
-def df_creation(all_calls_dir, variant_df_outpath):
-    called_df = get_position_call_df_all_samples(all_calls_dir)
-    full_called_df = get_parsed_position_call_df(called_df, DEBUG=True)
-    full_variant_df = filterVariants(full_called_df)
+def df_creation(vcf_files, variant_df_outpath):
+    called_df = agg_vcf_df(vcf_files)
+    full_called_df = get_parsed_vcf_df(called_df, DEBUG=True)
+    full_variant_df = removeNonVariants(full_called_df)
     saveVariantDF(full_variant_df, variant_df_outpath)
 
 

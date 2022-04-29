@@ -1,8 +1,8 @@
 rule unzip:
     input:
-        trimmed_reads_dir / "{anything}.fastq.gz",
+        scratch_dict["trimmed_reads"] / "{anything}.fastq.gz",
     output:
-        trimmed_reads_dir / "{anything}.fastq",
+        scratch_dict["trimmed_reads"] / "{anything}.fastq",
     resources:
         mem_mb=100000,
     conda:
