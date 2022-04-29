@@ -1,0 +1,12 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python
+  - pandas
+  - biopython
+  - pyyaml
+  - matplotlib
+  - pip:
+    - gffpandas
