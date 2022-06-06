@@ -11,13 +11,16 @@ from BCBio import GFF
 from Bio.Seq import MutableSeq, Seq
 from dna_features_viewer import BiopythonTranslator
 from Bio.SeqFeature import SeqFeature, FeatureLocation
+from Bio.Data.CodonTable import TranslationError
 
 import matplotlib.pyplot as plt
 from textwrap import wrap
+import logging
 
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-def get_unique_INFO_elements(vcf_df):
-    info_list = vcf_df['INFO'].to_numpy()
+def get_unique_INFO_elements(df):
+    info_list = df['INFO'].to_numpy()
     
     info_columns = []
     for i in range(info_list.size):
@@ -32,7 +35,7 @@ def get_unique_INFO_elements(vcf_df):
 
 def convert_dict_column_to_columns(df, col, element_deliminator, key_value_deliminator):
     
-    out_col_names = get_unique_INFO_elements(vcf_df)
+    out_col_names = get_unique_INFO_elements(df)
 
     col_list = df[col].to_numpy()
     col_arr = np.empty((len(col_list), len(out_col_names)), dtype=object)
@@ -82,23 +85,21 @@ def get_parsed_vcf_df(vcf_df):
 
     vcf_df = convert_dict_column_to_columns(vcf_df, 'INFO', ';', '=')
 
-    # must convert DP4 and PV4 to columns
-    dp4_columns = ['ref_forward_reads', 'ref_reverse_reads', 'alt_forward_reads', 'alt_reverse_reads']
-    vcf_df = convert_list_column_to_columns(vcf_df, 'DP4', dp4_columns, ',')
+    if 'DP4' in vcf_df.columns:
+        # must convert DP4 and PV4 to columns
+        dp4_columns = ['ref_forward_reads', 'ref_reverse_reads', 'alt_forward_reads', 'alt_reverse_reads']
+        vcf_df = convert_list_column_to_columns(vcf_df, 'DP4', dp4_columns, ',')
 
-    pv4_columns = ['strand_bias_pVal', 'baseQ_bias_pVal', 'mapQ_bias_pVal', 'tail_dist_bias_pVal']
-    vcf_df = convert_list_column_to_columns(vcf_df, 'PV4', pv4_columns, ',')
+        vcf_df['fwd_strand_coverage'] = vcf_df['ref_forward_reads'] + vcf_df['alt_forward_reads']
+        vcf_df['rev_strand_coverage'] = vcf_df['ref_reverse_reads'] + vcf_df['alt_reverse_reads']
 
-    vcf_parsed_df = change_datatypes(vcf_df)
+    if 'PV4' in vcf_df.columns:
+        pv4_columns = ['strand_bias_pVal', 'baseQ_bias_pVal', 'mapQ_bias_pVal', 'tail_dist_bias_pVal']
+        vcf_df = convert_list_column_to_columns(vcf_df, 'PV4', pv4_columns, ',')
 
-    vcf_parsed_df['fwd_strand_coverage'] = vcf_parsed_df['ref_forward_reads'] + vcf_parsed_df['alt_forward_reads']
-    vcf_parsed_df['rev_strand_coverage'] = vcf_parsed_df['ref_reverse_reads'] + vcf_parsed_df['alt_reverse_reads']
-
-    print(vcf_parsed_df.dtypes)
-    for col in vcf_parsed_df.columns:
-        print(col, '\t', vcf_parsed_df[col].unique()[:5])
-
-    return vcf_parsed_df
+    vcf_df = change_datatypes(vcf_df)
+    
+    return vcf_df
 
 
 def get_vcf_df(all_calls_path):
@@ -122,7 +123,6 @@ def agg_vcf_df(files):
         sample_df['genome_name'] = sample_name
         col_order.insert(0, 'genome_name')
         sample_df = sample_df[col_order]
-        print(sample_df.columns)
         dfs2concat.append(sample_df)
     return pd.concat(dfs2concat, axis=0, ignore_index=True)
 
@@ -172,7 +172,7 @@ def readVariantDF(inpath):
 
 def df_creation(vcf_files, variant_df_outpath):
     called_df = agg_vcf_df(vcf_files)
-    full_called_df = get_parsed_vcf_df(called_df, DEBUG=True)
+    full_called_df = get_parsed_vcf_df(called_df)
     full_variant_df = removeNonVariants(full_called_df)
     saveVariantDF(full_variant_df, variant_df_outpath)
 
@@ -191,7 +191,8 @@ def applyVariants2Genome(variant_df, ref_seq, gff_df):
     for i, variant in variant_df.iterrows():
         var_pos = variant['POS'] + offset_sum - 1
         var_ref_seq = variant['REF']
-        var_alt_seq = variant['ALT']
+        var_alt_list = str(variant['ALT']).split(",")
+        var_alt_seq = var_alt_list[0] 
 
         start_seq = alt_seq[:var_pos]
         end_seq = alt_seq[var_pos+len(var_ref_seq):]
@@ -298,12 +299,12 @@ def line_prepender(filename, line):
 
 def df2gff3(annotation_df, outpath, genome_record):
     gff_df = annotation_df[['seq_id', 'source', 'type', 'start', 'end', 'score', 'strand', 'phase', 'attributes']]
-    gff_df['seq_id'] = genome_record.id
+    gff_df.loc[:,'seq_id'] = str(genome_record.id)
     gff_df.to_csv(outpath, sep='\t', index=False, header=False)
     line_prepender(outpath, f"##sequence-region {genome_record.id} 1 {len(genome_record.seq)}")
     line_prepender(outpath, "##gff-version 3")
 
-def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_genome_dir=None, plotting_dir=None):
+def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt_genome_dir=None, plotting_dir=None):
     ref_seq = ref_record.seq
     
     unique_genomes = filtered_variant_df['genome_name'].unique()
@@ -315,9 +316,8 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
     graphic_record = BiopythonTranslator().translate_record(ref_record)
 
     for unique_genome in unique_genomes:
-        print(unique_genome)
-
         genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
+        genome_variants['multiple_at_one_loc'] = [len(l.split(',')) > 1 for l in genome_variants['ALT'].to_list()]
 
         genome_df = ref_gff_df.copy()
         genome_df['genome_name'] = unique_genome
@@ -340,6 +340,8 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
             gff_out_path = alt_genome_dir / f"{unique_genome}_alt.gff3"
             alt_ref_path = alt_genome_dir / f"{unique_genome}_alt.fasta"
             df2gff3(alt_gff_df, gff_out_path, alt_seq_record)
+
+            logging.info(f"alt_ref_path: {alt_ref_path}")
             
             SeqIO.write(alt_seq_record, alt_ref_path, "fasta")
 
@@ -352,24 +354,26 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
             alt_end = int(alt_gff_df.loc[i, 'end'])
 
             intragenic = False
+            multiple_at_one_gene = False
             intragenic_vars = []
             for j, variant in genome_variants.iterrows():
                 var_pos = variant['POS'] 
+                var_multiple_at_one_loc = variant['multiple_at_one_loc']
 
                 if ref_start <= var_pos <= ref_end:
                     intragenic = True
                     genome_df.loc[i, 'Intragenic Variant Ref Positions'] = str(var_pos) + ", " + str(genome_df.loc[i, 'Intragenic Variant Ref Positions'])
                     intragenic_vars.append(var_pos)
+                    if var_multiple_at_one_loc:
+                        multiple_at_one_gene = True
+
 
                 # elif ((ref_end > var_pos - 1000) & (ref_end < var_pos + 1000)) | ((ref_start > var_pos - 1000) & (ref_start < var_pos + 1000)):
                 #     genome_df.loc[j, 'Nearby Variant Ref Positions'] = str(var_pos) + ", " + genome_df.loc[j, 'Nearby Variant Ref Positions']
 
             if intragenic:
-                print(i)
-
                 strand = genome_df.loc[i, 'strand']
                 transl_table = genome_df.loc[i, 'transl_table']
-                aa_seq_genbank = genome_df.loc[i, 'translation']
 
                 nuc_seq_ref = ref_seq[ref_start-1:ref_end]
                 nuc_seq_alt = alt_seq[alt_start-1:alt_end]
@@ -383,12 +387,25 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
                     nuc_seq_alt = nuc_seq_alt.reverse_complement()
 
                 aa_seq_ref = nuc_seq_ref.translate(table=transl_table, stop_symbol="")
-                aa_seq_alt = nuc_seq_alt.translate(table=transl_table, stop_symbol="")
+                
+                if len(nuc_seq_alt) % 3 != 0:
+                    excess_nucs = len(nuc_seq_alt) % 3
+                    nuc_seq_alt = nuc_seq_alt[:len(nuc_seq_alt) - excess_nucs]
 
-                genome_df.loc[i, 'Genbank aa equals ref aa'] = aa_seq_genbank[1:] == aa_seq_ref[1:]
+                try:
+                    aa_seq_alt = nuc_seq_alt.translate(table=transl_table, stop_symbol="")
+                except TranslationError as e:
+                    logging.error(f"nuc_seq_alt\n{nuc_seq_alt}")
+                    logging.error(f"strand\n{strand}")
+                    raise e
+
                 genome_df.loc[i, 'Ref Translation'] = str(aa_seq_ref)
                 genome_df.loc[i, 'Alt Translation'] = str(aa_seq_alt)
                 genome_df.loc[i, 'ref aa equals alt aa'] = aa_seq_ref == aa_seq_alt
+
+                if 'translation' in genome_df.columns:
+                    aa_seq_genbank = genome_df.loc[i, 'translation']
+                    genome_df.loc[i, 'Genbank aa equals ref aa'] = aa_seq_genbank[1:] == aa_seq_ref[1:]
 
                 effect = None
                 if offset % 3 != 0:
@@ -402,18 +419,11 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
                     effect = determineEffect(aa_seq_ref, aa_seq_alt)
 
                 genome_df.loc[i, 'Effect'] = effect
-                
-                print(effect)
 
                 if plotting_dir is not None and effect != "Silent":
                     plot_intragenic_variant(graphic_record, unique_genome, genome_df.loc[i], effect, 
-                                            intragenic_vars, plotting_dir, WINDOW_SIZE=5000)
+                                            intragenic_vars, plotting_dir, multiple_at_one_gene, WINDOW_SIZE=5000)
 
-                print()
-
-
-        # filter genome_df for just nearby or intergenic rows
-        # genome_df = genome_df[(genome_df['Nearby Variant Ref Positions'] != "") | (genome_df['Intragenic Variant Ref Positions'] != "")]
         genome_df = genome_df[genome_df['Intragenic Variant Ref Positions'] != ""]
         dfs_to_concat.append(genome_df)
 
@@ -424,12 +434,15 @@ def analyse_variant_effects(filtered_variant_df, ref_record, ref_gff_df, alt_gen
     columns2keep = ['genome_name','seq_id','type','start','end','strand','Intragenic Variant Ref Positions','Genbank aa equals ref aa',
                     'ref nuc equals alt nuc','ref aa equals alt aa','Effect','Ref Translation','Alt Translation',
                     'Name','locus_tag','note','product','translation']
+
+    columns2keep = [col for col in columns2keep if col in concatenated_genomes_df.columns]
+
     sliced_concat_genomes_df = concatenated_genomes_df[columns2keep]
 
     return sliced_concat_genomes_df
 
 
-def plot_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure_out_dir, WINDOW_SIZE = 5000):
+def analyze_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure_out_dir, WINDOW_SIZE = 5000):
 
     unique_genomes = filtered_variant_df['genome_name'].unique()
 
@@ -438,7 +451,6 @@ def plot_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure
     all_intergenic_variant_dfs = []
 
     for unique_genome in unique_genomes:
-        print(unique_genome)
 
         genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
 
@@ -470,7 +482,20 @@ def plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, 
     fig, ax = plt.subplots(1, 1, figsize=(10, height))
     fig.suptitle(f"{unique_genome} variant {var_pos} from {var_effect}", size="xx-large")
 
-    cropped_record = graphic_record.crop((var_pos-WINDOW_SIZE, var_pos+WINDOW_SIZE))
+    try:
+        start = var_pos-WINDOW_SIZE
+        end = var_pos+WINDOW_SIZE
+        if start < 1:
+            start=1
+        if end > graphic_record.sequence_length:
+            end=graphic_record.sequence_length
+        
+        cropped_record = graphic_record.crop((start, end))
+    except ValueError as e:
+        logging.error(f"start: {start}")
+        logging.error(f"end: {end}")
+        logging.error(f"seq_length: {sequence_length}")
+        raise e
 
     ax.axvline(var_pos, c='r')
     cropped_record.plot(ax=ax, figure_width=10, strand_in_label_threshold=7)
@@ -478,7 +503,7 @@ def plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, 
     plt.savefig(out_path)
     plt.close()
 
-def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effect, var_pos_list, figure_out_dir, WINDOW_SIZE=5000):
+def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effect, var_pos_list, figure_out_dir, multiple_alleles_at_one_gene, WINDOW_SIZE=5000):
 
     out_path = figure_out_dir / f"{unique_genome}_{gene_series['locus_tag']}_{WINDOW_SIZE:06}.png"
     
@@ -489,12 +514,29 @@ def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effe
 
     fig, ax = plt.subplots(1, 1, figsize=(10, height))
 
-    long_title = f"{unique_genome} gene {gene_series['Name']} with {var_effect}"
+    if multiple_alleles_at_one_gene:
+        long_title = f"{unique_genome} gene {gene_series['Name']} with {var_effect} (multiple alleles at this gene)"
+    else:
+        long_title = f"{unique_genome} gene {gene_series['Name']} with {var_effect}"
     title = "\n".join(wrap(long_title, 90))
 
     fig.suptitle(title, size="x-large")
 
-    cropped_record = graphic_record.crop((gene_series['start']-WINDOW_SIZE, gene_series['end']+WINDOW_SIZE))
+
+    try:
+        start = gene_series['start']-WINDOW_SIZE
+        end = gene_series['end']+WINDOW_SIZE
+        if start < 1:
+            start=1
+        if end > graphic_record.sequence_length:
+            end=graphic_record.sequence_length
+        
+        cropped_record = graphic_record.crop((start, end))
+    except ValueError as e:
+        logging.error(f"start: {start}")
+        logging.error(f"end: {end}")
+        logging.error(f"seq_length: {sequence_length}")
+        raise e
 
     for var_pos in var_pos_list:
         ax.axvline(var_pos, c='r')
@@ -503,17 +545,20 @@ def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effe
     plt.savefig(out_path)
     plt.close()
 
-def analyze_chi_sites(filtered_variant_df, chi_gff_df):
+
+def append_chi_site_distance(filtered_variant_df, gff_df):
+
+    gff_chi_df = gff_df[gff_df['type']=='CHI_Pro']
+    gff_chi_df = gff_chi_df.reset_index()
     
-    chi_gff_df["midpoint"] = (chi_gff_df["start"] + chi_gff_df["end"]) / 2
-    chi_sites = chi_gff_df["midpoint"].to_numpy()
+    gff_chi_df["midpoint"] = (gff_chi_df["start"] + gff_chi_df["end"]) / 2
+    chi_sites = gff_chi_df["midpoint"].to_numpy()
 
     unique_genomes = filtered_variant_df['genome_name'].unique()
 
     var2chi_dfs = []
 
     for unique_genome in unique_genomes:
-        print(unique_genome)
 
         genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
 
@@ -549,19 +594,16 @@ def chi_summary_statistics(filtered_variant_df_chi):
 
     
         
-def get_chi_distribution(chi_gff_df, genome_len):
+def get_chi_distribution(gff_chi_df, genome_len):
     # calculate distribution for genome
 
-    chi_gff_df["midpoint"] = (chi_gff_df["start"] + chi_gff_df["end"]) / 2
-    chi_sites = chi_gff_df["midpoint"].to_numpy()
+    gff_chi_df["midpoint"] = (gff_chi_df["start"] + gff_chi_df["end"]) / 2
+    chi_sites = gff_chi_df["midpoint"].to_numpy()
 
     dist2chi = np.zeros(shape=(genome_len))
 
     for i in range(genome_len):
         dist2chi[i] = int(np.min(np.abs(chi_sites - i + 1)))
-        if i % 100000 == 0: print(i,'\t',dist2chi[i])
-
-    print(f"median dist to chi whole genome:\t{np.sort(dist2chi)[int(len(dist2chi)/2)]}")
 
     dist2chi_distribution = np.zeros(shape=(int(max(dist2chi)+1)))
 
@@ -589,13 +631,11 @@ def plot_chi_distribution(figure_outpath, chi_dist_distribution, average_feature
     avg_distribution = sum_distribution / count_distribution
 
     ax.axvline(avg_distribution, label="average dist to chi across genome", c='k')
-    print(f"average dist to chi whole genome:\t{avg_distribution}")
 
     if average_feature_dist_dict is not None:
         for key, value in average_feature_dist_dict.items():
             color = np.random.rand(3) / 2 + 0.25
             ax.axvline(value, label=key, c=color)
-            print(f"median dist var to chi {key}:\t{value}")
         ax.legend()
 
     plt.savefig(figure_outpath)
@@ -618,47 +658,44 @@ def get_seq_record(fasta_path, gff_path):
     return record
 
 
-def df_filtered_analysis(full_variant_df_path, gff_path, ref_path, filtered_variant_df_outpath, variant_effect_df_outpath, alt_genome_dir=None):
-    full_variant_df = readVariantDF(full_variant_df_path)
-    filtered_variant_df = filterOutNonSigVariants(full_variant_df)
-    saveVariantDF(filtered_variant_df, filtered_variant_df_outpath)
-    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir)
+def analyze_chi_sites(ref_path, gff_path):
+    """
+    Only works if GFF has Chi sites annotated.
+    """
+    gff_df = get_gff_df(gff_path)
+
+    ref_genome_record = get_seq_record(ref_path, gff_path)
+    
+    var2chi_df = append_chi_site_distance(filtered_variant_df, gff_df)
+
+    average_feature_dist_dict = chi_summary_statistics(var2chi_df)
+
+    dist2chi_distribution = get_chi_distribution(gff_chi_df, len(ref_genome_record.seq))
+
+    plot_chi_distribution(chi_distribution_figure_outpath, dist2chi_distribution, average_feature_dist_dict=average_feature_dist_dict)
 
 
-def df_standard_analysis(filtered_variant_df_path, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None, intergenic_df_outpath=None, chi_distribution_figure_outpath=None):
-    filtered_variant_df = readVariantDF(filtered_variant_df_path)
-    df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath, alt_genome_dir, intergenic_figure_dir, intragenic_figure_dir, intergenic_df_outpath, chi_distribution_figure_outpath)
-
-
-def df_analysis(filtered_variant_df, gff_path, ref_path, variant_effect_df_outpath=None, alt_genome_dir=None, intergenic_figure_dir=None, intragenic_figure_dir=None, intergenic_df_outpath=None, chi_distribution_figure_outpath=None):
+def intragenic_analysis(filtered_variant_df, gff_path, ref_path, intragenic_figure_dir, intragenic_df_outpath, alt_genome_dir):
     gff_df = get_gff_df(gff_path)
 
     gff_cds_df = gff_df[gff_df['type']=='CDS']
     gff_cds_df = gff_cds_df.reset_index()
 
-    gff_chi_df = gff_df[gff_df['type']=='CHI_Pro']
-    gff_chi_df = gff_chi_df.reset_index()
+    ref_genome_record = get_seq_record(ref_path, gff_path)
+
+    variant_effect_df = analyze_intragenic_variants(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
+    saveVariantDF(variant_effect_df, intragenic_df_outpath)
+
+
+def intergenic_analysis(filtered_variant_df, gff_path, ref_path, intergenic_figure_dir, intergenic_df_outpath):
+    gff_df = get_gff_df(gff_path)
+
+    gff_cds_df = gff_df[gff_df['type']=='CDS']
+    gff_cds_df = gff_cds_df.reset_index()
 
     ref_genome_record = get_seq_record(ref_path, gff_path)
 
-    if chi_distribution_figure_outpath is not None:
+    for ws in [5000, 10000]:
+        intergenic_variants_df = analyze_intergenic_variants(filtered_variant_df, gff_cds_df, ref_genome_record, intergenic_figure_dir, WINDOW_SIZE = ws)
 
-        var2chi_df = analyze_chi_sites(filtered_variant_df, gff_chi_df)
-
-        average_feature_dist_dict = chi_summary_statistics(var2chi_df)
-
-        dist2chi_distribution = get_chi_distribution(gff_chi_df, len(ref_genome_record.seq))
-
-        plot_chi_distribution(chi_distribution_figure_outpath, dist2chi_distribution, average_feature_dist_dict=average_feature_dist_dict)
-
-    if intergenic_figure_dir is not None:
-        for ws in [5000, 10000]:
-            intergenic_variants_df = plot_intergenic_variants(filtered_variant_df, gff_cds_df, ref_genome_record, intergenic_figure_dir, WINDOW_SIZE = ws)
-
-            if intergenic_df_outpath is not None:
-                saveVariantDF(intergenic_variants_df, intergenic_df_outpath)
-
-    if variant_effect_df_outpath is not None and intragenic_figure_dir is not None:
-        variant_effect_df = analyse_variant_effects(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
-        saveVariantDF(variant_effect_df, variant_effect_df_outpath)
-    
+        saveVariantDF(intergenic_variants_df, intergenic_df_outpath)

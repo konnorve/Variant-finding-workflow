@@ -11,10 +11,10 @@ rule map_reads_PE:
         mem_mb=100000,
     conda:
         "../envs/bowtie2.yaml"
+    log: 
+        "logs/bowtie2/map_reads_PE/{sample}.log"
     shell:
-        """
-        bowtie2 -x {input.ref} -1 {input.r1} -2 {input.r2} -S {output.sam_out}
-        """
+        "bowtie2 -x {input.ref} -1 {input.r1} -2 {input.r2} -S {output.sam_out} &> {log}"
 
 rule index_genome:
     input:
@@ -25,6 +25,8 @@ rule index_genome:
         mem_mb=10000,
     conda:
         "../envs/bowtie2.yaml"
+    log: 
+        "logs/bowtie2/index_genome.log"
     shell:
-        "bowtie2-build {input.ref} {input.ref}"
+        "bowtie2-build {input.ref} {input.ref} &> {log}"
 

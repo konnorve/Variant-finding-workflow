@@ -8,8 +8,10 @@ rule convert_sam2bam:
         mem_mb=100000,
     conda:
         "../envs/samtools.yaml"
+    log:
+        "logs/samtools/convert_sam2bam/{sample}.log"
     shell:
-        "samtools view -S -b {input} > {output}"
+        "samtools view -S -b {input} > {output} 2> {log}"
 
 rule sort_bam:
     input:
@@ -20,8 +22,10 @@ rule sort_bam:
         mem_mb=100000,
     conda:
         "../envs/samtools.yaml"
+    log:
+        "logs/samtools/sort_bam/{sample}.log"
     shell:
-        "samtools sort {input} -o {output}"
+        "samtools sort {input} -o {output} > {log}"
 
 rule index_bam:
     input:
@@ -32,8 +36,10 @@ rule index_bam:
         mem_mb=100000,
     conda:
         "../envs/samtools.yaml"
+    log:
+        "logs/samtools/index_bam/{sample}.log"
     shell:
-        "samtools index -b {input}"
+        "samtools index -b {input} > {log}"
 
 # rule index_fasta:
 #     input:

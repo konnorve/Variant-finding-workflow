@@ -11,11 +11,11 @@ rule map_reads_PE:
         mem_mb=100000,
     conda:
         "../envs/hisat2.yaml"
+    log: 
+        "logs/hisat2/map_reads_PE/{sample}.log"
     shell:
         # HISAT2 Mapping:
-        """
-        hisat2 -x {input.index_dir} -1 {input.r1} -2 {input.r2} > {output}
-        """
+        "hisat2 -x {input.index_dir} -1 {input.r1} -2 {input.r2} > {output} 2> {log}"
 
 rule make_sample_index_dir:
     output:
@@ -33,6 +33,8 @@ rule build_hisat2_index:
         mem_mb=100000,
     conda:
         "../envs/hisat2.yaml"
+    log: 
+        "logs/hisat2/build_hisat2_index.log"
     shell:
-        "hisat2-build {input.ref} {input.out_dir}"
+        "hisat2-build {input.ref} {input.out_dir} > {log}"
         

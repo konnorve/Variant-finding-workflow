@@ -15,27 +15,50 @@ scratch_dict = {
     "trimmed_reads": scratch_dir / "1_trimmed_reads", 
     "genome_index": scratch_dir / "2_genome_index",
     "mapped_reads": scratch_dir / "3_mapped_reads",
-    "deduped": scratch_dir / "4_PCR_duplicates_removed",
+    "deduped": {
+        "bams": scratch_dir / "4_PCR_duplicates_removed" / "bams",
+        "metadata": scratch_dir / "4_PCR_duplicates_removed" / "metadata",
+        "depth": scratch_dir / "4_PCR_duplicates_removed" / "read_depth",
+    },
     "vcfs": scratch_dir / "5_variant_calls",
     "all_calls": {
-        "raw": scratch_dir / "all_calls" / "raw_vcf",
-        "calls_only": scratch_dir / "all_calls" / "vcf_calls_only",
-        "header": scratch_dir / "all_calls" / "vcf_headers",
+        "raw": scratch_dir / "6_all_calls" / "raw_vcf",
+        "calls_only": scratch_dir / "6_all_calls" / "vcf_calls_only",
+        "header": scratch_dir / "6_all_calls" / "vcf_headers",
+    },
+    "assembly":{
+        "spades": scratch_dir / "7_de_novo_assembly" / "spades",
+        "ragtag": scratch_dir / "7_de_novo_assembly" / "ragtag"
     },
     "done_files": {
         "index": scratch_dir / "done_files" / "index.done",
-    }
+        "analysis": scratch_dir / "done_files" / "analysis"
+    },
+    "pairwise_alignment": scratch_dir / "8_parwise_alignment",
+    
 }
 
 results_dict = {
-    "all_variants_df" : results_dir / "variant_dfs" / "all_genomes_all_variants.tsv",
-    "annotated_vcfs" : results_dir / "annotated_vcfs"
+    "all_variants_df" : results_dir / "variant_dfs",
+    "annotated_vcfs" : results_dir / "annotated_vcfs",
+    "depth_histograms" : results_dir / "depth_histograms",
+    "depth_genome" : results_dir / "depth_genome",
+    "dotplots" : results_dir / "dotplots",
+    "distance_matix" : results_dir / "distance_matrix",
+    "distance_clustering" : results_dir / "distance_clustering",
 }
 
 
 rule all:
     input:
-        
+        expand(scratch_dict["done_files"]["analysis"] / "{method}.done", method=config['variant_calling_methods']),
+        expand(results_dict["annotated_vcfs"] / "{sample}.{method}.vcf", sample=SAMPLES, method=config['variant_calling_methods']),
+        expand(results_dict["dotplots"] / "{sample}_dotplot.png", sample=SAMPLES),
+        expand(results_dict["depth_histograms"] / "{sample}_depth_histogram.png", sample=SAMPLES),
+        expand(results_dict["depth_genome"] / "{sample}_depth_genome.png", sample=SAMPLES),
+        expand(results_dict["distance_matix"] / "{method}_distance_matrix.tsv", method=config['variant_calling_methods']),
+        expand(results_dict["distance_clustering"] / "{method}_distance_clustering.png", method=config['variant_calling_methods']),
+
 
 
 if config["aligner"] == "hisat2":
@@ -67,3 +90,11 @@ include: "rules/remove_PCR_duplicates.smk"
 
 include: "rules/call_variants.smk"
 
+
+include: "rules/post_analysis.smk"
+
+
+include: "rules/align_genomes.smk"
+
+
+include: "rules/assembly.smk"

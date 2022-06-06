@@ -11,11 +11,11 @@ rule map_reads_PE:
         mem_mb=100000,
     conda:
         "../envs/bwa.yaml"
+    log: 
+        "logs/bwa/map_reads_PE/{sample}.log"
     shell:
         # BWA Mapping:
-        """
-        bwa mem {input.ref} {input.r1} {input.r2} > {output.sam_out}
-        """
+        "bwa mem {input.ref} {input.r1} {input.r2} > {output.sam_out} 2> {log}"
 
 rule index_genome:
     input:
@@ -26,5 +26,7 @@ rule index_genome:
         mem_mb=10000,
     conda:
         "../envs/bwa.yaml"
+    log: 
+        "logs/bwa/index_genome.log"
     shell:
-        "bwa index {input.ref}"
+        "bwa index {input.ref} &> {log}"

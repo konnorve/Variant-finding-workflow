@@ -3,6 +3,4 @@ channels:
 - bioconda
 - defaults
 dependencies:
-- ensembl-vep
-- samtools
-
+- spades

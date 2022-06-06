@@ -10,3 +10,6 @@ dependencies:
   - matplotlib
   - pip:
     - gffpandas
+    - bcbio-gff
+    - dna_features_viewer
+    - seaborn
