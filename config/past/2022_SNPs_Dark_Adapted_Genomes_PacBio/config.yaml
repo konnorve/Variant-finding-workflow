@@ -1,18 +1,18 @@
-experiment_name: '2022_SNPs_Dark_Adapted_Genomes'
+experiment_name: '2022_SNPs_Dark_Adapted_Genomes_Pacbio'
 
 config: "config/config.yaml"
 samples: "config/samples.tsv"
 
-# options are 'bwa' 'hisat2' and 'bowtie2'
-aligner: 'bwa'
+# options are 'bwa' 'hisat2' 'bowtie2' and 'pacbio'
+aligner: 'pacbio'
 
-input: 
+input:
   genome_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.fna
   gff_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gff
   genbank_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gbff
   adapter_file: /nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa
-scratch_dir: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
-results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
+scratch_dir: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/pacbio_intermediates
+results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/pacbio_results
 
 variant_calling_methods: [
   'freebayes', 

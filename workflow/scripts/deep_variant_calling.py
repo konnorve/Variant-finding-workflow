@@ -17,7 +17,8 @@ import matplotlib.pyplot as plt
 from textwrap import wrap
 import logging
 
-logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
+logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.ERROR)
+logging.getLogger(__name__).setLevel(logging.INFO)
 
 def get_unique_INFO_elements(df):
     info_list = df['INFO'].to_numpy()
@@ -102,12 +103,6 @@ def get_parsed_vcf_df(vcf_df):
     return vcf_df
 
 
-def get_vcf_df(all_calls_path):
-    raw_df = pd.read_csv(all_calls_path, sep='\t')
-    narrow_df = raw_df[['POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT']]
-    return narrow_df
-
-
 def get_gff_df(gff_path):
     annotation = gffpd.read_gff3(gff_path)
     attributes_df = annotation.attributes_to_columns()
@@ -118,11 +113,16 @@ def agg_vcf_df(files):
     dfs2concat = []
     for sample_path in files:
         sample_name = Path(sample_path).name.split('.')[0]
-        sample_df = get_vcf_df(sample_path)
+        logging.info(sample_name)
+        sample_df = pd.read_csv(sample_path, sep='\t')
+        sample_df = sample_df.rename(columns={'#CHROM':'CHROM'})
         col_order = list(sample_df.columns)
+        col_order.pop()
+        logging.info(col_order)
         sample_df['genome_name'] = sample_name
         col_order.insert(0, 'genome_name')
         sample_df = sample_df[col_order]
+        logging.info(sample_df)
         dfs2concat.append(sample_df)
     return pd.concat(dfs2concat, axis=0, ignore_index=True)
 
@@ -171,51 +171,56 @@ def readVariantDF(inpath):
 
 
 def df_creation(vcf_files, variant_df_outpath):
+    logging.info("start column creation")
     called_df = agg_vcf_df(vcf_files)
+    logging.info(called_df.columns)
     full_called_df = get_parsed_vcf_df(called_df)
     full_variant_df = removeNonVariants(full_called_df)
     saveVariantDF(full_variant_df, variant_df_outpath)
 
 
-def applyVariants2Genome(variant_df, ref_seq, gff_df):
+def applyVariants2Genome(variant_df, seqrecords, gff_df):
     gff_alt_df = gff_df.copy()
-    alt_seq = MutableSeq(ref_seq)
-    assert alt_seq is not ref_seq
+    
+    gff_seq_dfs = []
+    alt_seq_records = []
+    for r in seqrecords:
+        ref_seq = r.seq
+        ref_seqid = r.id
+        alt_seq = MutableSeq(ref_seq)
+        offset_sum = 0
 
-    start_pos = gff_alt_df['start'].to_numpy()
-    end_pos = gff_alt_df['end'].to_numpy()
-    num_genes = len(gff_alt_df)
+        gff_seq_subset = gff_df[gff_df['seq_id']==ref_seqid].copy()
+        for i, variant in variant_df[variant_df['CHROM']==ref_seqid].iterrows():
+            var_pos = variant['POS'] + offset_sum - 1
+            var_ref_seq = variant['REF']
+            var_alt_list = str(variant['ALT']).split(",")
+            var_alt_seq = var_alt_list[0] 
 
-    offset_sum = 0
+            start_seq = alt_seq[:var_pos]
+            end_seq = alt_seq[var_pos+len(var_ref_seq):]
 
-    for i, variant in variant_df.iterrows():
-        var_pos = variant['POS'] + offset_sum - 1
-        var_ref_seq = variant['REF']
-        var_alt_list = str(variant['ALT']).split(",")
-        var_alt_seq = var_alt_list[0] 
+            alt_seq = start_seq + var_alt_seq + end_seq
 
-        start_seq = alt_seq[:var_pos]
-        end_seq = alt_seq[var_pos+len(var_ref_seq):]
+            offset = len(var_alt_seq) - len(var_ref_seq)
 
-        alt_seq = start_seq + var_alt_seq + end_seq
+            offset_sum += offset
 
-        offset = len(var_alt_seq) - len(var_ref_seq)
+            assert len(ref_seq) == len(alt_seq) - offset_sum
 
-        offset_sum += offset
+            if offset != 0:
+                for idx in gff_seq_subset.index:
+                    if gff_seq_subset.loc[idx,'start'] > var_pos:
+                        gff_seq_subset.loc[idx,'start'] += offset
+                    if gff_seq_subset.loc[idx,'end'] > var_pos:
+                        gff_seq_subset.loc[idx,'end'] += offset
 
-        if offset != 0:
-            for j in range(num_genes):
-                if start_pos[j] > var_pos:
-                    start_pos[j] += offset
-                if end_pos[j] > var_pos:
-                    end_pos[j] += offset
+        alt_seq_record = SeqRecord(Seq(alt_seq), id=r.id, description=r.description)
 
-    gff_alt_df['start'] = start_pos
-    gff_alt_df['end'] = end_pos
+        alt_seq_records.append(alt_seq_record)
+        gff_seq_dfs.append(gff_seq_subset)
 
-    assert len(ref_seq) == len(alt_seq) - offset_sum
-
-    return gff_alt_df, Seq(alt_seq)
+    return pd.concat(gff_seq_dfs), alt_seq_records
 
 
 def determineEffect(aa_ref, aa_alt):
@@ -297,27 +302,28 @@ def line_prepender(filename, line):
         f.seek(0, 0)
         f.write(line.rstrip('\r\n') + '\n' + content)
 
-def df2gff3(annotation_df, outpath, genome_record):
+def df2gff3(annotation_df, outpath, genome_records):
     gff_df = annotation_df[['seq_id', 'source', 'type', 'start', 'end', 'score', 'strand', 'phase', 'attributes']]
-    gff_df.loc[:,'seq_id'] = str(genome_record.id)
     gff_df.to_csv(outpath, sep='\t', index=False, header=False)
-    line_prepender(outpath, f"##sequence-region {genome_record.id} 1 {len(genome_record.seq)}")
+    for genome_record in genome_records:
+        line_prepender(outpath, f"##sequence-region {genome_record.id} 1 {len(genome_record.seq)}")
     line_prepender(outpath, "##gff-version 3")
 
-def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt_genome_dir=None, plotting_dir=None):
-    ref_seq = ref_record.seq
+def analyze_intragenic_variants(filtered_variant_df, seqrecords, ref_gff_df, alt_genome_dir=None, plotting_dir=None): #TODO: fix iterative quality of records
     
     unique_genomes = filtered_variant_df['genome_name'].unique()
-
+    
     num_genes = len(ref_gff_df)
+    
+    seqrecord_dict = {s.id : s for s in seqrecords}
 
     dfs_to_concat = []
 
-    graphic_record = BiopythonTranslator().translate_record(ref_record)
-
     for unique_genome in unique_genomes:
+        logging.info(unique_genome)
+
         genome_variants = filtered_variant_df[filtered_variant_df['genome_name'] == unique_genome]
-        genome_variants['multiple_at_one_loc'] = [len(l.split(',')) > 1 for l in genome_variants['ALT'].to_list()]
+        genome_variants.loc[:,'multiple_at_one_loc'] = [len(l.split(',')) > 1 for l in genome_variants['ALT'].to_list()]
 
         genome_df = ref_gff_df.copy()
         genome_df['genome_name'] = unique_genome
@@ -331,19 +337,18 @@ def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt
         genome_df['ref aa equals alt aa'] = None
         genome_df['Effect'] = None
 
-        alt_gff_df, alt_seq = applyVariants2Genome(genome_variants, ref_seq, ref_gff_df)
+        alt_gff_df, alt_seq_records = applyVariants2Genome(genome_variants, seqrecords, ref_gff_df) 
+
+        alt_seqrecord_dict = {s.id : s for s in alt_seq_records}
 
         if alt_genome_dir:
-            alt_seq_id = f"{ref_record.id}_{unique_genome}_alt"
-            alt_seq_record = SeqRecord(alt_seq, id=alt_seq_id)
-
             gff_out_path = alt_genome_dir / f"{unique_genome}_alt.gff3"
             alt_ref_path = alt_genome_dir / f"{unique_genome}_alt.fasta"
-            df2gff3(alt_gff_df, gff_out_path, alt_seq_record)
+            df2gff3(alt_gff_df, gff_out_path, alt_seq_records)
 
             logging.info(f"alt_ref_path: {alt_ref_path}")
             
-            SeqIO.write(alt_seq_record, alt_ref_path, "fasta")
+            SeqIO.write(alt_seq_records, alt_ref_path, "fasta")
 
         assert len(ref_gff_df) == len(alt_gff_df) == len(genome_df)
 
@@ -372,11 +377,14 @@ def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt
                 #     genome_df.loc[j, 'Nearby Variant Ref Positions'] = str(var_pos) + ", " + genome_df.loc[j, 'Nearby Variant Ref Positions']
 
             if intragenic:
+                seq_id = genome_df.loc[i, 'seq_id']
+                ref_seqrecord = seqrecord_dict[seq_id]
+                alt_seqrecord = alt_seqrecord_dict[seq_id]
                 strand = genome_df.loc[i, 'strand']
-                transl_table = genome_df.loc[i, 'transl_table']
+                transl_table = 11
 
-                nuc_seq_ref = ref_seq[ref_start-1:ref_end]
-                nuc_seq_alt = alt_seq[alt_start-1:alt_end]
+                nuc_seq_ref = ref_seqrecord.seq[ref_start-1:ref_end]
+                nuc_seq_alt = alt_seqrecord.seq[alt_start-1:alt_end]
 
                 offset = len(nuc_seq_alt) - len(nuc_seq_ref)
 
@@ -421,7 +429,7 @@ def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt
                 genome_df.loc[i, 'Effect'] = effect
 
                 if plotting_dir is not None and effect != "Silent":
-                    plot_intragenic_variant(graphic_record, unique_genome, genome_df.loc[i], effect, 
+                    plot_intragenic_variant(ref_seqrecord, unique_genome, genome_df.loc[i], effect, 
                                             intragenic_vars, plotting_dir, multiple_at_one_gene, WINDOW_SIZE=5000)
 
         genome_df = genome_df[genome_df['Intragenic Variant Ref Positions'] != ""]
@@ -442,11 +450,11 @@ def analyze_intragenic_variants(filtered_variant_df, ref_record, ref_gff_df, alt
     return sliced_concat_genomes_df
 
 
-def analyze_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, figure_out_dir, WINDOW_SIZE = 5000):
+def analyze_intergenic_variants(filtered_variant_df, ref_gff_df, seqrecords, figure_out_dir, WINDOW_SIZE = 5000):
+
+    seqrecord_dict = {s.id : s for s in seqrecords}
 
     unique_genomes = filtered_variant_df['genome_name'].unique()
-
-    graphic_record = BiopythonTranslator().translate_record(ref_record)
 
     all_intergenic_variant_dfs = []
 
@@ -456,7 +464,9 @@ def analyze_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, fig
 
         for j, variant in genome_variants.iterrows():
             var_pos = variant['POS'] 
-            
+            seq_id = variant['CHROM']
+            seqrecord = seqrecord_dict[seq_id]
+
             genome_df = ref_gff_df.copy()
             genome_df['var_right_of_start'] = genome_df['start'] <= var_pos
             genome_df['var_left_of_end'] = var_pos <=genome_df['end']
@@ -464,14 +474,49 @@ def analyze_intergenic_variants(filtered_variant_df, ref_gff_df, ref_record, fig
 
             if len(genome_df) == 0:
                 var_effect = f"{variant['REF']} to {variant['ALT']}"
-                plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE)
+                plot_intergenic_variant(seqrecord, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE)
             
         all_intergenic_variant_dfs.append(genome_variants)
     
     return pd.concat(all_intergenic_variant_dfs)
 
-def plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE=5000):
+class CustomTranslator(BiopythonTranslator):
+    label_fields = [
+        "product",
+        "em_desc",
+        "label",
+        "name",
+        "gene",
+        "locus_tag",
+        "note",
+        "ID",
+    ]
+    ignored_features_types = ("gene", "source", "region")
 
+    def compute_feature_label(self, feature):
+        """Compute the label of the feature."""
+        logging.info(f"feature:\n{feature}")
+        logging.info(f"label_fields:\n{self.label_fields}")
+        logging.info(f"feature.qualifiers:\n{feature.qualifiers}")
+        label = feature.type
+        for key in self.label_fields:
+            try:
+                if key in feature.qualifiers and feature.qualifiers[key] is not None and len(feature.qualifiers[key]):
+                    label = feature.qualifiers[key]
+                    break
+            except TypeError as e:
+                logging.error(f"key: {key}")
+                raise e
+        if isinstance(label, list):
+            label = "|".join(label)
+        return label
+
+def plot_intergenic_variant(seqrecord, unique_genome, var_pos, var_effect, figure_out_dir, WINDOW_SIZE=5000):
+
+    feature_types = {feat.type for feat in seqrecord.features}
+    logging.info(f"feature_types:\n{feature_types}")
+    graphic_record = CustomTranslator().translate_record(seqrecord)
+    
     out_path = figure_out_dir / f"{unique_genome}_{var_pos:08}_{WINDOW_SIZE:06}.png"
     
     if WINDOW_SIZE >= 2000:
@@ -503,9 +548,13 @@ def plot_intergenic_variant(graphic_record, unique_genome, var_pos, var_effect, 
     plt.savefig(out_path)
     plt.close()
 
-def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effect, var_pos_list, figure_out_dir, multiple_alleles_at_one_gene, WINDOW_SIZE=5000):
+def plot_intragenic_variant(seqrecord, unique_genome, gene_series, var_effect, var_pos_list, figure_out_dir, multiple_alleles_at_one_gene, WINDOW_SIZE=5000):
 
-    out_path = figure_out_dir / f"{unique_genome}_{gene_series['locus_tag']}_{WINDOW_SIZE:06}.png"
+    feature_types = {feat.type for feat in seqrecord.features}
+    logging.info(f"feature_types:\n{feature_types}")
+    graphic_record = CustomTranslator().translate_record(seqrecord)
+
+    out_path = figure_out_dir / f"{unique_genome}_{gene_series['ID']}_{WINDOW_SIZE:06}.png"
     
     if WINDOW_SIZE >= 2000:
         height = 3*WINDOW_SIZE/5000 
@@ -515,9 +564,9 @@ def plot_intragenic_variant(graphic_record, unique_genome, gene_series, var_effe
     fig, ax = plt.subplots(1, 1, figsize=(10, height))
 
     if multiple_alleles_at_one_gene:
-        long_title = f"{unique_genome} gene {gene_series['Name']} with {var_effect} (multiple alleles at this gene)"
+        long_title = f"{unique_genome} gene {gene_series['ID']} with {var_effect} (multiple alleles at this gene)"
     else:
-        long_title = f"{unique_genome} gene {gene_series['Name']} with {var_effect}"
+        long_title = f"{unique_genome} gene {gene_series['ID']} with {var_effect}"
     title = "\n".join(wrap(long_title, 90))
 
     fig.suptitle(title, size="x-large")
@@ -641,38 +690,42 @@ def plot_chi_distribution(figure_outpath, chi_dist_distribution, average_feature
     plt.savefig(figure_outpath)
     plt.close()
 
-def get_seq_record(fasta_path, gff_path):
+def get_seq_record(fasta_path, gff_df):
+    seq_dict = None
+    seqrecords = []
+    with open(fasta_path) as in_seq_handle:
+        seq_dict = SeqIO.to_dict(SeqIO.parse(in_seq_handle, "fasta"))
+    for k, v in seq_dict.items():
+        df_subset = gff_df[gff_df['seq_id']==k]
+        v.features = [
+            SeqFeature(
+                location=FeatureLocation(d['start'], d['end']),
+                type=d['type'],
+                strand={'-':-1, '+':1}[d['strand']],
+                qualifiers=d,
+            ) 
+            for d in df_subset.to_dict(orient='records')
+        ]
+
+    return list(seq_dict.values())
+
+
+# Broken, not intended for seqrecord_dict
+# def analyze_chi_sites(ref_path, gff_path):
+#     """
+#     Only works if GFF has Chi sites annotated.
+#     """
+#     gff_df = get_gff_df(gff_path)
+
+#     ref_genome_record = get_seq_record(ref_path, gff_path) #TODO: FIX to seqrecord_dict
     
-    limit_info = dict(gff_type=["CDS"])
+#     var2chi_df = append_chi_site_distance(filtered_variant_df, gff_df)
 
-    in_seq_handle = open(fasta_path)
-    seq_dict = SeqIO.to_dict(SeqIO.parse(in_seq_handle, "fasta"))
-    in_seq_handle.close()
+#     average_feature_dist_dict = chi_summary_statistics(var2chi_df)
 
-    record = None
-    in_handle = open(gff_path)
-    for rec in GFF.parse(in_handle, base_dict=seq_dict, limit_info=limit_info):
-        record = rec
-    in_handle.close()
+#     dist2chi_distribution = get_chi_distribution(gff_chi_df, len(ref_genome_record.seq))
 
-    return record
-
-
-def analyze_chi_sites(ref_path, gff_path):
-    """
-    Only works if GFF has Chi sites annotated.
-    """
-    gff_df = get_gff_df(gff_path)
-
-    ref_genome_record = get_seq_record(ref_path, gff_path)
-    
-    var2chi_df = append_chi_site_distance(filtered_variant_df, gff_df)
-
-    average_feature_dist_dict = chi_summary_statistics(var2chi_df)
-
-    dist2chi_distribution = get_chi_distribution(gff_chi_df, len(ref_genome_record.seq))
-
-    plot_chi_distribution(chi_distribution_figure_outpath, dist2chi_distribution, average_feature_dist_dict=average_feature_dist_dict)
+#     plot_chi_distribution(chi_distribution_figure_outpath, dist2chi_distribution, average_feature_dist_dict=average_feature_dist_dict)
 
 
 def intragenic_analysis(filtered_variant_df, gff_path, ref_path, intragenic_figure_dir, intragenic_df_outpath, alt_genome_dir):
@@ -681,9 +734,9 @@ def intragenic_analysis(filtered_variant_df, gff_path, ref_path, intragenic_figu
     gff_cds_df = gff_df[gff_df['type']=='CDS']
     gff_cds_df = gff_cds_df.reset_index()
 
-    ref_genome_record = get_seq_record(ref_path, gff_path)
+    seqrecords = get_seq_record(ref_path, gff_cds_df)
 
-    variant_effect_df = analyze_intragenic_variants(filtered_variant_df, ref_genome_record, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
+    variant_effect_df = analyze_intragenic_variants(filtered_variant_df, seqrecords, gff_cds_df, alt_genome_dir, intragenic_figure_dir)
     saveVariantDF(variant_effect_df, intragenic_df_outpath)
 
 
@@ -693,9 +746,9 @@ def intergenic_analysis(filtered_variant_df, gff_path, ref_path, intergenic_figu
     gff_cds_df = gff_df[gff_df['type']=='CDS']
     gff_cds_df = gff_cds_df.reset_index()
 
-    ref_genome_record = get_seq_record(ref_path, gff_path)
+    seqrecords = get_seq_record(ref_path, gff_cds_df)
 
     for ws in [5000, 10000]:
-        intergenic_variants_df = analyze_intergenic_variants(filtered_variant_df, gff_cds_df, ref_genome_record, intergenic_figure_dir, WINDOW_SIZE = ws)
+        intergenic_variants_df = analyze_intergenic_variants(filtered_variant_df, gff_cds_df, seqrecords, intergenic_figure_dir, WINDOW_SIZE = ws)
 
         saveVariantDF(intergenic_variants_df, intergenic_df_outpath)

@@ -36,5 +36,5 @@ rule build_hisat2_index:
     log: 
         "logs/hisat2/build_hisat2_index.log"
     shell:
-        "hisat2-build {input.ref} {input.out_dir} > {log}"
+        "hisat2-build {input.ref} {input.out_dir} &> {log}"
         

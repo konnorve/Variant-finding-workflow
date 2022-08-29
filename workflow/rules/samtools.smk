@@ -25,7 +25,7 @@ rule sort_bam:
     log:
         "logs/samtools/sort_bam/{sample}.log"
     shell:
-        "samtools sort {input} -o {output} > {log}"
+        "samtools sort {input} -o {output} &> {log}"
 
 rule index_bam:
     input:
@@ -39,7 +39,7 @@ rule index_bam:
     log:
         "logs/samtools/index_bam/{sample}.log"
     shell:
-        "samtools index -b {input} > {log}"
+        "samtools index -b {input} &> {log}"
 
 # rule index_fasta:
 #     input:

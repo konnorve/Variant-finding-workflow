@@ -28,18 +28,23 @@ distance_matrix = pd.DataFrame(arr, columns=unique_genomes, index=unique_variant
 distance_matrix.to_csv(snakemake.output["matrix"], sep="\t")
 
 logging.info(f"distance_matrix:\n{distance_matrix}")
+try:
+    if len(unique_variants)/3 > 50:
+        figure = sns.clustermap(distance_matrix, figsize=(max([len(t) for t in unique_variants])/5+len(unique_genomes)/3, 50), col_cluster=True, row_cluster=True)
+    else:
+        figure = sns.clustermap(distance_matrix, figsize=(max([len(t) for t in unique_variants])/5+len(unique_genomes)/2, len(unique_variants)/3), col_cluster=True, row_cluster=True)
 
-if len(unique_variants)/3 > 50:
-    figure = sns.clustermap(distance_matrix, figsize=(max([len(t) for t in unique_variants])/5+len(unique_genomes)/3, 50), col_cluster=True, row_cluster=True)
-else:
-    figure = sns.clustermap(distance_matrix, figsize=(max([len(t) for t in unique_variants])/5+len(unique_genomes)/2, len(unique_variants)/3), col_cluster=True, row_cluster=True)
+    ax = plt.gcf().axes[2]
+    text_list = ax.get_yticklabels()
+    ax.set_yticklabels([l.get_text()[:25] for l in text_list])
 
+    logging.info(f"sum of array: {np.sum(arr)}")
+    logging.info(f"len of variant df: {len(variant_df)}")
 
-ax = plt.gcf().axes[2]
-text_list = ax.get_yticklabels()
-ax.set_yticklabels([l.get_text()[:25] for l in text_list])
+    figure.savefig(snakemake.output["clustering"])
 
-logging.info(f"sum of array: {np.sum(arr)}")
-logging.info(f"len of variant df: {len(variant_df)}")
-
-figure.savefig(snakemake.output["clustering"])
+except RecursionError as e:
+    plt.close()
+    plt.figure()
+    plt.savefig(snakemake.output["clustering"])
+    logging.error("RecursionError excepted")

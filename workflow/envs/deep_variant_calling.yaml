@@ -13,3 +13,4 @@ dependencies:
     - bcbio-gff
     - dna_features_viewer
     - seaborn
+    - plotly

@@ -40,41 +40,33 @@ rule variant_effects:
 
 rule depth_histogram:
     input:
-        scratch_dict["deduped"]["depth"] / "{sample}_depth.tsv"
+        depth = scratch_dict["deduped"]["depth"] / "{sample}_depth.tsv",
+        ref = Path(config["input"]["genome_ref"]),
     output:
         depth_histogram = results_dict["depth_histograms"] / "{sample}_depth_histogram.png",
         depth_genome = results_dict["depth_genome"] / "{sample}_depth_genome.png",
+        depth_genome_zscore = results_dict["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png",
+        genome_bin_stats = results_dict["genome_bin_stats"] / "{sample}_genome_bin_stats.tsv",
+        coverage_gc = results_dict["coverage_gc_correlation"] / "{sample}_coverage_gc_corr.png"
     conda:
         "../envs/deep_variant_calling.yaml"
     script:
         "../scripts/depth_histogram.py"
 
-rule dot_plot_script_generation:
+rule make_dotplot:
     input:
-        scratch_dict["pairwise_alignment"] / "{sample}" / "mummer.mums"
+        mums = scratch_dict["pairwise_alignment"] / "{sample}" / "mummer.mums",
+        ref_genome = Path(config["input"]["genome_ref"]),
+        query_genome = scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     output:
-        results_dict["dotplots"] / "{sample}_dotplot.gp"
+        results_dict["dotplots"] / "{sample}_dotplot.html"
     conda:
-        "../envs/mummer.yaml"
-    params:
-        prefix=str(results_dict["dotplots"]) + "/{sample}_dotplot"
+        "../envs/deep_variant_calling.yaml"
     log: 
-        "logs/post_analysis/mummerplot/{sample}.log"
-    shell:
-        "mummerplot -t png --prefix={params.prefix} {input} &> {log}"
+        "logs/post_analysis/make_dotplot/{sample}.log"
+    script:
+        "../scripts/make_dotplot.py"
 
-
-rule dot_plot_gnuplot:
-    input:
-        results_dict["dotplots"] / "{sample}_dotplot.gp"
-    output:
-        results_dict["dotplots"] / "{sample}_dotplot.png"
-    conda:
-        "../envs/mummer.yaml"
-    log: 
-        "logs/post_analysis/gnuplot/{sample}.log"
-    shell:
-        "gnuplot {input} &> {log}"
 
 rule distance_metrics:
     input:
