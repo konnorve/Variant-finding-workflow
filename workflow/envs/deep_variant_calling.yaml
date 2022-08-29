@@ -1,0 +1,16 @@
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python
+  - pandas
+  - biopython
+  - pyyaml
+  - matplotlib
+  - pip:
+    - gffpandas
+    - bcbio-gff
+    - dna_features_viewer
+    - seaborn
+    - plotly

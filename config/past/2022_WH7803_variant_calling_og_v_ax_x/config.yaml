@@ -1,0 +1,21 @@
+experiment_name: '2022_WH7803_variant_calling_og_v_ax_x'
+
+config: "config/config.yaml"
+samples: "config/samples.tsv"
+
+# options are 'bwa' 'hisat2' 'bowtie2' and 'pacbio'
+aligner: 'pacbio'
+
+input:
+  genome_ref: /nfs/chisholmlab001/kve/2022_WH7803_variant_calling/inputs/ncbi_genomics/GCA_000063505.1_ASM6350v1_genomic.fna
+  gff_ref: /nfs/chisholmlab001/kve/2022_WH7803_variant_calling/inputs/ncbi_genomics/GCA_000063505.1_ASM6350v1_genomic.gff
+  genbank_ref: /nfs/chisholmlab001/kve/2022_WH7803_variant_calling/inputs/ncbi_genomics/GCA_000063505.1_ASM6350v1_genomic.gbff
+  adapter_file: /nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa
+scratch_dir: /nfs/chisholmlab001/kve/2022_WH7803_variant_calling/og_vs_ax_x_intermediates
+results: /nfs/chisholmlab001/kve/2022_WH7803_variant_calling/og_vs_ax_x_results
+
+variant_calling_methods: [
+  'freebayes', 
+  'bcftools_standard', 
+  'bcftools_all'
+  ]

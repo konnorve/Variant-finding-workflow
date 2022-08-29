@@ -18,7 +18,5 @@ results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
 variant_calling_methods: [
   'freebayes', 
   'bcftools_standard', 
-  'bcftools_all',
-  'breseq_consensus',
-  'breseq_polymorphism',
+  'bcftools_all'
   ]
