@@ -26,7 +26,7 @@ for i in range(len(bins)-1):
     bin_start = bins[i]
     bin_end = bins[i+1]
     bin_size = bin_end - bin_start
-    bin_midpoint = bin_end + bin_start / 2
+    bin_midpoint = (bin_end + bin_start) / 2
     mean_bin_depth = np.mean(depth_arr[bin_start:bin_end])
     normalized_bin_depth = mean_bin_depth / mean_genome_depth
     bin_seq = sequence[bin_start:bin_end]
