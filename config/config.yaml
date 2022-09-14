@@ -19,6 +19,6 @@ variant_calling_methods: [
   'freebayes', 
   'bcftools_standard', 
   'bcftools_all',
-  'breseq_consensus',
-  'breseq_polymorphism',
+  # 'breseq_consensus',
+  # 'breseq_polymorphism',
   ]
