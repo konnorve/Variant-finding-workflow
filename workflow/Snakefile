@@ -20,31 +20,32 @@ scratch_dict = {
         "metadata": scratch_dir / "4_PCR_duplicates_removed" / "metadata",
         "depth": scratch_dir / "4_PCR_duplicates_removed" / "read_depth",
     },
-    "vcfs": scratch_dir / "5_variant_calls",
-    "all_calls": {
-        "raw": scratch_dir / "6_all_calls" / "raw_vcf",
-        "calls_only": scratch_dir / "6_all_calls" / "vcf_calls_only",
-        "header": scratch_dir / "6_all_calls" / "vcf_headers",
-    },
+    "vcfs": scratch_dir / "5_calling_variants",
     "assembly":{
-        "spades": scratch_dir / "7_de_novo_assembly" / "spades",
-        "flye": scratch_dir / "7_de_novo_assembly" / "flye",
-        "ragtag": scratch_dir / "7_de_novo_assembly" / "ragtag"
+        "spades": scratch_dir / "6_de_novo_assembly" / "spades",
+        "flye": scratch_dir / "6_de_novo_assembly" / "flye",
+        "ragtag": scratch_dir / "6_de_novo_assembly" / "ragtag"
     },
     "done_files": {
         "index": scratch_dir / "done_files" / "index.done",
         "analysis": scratch_dir / "done_files" / "analysis"
     },
-    "pairwise_alignment": scratch_dir / "8_parwise_alignment",
-    
 }
 
 results_dict = {
+    "raw_data" : {
+        "genome_dup_stats": results_dir / 'raw_data' / 'genome_dup_stats',
+        "raw_vcfs": results_dir / 'raw_data' / 'vcfs',
+        "mummer" : results_dir / 'raw_data' / 'mummer',
+    }
 }
 
 
 rule all:
     input:
+        expand(results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.{method}.vcf", sample=SAMPLES, method=config['variant_calling_methods']),
+        expand(results_dict["raw_data"]["genome_dup_stats"] / "{sample}_genome_bin_stats.tsv", sample=SAMPLES),
+        expand(results_dict["raw_data"]["mummer"] / "{sample}.mums", sample=SAMPLES)
 
 
 if config["aligner"] == "hisat2":
@@ -70,10 +71,6 @@ include: "rules/run_trim.smk"
 
 
 include: "rules/samtools.smk"
-
-
-include: "rules/unzip.smk"
-
 
 include: "rules/remove_PCR_duplicates.smk"
 

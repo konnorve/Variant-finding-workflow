@@ -5,8 +5,8 @@ rule run_trim:
         r2 = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'rev_read'],
         ref = Path(config["input"]["adapter_file"]),
     output:
-        o1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq.gz",
-        o2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq.gz",
+        o1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq",
+        o2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq",
     resources:
         mem_mb=100000,
     conda:

@@ -2,9 +2,10 @@ experiment_name: '2022_SNPs_Dark_Adapted_Genomes'
 
 config: "config/config.yaml"
 samples: "config/samples.tsv"
-pacbio_samples: "config/pacbio_samples.tsv"
 
-# options are 'bwa' 'hisat2' and 'bowtie2'
+# options are 'bwa' 'hisat2' 'bowtie2' and 'pacbio'
+# if PacBio is chosen then assembly is performed with flye instead of default SPAdes
+
 aligner: 'bwa'
 
 input:
@@ -19,6 +20,6 @@ variant_calling_methods: [
   'freebayes', 
   'bcftools_standard', 
   'bcftools_all',
-  # 'breseq_consensus',
-  # 'breseq_polymorphism',
+  'breseq_consensus',
+  'breseq_polymorphism',
   ]
