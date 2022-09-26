@@ -69,7 +69,7 @@ rule call_variants_breseq_consensus:
     log:
         "logs/call_variants/breseq_consensus/{sample}.log"
     shell:
-        "breseq -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r1} &> {log} && "
+        "breseq -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r2} &> {log} && "
         "ln {output.scratch} {output.final}"
 
 rule call_variants_breseq_polymorphism:
@@ -89,5 +89,5 @@ rule call_variants_breseq_polymorphism:
     log:
         "logs/call_variants/breseq_polymorphism/{sample}.log"
     shell:
-        "breseq -p -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r1} &> {log} && "
+        "breseq -p -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r2} &> {log} && "
         "ln {output.scratch} {output.final}"
