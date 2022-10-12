@@ -37,16 +37,18 @@ results_dict = {
         "genome_dup_stats": results_dir / 'raw_data' / 'genome_dup_stats',
         "raw_vcfs": results_dir / 'raw_data' / 'vcfs',
         "mummer" : results_dir / 'raw_data' / 'mummer',
-    }
+    },
+    "vcf_compare" : results_dir / "vcf_comparisons",
+    "phased_gene_variants" : results_dir / "phased_gene_variants"
 }
 
 
 rule all:
     input:
-        expand(results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.{method}.vcf", sample=SAMPLES, method=config['variant_calling_methods']),
+        directory(results_dict["vcf_compare"]),
         expand(results_dict["raw_data"]["genome_dup_stats"] / "{sample}_genome_bin_stats.tsv", sample=SAMPLES),
-        expand(results_dict["raw_data"]["mummer"] / "{sample}.mums", sample=SAMPLES)
-
+        expand(results_dict["raw_data"]["mummer"] / "{sample}.mums", sample=SAMPLES),
+        expand(results_dict["phased_gene_variants"] / "{sample}.phased_gene_variants.tsv", sample=SAMPLES)
 
 if config["aligner"] == "hisat2":
 
@@ -66,11 +68,11 @@ if config["aligner"] == "pacbio":
 
     include: "rules/map_reads_bwa_pacbio.smk"
 
-
 include: "rules/run_trim.smk"
 
 
 include: "rules/samtools.smk"
+
 
 include: "rules/remove_PCR_duplicates.smk"
 

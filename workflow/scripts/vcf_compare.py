@@ -49,33 +49,31 @@ def change_datatypes(df):
             df = df.astype({k:v})
     return df
 
-
-def venn_set(include_sets, exclude_sets, set_dict):
-    included = set.intersection(*[set_dict[i] for i in include_sets])
-    excluded = set.union(*[set_dict[e] for e in exclude_sets])
-    return included.difference(excluded)
-
-def venn_name(include_sets, exclude_sets, sep=', '):
-    return sep.join([f"+{i}" for i in include_sets]+[f"-{e}" for e in exclude_sets])
+def gen_venn_set(included_vector, set_dict):
+    included = set.intersection(*[set_dict[k] for k,i in zip(set_dict.keys(),included_vector) if i])
+    if all(included_vector):
+        return included
+    else:
+        excluded = set.union(*[set_dict[k] for k,i in zip(set_dict.keys(),included_vector) if not i])
+        return included.difference(excluded)
 
 def sets_to_venn(set_dict):
     venn_dict = dict()
-    set_keys = set(set_dict.keys())
+    venn_len_arr = []
+    set_keys = list(set_dict.keys())
     for i in range(1,len(set_keys)+1):
         for group in combinations(set_keys, i):
-            include = set(group)
-            exclude = set_keys-set(group)
-            if len(exclude) > 0:
-                venn_dict[venn_name(include, exclude)] = venn_set(include, exclude, set_dict)
-            else:
-                name = ", ".join([f"+{i}" for i in include])
-                venn_dict[name] = set.intersection(*[set_dict[i] for i in include])
-    return venn_dict
+            included_vector = [k in set(group) for k in set_keys]
+            venn_name = ", ".join([f"+{k}" if k in set(group) else f"-{k}" for k in set_keys])
+            venn_set = gen_venn_set(included_vector, set_dict)
+            venn_dict[venn_name] = venn_set
+            venn_len_arr.append(included_vector + [len(venn_set)])
+    return venn_dict, pd.DataFrame(venn_len_arr, columns=set_keys+['length'])
 
 all_vcfs = []
 
-for vcf_path in Path("/nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results/raw_data/vcfs").glob("N2_A1A_afterT1_A/*.vcf"):
-    print(vcf_path)
+Path(snakemake.output[0]).mkdir(parents=True, exist_ok=True)
+for vcf_path in [Path(f) for f in snakemake.input]:
     metadata = []
     with open(vcf_path) as f:
         for l in f:
@@ -107,24 +105,26 @@ vcfs.loc[:,'ID'] = vcfs.apply(lambda r: "|".join([str(r[i]) for i in ['POS', 'RE
 
 vcfs = change_datatypes(vcfs)
 
+vcf_length_dfs = []
+
 for sample in vcfs['SAMPLE'].unique():
-    print(sample)
+    
     sample_df = vcfs[vcfs['SAMPLE']==sample]
 
     #filtering
     sample_df = sample_df[sample_df['QUAL']>20]
 
     set_dict = {method : set(sample_df[sample_df['METHOD']==method]['ID'].values) for method in sample_df['METHOD'].unique()}
-    venn_dict = sets_to_venn(set_dict)
+    venn_dict, venn_df = sets_to_venn(set_dict)
 
-    for k,s in set_dict.items():
-        print(k, len(s), sep='\t')
-    venn_sizes = {k:len(s) for k,s in venn_dict.items()}
-    venn_sizes = dict(sorted(venn_sizes.items(), key=lambda i: i[1]))
-    for k,l in venn_sizes.items():
-        if l > 0:
-            print(k, l, sep='\t')
+    venn_df['sample'] = sample
 
-    fig = plt.figure()
+    vcf_length_dfs.append(venn_df)
+
+    fig = plt.figure(figsize=(10,10))
     venn(set_dict, ax=fig.gca())
-    plt.savefig(f"{sample}_venn.png")
+    plt.savefig(f"{snakemake.output[0]}/{sample}_venn.png")
+    plt.close()
+
+pd.concat(vcf_length_dfs, ignore_index=True).to_csv(f'{snakemake.output[0]}/vcf_set_lengths.tsv', sep='\t', index=False)
+

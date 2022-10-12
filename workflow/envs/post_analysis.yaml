@@ -5,12 +5,11 @@ channels:
 dependencies:
   - python
   - pandas
+  - numpy
   - biopython
   - pyyaml
   - matplotlib
   - pip:
     - gffpandas
-    - bcbio-gff
-    - dna_features_viewer
-    - seaborn
     - plotly
+    - venn
