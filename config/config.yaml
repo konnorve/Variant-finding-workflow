@@ -6,20 +6,18 @@ samples: "config/samples.tsv"
 # options are 'bwa' 'hisat2' 'bowtie2' and 'pacbio'
 # if PacBio is chosen then assembly is performed with flye instead of default SPAdes
 
-aligner: 'bwa'
+aligner: 'pacbio'
 
 input:
   genome_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.fna
   gff_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gff
   genbank_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gbff
   adapter_file: /nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa
-scratch_dir: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
-results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
+scratch_dir: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/pacbio_intermediates
+results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/pacbio_results
 
 variant_calling_methods: [
   'freebayes', 
   'bcftools_standard', 
   'bcftools_all',
-  'breseq_consensus',
-  'breseq_polymorphism',
   ]

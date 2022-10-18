@@ -46,4 +46,4 @@ genome_depth_sd = np.std(df.normalized_corrected_bin_depth)
 df['z_score'] = df['normalized_corrected_bin_depth'] / genome_depth_sd
 df['2sigma'] = df['z_score'].apply(lambda x: x > 2 or x < -2)
 
-df.to_csv(snakemake.output["genome_dup_stats"], sep='\t')
+df.to_csv(snakemake.output["genome_dup_stats"], sep='\t', index=False)

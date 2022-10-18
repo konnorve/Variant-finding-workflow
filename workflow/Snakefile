@@ -40,15 +40,28 @@ results_dict = {
     },
     "vcf_compare" : results_dir / "vcf_comparisons",
     "phased_gene_variants" : results_dir / "phased_gene_variants"
+    "figures" : {
+        "depth_histogram" : results_dir / "figures" / "depth_histogram",
+        "depth_genome" : results_dir / "figures" / "depth_genome",
+        "depth_genome_zscore" : results_dir / "figures" / "depth_genome_zscore",
+        "coverage_gc" : results_dir / "figures" / "coverage_gc",
+        "dotplot" : results_dir / "figures" / "dotplot",
+        "genome_viewer" : results_dir / "figures" / "genome_viewer",
+    }
 }
 
 
 rule all:
     input:
-        directory(results_dict["vcf_compare"]),
-        expand(results_dict["raw_data"]["genome_dup_stats"] / "{sample}_genome_bin_stats.tsv", sample=SAMPLES),
-        expand(results_dict["raw_data"]["mummer"] / "{sample}.mums", sample=SAMPLES),
-        expand(results_dict["phased_gene_variants"] / "{sample}.phased_gene_variants.tsv", sample=SAMPLES)
+        # directory(results_dict["vcf_compare"]),
+
+        # expand(results_dict["figures"]["depth_histogram"] / "{sample}_depth_histogram.png", samples=SAMPLES),
+        # expand(results_dict["figures"]["depth_genome"] / "{sample}_depth_genome.png", samples=SAMPLES),
+        # expand(results_dict["figures"]["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png", samples=SAMPLES),
+        # expand(results_dict["figures"]["coverage_gc"] / "{sample}_coverage_gc.png", samples=SAMPLES),
+        # expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.tsv", sample=SAMPLES),
+
+        expand(results_dict["phased_gene_variants"] / "{sample}.phased_gene_variants.tsv", sample=SAMPLES),
 
 if config["aligner"] == "hisat2":
 

@@ -13,7 +13,6 @@ def get_unique_column_elements(df, dict_col, element_deliminator, key_value_deli
         except:
             print("erroneous string", i, s)
             print(df.iloc[i])
-            print(df)
             raise
     return [f"{dict_col}:{split_col}" for split_col in info_columns]
 
@@ -57,8 +56,6 @@ def parse_vcf(vcf_path):
             if l.startswith("#"):
                 header = l[1:].split('\t')
     vcf_df = pd.read_table(vcf_path, names=header, comment='#')
-
-    print(vcf_df)
 
     vcf_df = convert_dict_column_to_columns(vcf_df, 'INFO', ";", "=")
 
@@ -201,9 +198,24 @@ def applyVariants2Seq(variant_subset, nuc_seq_ref):
         delta_sum += delta
         nuc_seq_alt = nuc_seq_alt[:p] + a + nuc_seq_alt[p+lr:]
         arr[i:, 0] = arr[i:, 0] + delta
-        assert len(nuc_seq_ref) == len(nuc_seq_alt) - delta_sum
+        try:
+            assert len(nuc_seq_ref) == len(nuc_seq_alt) - delta_sum
+        except AssertionError:
+            print(f"arr:\t{arr}")
+            print(f"p:{p}\tr:{r}\ta:{a}\tlr:{lr}\tla:{la}\tdelta:{delta}\t")
+            print(f"variant_subset:\t{variant_subset}")
+            print(f"nuc_seq_ref:\t{nuc_seq_ref}")
+            print(f"nuc_seq_alt:\t{nuc_seq_alt}")
+            print(f"delta_sum:\t{delta_sum}")
+            raise
     return nuc_seq_alt
-        
+
+def accept_variant(gene_id, gene_start, gene_end, var_row):
+    if var_row['CHROM'] == gene_id:
+        if var_row['POS'] >= gene_start:
+            if var_row['POS']+len(var_row['REF']) <= gene_end:
+                return True
+    return False
 
 # read in variant DF
 def main(vcf_path, ref_path, gff_path, gene_table_output):
@@ -217,8 +229,8 @@ def main(vcf_path, ref_path, gff_path, gene_table_output):
     varied_genes=[]
     for ix, gene in filtered_annotation_df.iterrows():
 
-        gene_variants = vcf_df[(vcf_df['CHROM']==gene['seq_id']) & (vcf_df['POS']>=gene['start']) & (vcf_df['POS']<=gene['end'])]
-        gene_variants.loc[:,'POS'] = gene_variants['POS'] - gene['start']
+        gene_variants = vcf_df[vcf_df.apply(lambda row: accept_variant(gene['seq_id'], gene['start'], gene['end'], row), axis=1)]
+        gene_variants['POS'] = gene_variants['POS'] - gene['start']
 
         if len(gene_variants) > 0:
             varied_genes.append(ix)

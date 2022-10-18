@@ -1,39 +1,23 @@
 #!/usr/bin/env bash
-# 
-#SBATCH --job-name=vcfsmk
-#
-# Specifies using a centos7 node
-#SBATCH -C centos7
-#
-# wall clock limit:
-#SBATCH --time 10-0
-#
-# Partition to use:
-#SBATCH --partition sched_mit_chisholm
-#
-#SBATCH --comment="Running Variant Finding Workflow"
-#
-# emails all notifications
-#SBATCH --mail-type=ALL
-#SBATCH --mail-user=kve@mit.edu
-#
-#SBATCH -N 2    # Nodes
-#SBATCH -n 40   # Threads (slurm calls these tasks for whatever reason)
-#SBATCH --mem 250G
-#
+#SBATCH --job-name=varsmk
+#SBATCH --time 10-0                         # wall clock limit
+#SBATCH -p sched_mit_chisholm               # partition selection
+#SBATCH -n 1                                # tasks (essentially threads)
 #SBATCH -o logs/%j_slurm_output.txt
 #SBATCH -e logs/%j_slurm_error.txt
 
 source activate snakemake
 
-SNAKEFILE=workflow/Snakefile
-
-# lints and formats snakefile
-snakemake --snakefile $SNAKEFILE --unlock
-snakemake --snakefile $SNAKEFILE --lint
+snakemake --snakefile workflow/Snakefile --unlock # --lint
 
 # run job:
-snakemake --cores all --resources mem_mb=500000 --snakefile $SNAKEFILE --use-conda --conda-frontend conda
-
+snakemake \
+    --snakefile workflow/Snakefile \
+    --use-conda \
+    --conda-frontend conda \
+    --latency-wait 60 \
+    --cluster "sbatch -p newnodes,sched_mit_hill,sched_any -t 12:00 -N 1 -n 16 --mem=64G -o logs/smk_slurm/%j_slurm_output.txt -e logs/smk_slurm/%j_slurm_error.txt" \
+    --jobs 10
+    
 # get report once job is finished
 # snakemake --snakefile $SNAKEFILE --report report.html

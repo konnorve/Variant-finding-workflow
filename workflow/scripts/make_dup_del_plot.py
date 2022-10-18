@@ -6,7 +6,7 @@ import logging
 
 logging.basicConfig(format='%(levelname)s:%(message)s', level=logging.INFO)
 
-df = pd.read_table(snakemake.input["???"])
+df = pd.read_table(snakemake.input[0])
 
 plt.hist(df.mean_bin_depth)
 plt.savefig(snakemake.output["depth_histogram"])

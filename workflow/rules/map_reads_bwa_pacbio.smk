@@ -18,9 +18,9 @@ rule map_reads_PacBio:
 
 rule index_genome:
     input:
-        ref = Path(config["input"]["genome_ref"])
+        Path(config["input"]["genome_ref"])
     output:
-        touch(scratch_dict["done_files"]["index"]),
+        scratch_dict["done_files"]["index"]
     resources:
         mem_mb=10000,
     conda:
@@ -28,4 +28,4 @@ rule index_genome:
     log: 
         "logs/bwa/index_genome.log"
     shell:
-        "bwa index {input.ref} &> {log}"
+        "bwa index {input} &> {log}; touch {output}; sleep 1"
