@@ -4,8 +4,13 @@ rule remove_PCR_duplicates:
     output:
         out_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
         dedup_metadata = scratch_dict["deduped"]["metadata"] / "{sample}_deduped_metadata.txt"
-    resources:
-        mem_mb=100000,
+    resources: 
+        partition = 'sched_mit_chisholm',
+        mem = '250G',
+        ntasks = 20,
+        time = '1-0',
+        output = 'logs/smk_slurm/%j_slurm.out',
+        error = 'logs/smk_slurm/%j_slurm.err',
     conda:
         "../envs/picard.yaml"
     log: 
@@ -19,8 +24,13 @@ rule bam_coverage:
         scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
     output:
         scratch_dict["deduped"]["depth"] / "{sample}_depth.tsv"
-    resources:
-        mem_mb=100000,
+    resources: 
+        partition = 'sched_mit_chisholm',
+        mem = '250G',
+        ntasks = 20,
+        time = '1-0',
+        output = 'logs/smk_slurm/%j_slurm.out',
+        error = 'logs/smk_slurm/%j_slurm.err',
     conda:
         "../envs/samtools.yaml"
     log:

@@ -4,8 +4,13 @@ rule run_mummer:
         query_genome = scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     output:
         results_dict["raw_data"]["mummer"] / "{sample}.mums" 
-    resources:
-        mem_mb=100000,
+    resources: 
+        partition = 'sched_mit_chisholm',
+        mem = '1G',
+        ntasks = 1,
+        time = '1-0',
+        output = 'logs/smk_slurm/%j_slurm.out',
+        error = 'logs/smk_slurm/%j_slurm.err',
     conda:
         "../envs/mummer.yaml"
     log:

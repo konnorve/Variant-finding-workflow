@@ -10,14 +10,14 @@ source activate snakemake
 
 snakemake --snakefile workflow/Snakefile --unlock # --lint
 
-# run job:
 snakemake \
     --snakefile workflow/Snakefile \
     --use-conda \
     --conda-frontend conda \
-    --latency-wait 60 \
-    --cluster "sbatch -p newnodes,sched_mit_hill,sched_any -t 12:00 -N 1 -n 16 --mem=64G -o logs/smk_slurm/%j_slurm_output.txt -e logs/smk_slurm/%j_slurm_error.txt" \
-    --jobs 10
-    
+    --rerun-incomplete \
+    --cluster "sbatch -p {resources.partition} -t {resources.time} -n {resources.ntasks} --mem={resources.mem} -o {resources.output} -e {resources.error}" \
+    --jobs 5 \
+    --keep-going
+
 # get report once job is finished
 # snakemake --snakefile $SNAKEFILE --report report.html

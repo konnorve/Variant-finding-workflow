@@ -7,8 +7,13 @@ rule run_trim:
     output:
         o1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq",
         o2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq",
-    resources:
-        mem_mb=100000,
+    resources: 
+        partition = 'sched_mit_chisholm',
+        mem = '250G',
+        ntasks = 20,
+        time = '1-0',
+        output = 'logs/smk_slurm/%j_slurm.out',
+        error = 'logs/smk_slurm/%j_slurm.err',
     conda:
         "../envs/bbtools.yaml"
     log:

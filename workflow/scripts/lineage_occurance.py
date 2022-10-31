@@ -9,10 +9,11 @@ def main(phased_variant_paths, sample_table_path, gene_proportions_outpath):
 
     variants = phased_variant_paths.index.to_frame(index=False)
     variants = variants.join(sample_df[['phenotype','lineage']], on='sample')
-    # variants['lineage'] = variants['sample'].map(sample_df['lineage'].to_dict())
+    samples_per_lineage  = variants[['sample', 'lineage']].groupby('lineage').nunique()
+    samples_per_lineage = samples_per_lineage / 2
 
     lineage_variants = variants.groupby(['chrom','gene','phenotype','lineage']).size()
-    lineage_variants = lineage_variants >= 2
+    lineage_variants = lineage_variants > lineage_variants.index.to_frame()['lineage'].map(samples_per_lineage.to_dict()['sample'])
     lineage_variants = lineage_variants[lineage_variants]
 
     treatment_variants = lineage_variants.index.to_frame(index=False)
@@ -27,8 +28,7 @@ def main(phased_variant_paths, sample_table_path, gene_proportions_outpath):
 
     phenotype_variants.reset_index().to_csv(gene_proportions_outpath, sep='\t', index=False)
 
-phased_variant_paths = list(Path('/nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results/phased_gene_variants').glob("*.tsv"))
-sample_table_path = "/home/kve/scripts/variant-calling-workflow/config/samples.tsv"
+main(snakemake.input['phased_variants'], snakemake.input["sample_table"], snakemake.output[0])
 
-main(phased_variant_paths, sample_table_path)
-# main(snakemake.input["vcf"], snakemake.input["ref"], snakemake.input["gff"], snakemake.output[0])
+# phased_variant_paths = list(Path('/nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results/phased_gene_variants').glob("*.tsv"))
+# sample_table_path = "/home/kve/scripts/variant-calling-workflow/config/samples.tsv"

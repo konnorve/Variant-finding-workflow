@@ -13,3 +13,4 @@ dependencies:
     - gffpandas
     - plotly
     - venn
+    - kaleido
