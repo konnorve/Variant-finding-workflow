@@ -3,17 +3,16 @@ experiment_name: '2022_SNPs_Dark_Adapted_Genomes'
 config: "config/config.yaml"
 samples: "config/samples.tsv"
 
-# options are 'bwa' 'hisat2' 'bowtie2' (only for Illumina reads)
+# options are 'bwa' 'hisat2' 'bowtie2' (only for Illumina reads, Pacbio is bwa)
 # if PacBio is chosen then assembly is performed with flye instead of default SPAdes
 
 mapper: 'bowtie2'
 
 input:
-  genome_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.fna
-  gff_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gff
-  genbank_ref: /nfs/chisholmlab001/kve/genomic_resources/strains/pro/NATL2A/NATL2A.gbff
+  genome_ref: /nfs/chisholmlab001/chisholmlab/genomic_resources/strains/img_pro_syn/NATL2A_IMG_2606217240/NATL2A_IMG_2606217240.fna
+  gff_ref: /nfs/chisholmlab001/chisholmlab/genomic_resources/strains/img_pro_syn/NATL2A_IMG_2606217240/NATL2A_IMG_2606217240.emapper.decorated.gff
   adapter_file: /nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa
-scratch_dir: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
+scratch_dir: /nobackup1/chisholmlab/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
 results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
 
 variant_calling_methods: [

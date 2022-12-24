@@ -58,15 +58,13 @@ results_dict = {
 
 rule all:
     input:
-        results_dict["lineage_mutation_occurance"] / "lineage_gene_mutation_heatmap.png"
-        # directory(results_dict["vcf_compare"]),
-        # expand(results_dict["figures"]["depth_histogram"] / "{sample}_depth_histogram.png", samples=ALL_SAMPLES),
-        # expand(results_dict["figures"]["depth_genome"] / "{sample}_depth_genome.png", samples=ALL_SAMPLES),
-        # expand(results_dict["figures"]["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png", samples=ALL_SAMPLES),
-        # expand(results_dict["figures"]["coverage_gc"] / "{sample}_coverage_gc.png", samples=ALL_SAMPLES),
-        # expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.tsv", sample=ALL_SAMPLES),
-
-
+        results_dict["lineage_mutation_occurance"] / "lineage_gene_mutation_heatmap.png",
+        directory(results_dict["vcf_compare"]),
+        expand(results_dict["figures"]["depth_histogram"] / "{sample}_depth_histogram.png", sample=ALL_SAMPLES),
+        expand(results_dict["figures"]["depth_genome"] / "{sample}_depth_genome.png", sample=ALL_SAMPLES),
+        expand(results_dict["figures"]["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png", sample=ALL_SAMPLES),
+        expand(results_dict["figures"]["coverage_gc"] / "{sample}_coverage_gc.png", sample=ALL_SAMPLES),
+        expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.png", sample=ALL_SAMPLES),
 
 include: "rules/mapping.smk"
 
@@ -88,8 +86,5 @@ include: "rules/post_analysis.smk"
 
 include: "rules/align_genomes.smk"
 
-# if config["aligner"] != "pacbio":
-#     include: "rules/assembly_illumina.smk"
 
-# if config["aligner"] == "pacbio":
-#     include: "rules/assembly_pacbio.smk"
+include: "rules/assembly.smk"

@@ -192,6 +192,7 @@ def applyVariants2Seq(variant_subset, nuc_seq_ref):
     delta_sum = 0
     for i in range(len(arr)):
         p, r, a = arr[i]
+        a = a.split(',')[0]
         lr = len(r)
         la = len(a)
         delta = la - lr

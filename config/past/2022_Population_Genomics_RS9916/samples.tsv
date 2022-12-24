@@ -1,0 +1,6 @@
+sample_name	phenotype	lineage	fwd_read	rev_read
+N708S531R1	none	N708S531R1	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N708S531R1.fastq	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N708S531R2.fastq
+N709S531R1	none	N709S531R1	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N709S531R1.fastq	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N709S531R2.fastq
+N710S532R1	none	N710S532R1	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N710S532R1.fastq	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N710S532R2.fastq
+N711S532R1	none	N711S532R1	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N711S532R1.fastq	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N711S532R2.fastq
+N712S532R1	none	N712S532R1	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N712S532R1.fastq	/nfs/chisholmlab001/kve/2022_Population_Genomics_RS9916/input_reads/N712S532R2.fastq
