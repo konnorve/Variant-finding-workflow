@@ -9,8 +9,8 @@ rule run_mummer:
         mem = '1G',
         ntasks = 1,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('align_genomes', 'run_mummer', wildcards=[w.sample]),
+        error = lambda w: mk_err('align_genomes', 'run_mummer', wildcards=[w.sample]),
     conda:
         "../envs/mummer.yaml"
     log:

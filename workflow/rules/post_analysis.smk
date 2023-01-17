@@ -1,15 +1,3 @@
-# rule vcf_annotater:
-#     input:
-#         vcf = scratch_dict["all_calls"]["raw"] / "{sample}.{method}.vcf",
-#         genbank = Path(config["input"]["genbank_ref"])
-#     output:
-#         results_dict["annotated_vcfs"] / "{sample}.{method}.vcf"
-#     conda:
-#         "../envs/vcf_annotater.yaml"
-#     log: 
-#         "logs/post_analysis/vcf_annotater/{sample}.{method}.log"
-#     shell:
-#         "vcf-annotator --output {output} {input.vcf} {input.genbank} > {log}"
 
 rule depth_histogram_data:
     input:
@@ -22,8 +10,8 @@ rule depth_histogram_data:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'depth_histogram_data', wildcards=[w.sample]),
+        error = lambda w: mk_err('post_analysis', 'depth_histogram_data', wildcards=[w.sample]),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -39,8 +27,8 @@ rule vcf_compare:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'vcf_compare'),
+        error = lambda w: mk_err('post_analysis', 'vcf_compare'),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -58,8 +46,8 @@ rule phased_gene_variants:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'phased_gene_variants', wildcards=[w.sample]),
+        error = lambda w: mk_err('post_analysis', 'phased_gene_variants', wildcards=[w.sample]),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -76,8 +64,8 @@ rule lineage_occurance_table:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'lineage_occurance_table'),
+        error = lambda w: mk_err('post_analysis', 'lineage_occurance_table'),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -94,8 +82,8 @@ rule heatmap:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'heatmap'),
+        error = lambda w: mk_err('post_analysis', 'heatmap'),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -114,8 +102,8 @@ rule depth_histogram_figure:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'depth_histogram_figure', wildcards=[w.sample]),
+        error = lambda w: mk_err('post_analysis', 'depth_histogram_figure', wildcards=[w.sample]),
     conda:
         "../envs/post_analysis.yaml"
     script:
@@ -133,8 +121,8 @@ rule dotplot:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('post_analysis', 'dotplot', wildcards=[w.sample]),
+        error = lambda w: mk_err('post_analysis', 'dotplot', wildcards=[w.sample]),
     conda:
         "../envs/post_analysis.yaml"
     script:

@@ -12,8 +12,8 @@ rule run_trim:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
+        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/bbtools.yaml"
     log:

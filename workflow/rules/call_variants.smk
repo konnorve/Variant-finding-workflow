@@ -10,8 +10,8 @@ rule call_variants_bcftools:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('call_variants', 'call_variants_bcftools', wildcards=[w.sample]),
+        error = lambda w: mk_err('call_variants', 'call_variants_bcftools', wildcards=[w.sample]),
     conda:
         "../envs/bcftools.yaml"
     log:
@@ -33,8 +33,8 @@ rule call_variants_bcftools_all:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('call_variants', 'call_variants_bcftools_all', wildcards=[w.sample]),
+        error = lambda w: mk_err('call_variants', 'call_variants_bcftools_all', wildcards=[w.sample]),
     conda:
         "../envs/bcftools.yaml"
     log:
@@ -57,8 +57,8 @@ rule call_variants_freebayes:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('call_variants', 'call_variants_freebayes', wildcards=[w.sample]),
+        error = lambda w: mk_err('call_variants', 'call_variants_freebayes', wildcards=[w.sample]),
     conda:
         "../envs/freebayes.yaml"
     log:
@@ -66,43 +66,3 @@ rule call_variants_freebayes:
     shell:
         "freebayes -p 1 -f {input.ref_genome} {input.deduped_bam} > {output.scratch} 2> {log} && "
         "cp {output.scratch} {output.final}"
-
-# rule call_variants_breseq_consensus:
-#     input:
-#         r1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq",
-#         r2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq",
-#         ref_genome = Path(config["input"]["genome_ref"])
-#     output:
-#         outdir=directory(scratch_dict["vcfs"] / "{sample}" / "{sample}.breseq_consensus"),
-#         scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.breseq_consensus" / "output" / "output.vcf",
-#         final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.breseq_consensus.vcf",
-#     resources:
-#         mem_mb=120000,
-#     threads: 10
-#     conda:
-#         "../envs/breseq.yaml"
-#     log:
-#         "logs/call_variants/breseq_consensus/{sample}.log"
-#     shell:
-#         "breseq -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r2} &> {log} && "
-#         "cp {output.scratch} {output.final}"
-
-# rule call_variants_breseq_polymorphism:
-#     input:
-#         r1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq",
-#         r2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq",
-#         ref_genome = Path(config["input"]["genome_ref"])
-#     output:
-#         outdir=directory(scratch_dict["vcfs"] / "{sample}" / "{sample}.breseq_polymorphism"),
-#         scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.breseq_polymorphism" / "output" / "output.vcf",
-#         final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.breseq_polymorphism.vcf",
-#     resources:
-#         mem_mb=120000,
-#     threads: 10
-#     conda:
-#         "../envs/breseq.yaml"
-#     log:
-#         "logs/call_variants/breseq_polymorphism/{sample}.log"
-#     shell:
-#         "breseq -p -j {threads} -r {input.ref_genome} -o {output.outdir} {input.r1} {input.r2} &> {log} && "
-#         "cp {output.scratch} {output.final}"

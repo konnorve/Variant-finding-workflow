@@ -12,8 +12,8 @@ rule map_reads_bowtie2_PE:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'map_reads_bowtie2_PE', wildcards=[w.sample]),
+        error = lambda w: mk_err('mapping', 'map_reads_bowtie2_PE', wildcards=[w.sample]),
     conda:
         "../envs/bowtie2.yaml"
     log: 
@@ -31,8 +31,8 @@ rule index_genome_bowtie2:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'index_genome_bowtie2'),
+        error = lambda w: mk_err('mapping', 'index_genome_bowtie2'),
     conda:
         "../envs/bowtie2.yaml"
     log: 
@@ -52,8 +52,8 @@ rule map_reads_bwa_PacBio:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'map_reads_bwa_PacBio', wildcards=[w.sample]),
+        error = lambda w: mk_err('mapping', 'map_reads_bwa_PacBio', wildcards=[w.sample]),
     conda:
         "../envs/bwa.yaml"
     log: 
@@ -76,8 +76,8 @@ rule map_reads_bwa_PE:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'map_reads_bwa_PE', wildcards=[w.sample]),
+        error = lambda w: mk_err('mapping', 'map_reads_bwa_PE', wildcards=[w.sample]),
     conda:
         "../envs/bwa.yaml"
     log: 
@@ -96,8 +96,8 @@ rule index_genome_bwa:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'index_genome_bwa'),
+        error = lambda w: mk_err('mapping', 'index_genome_bwa'),
     conda:
         "../envs/bwa.yaml"
     log: 
@@ -119,8 +119,8 @@ rule map_reads_hisat2_PE:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'map_reads_hisat2_PE', wildcards=[w.sample]),
+        error = lambda w: mk_err('mapping', 'map_reads_hisat2_PE', wildcards=[w.sample]),
     conda:
         "../envs/hisat2.yaml"
     log: 
@@ -146,8 +146,8 @@ rule build_hisat2_index:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('mapping', 'make_hisat2_index_dir'),
+        error = lambda w: mk_err('mapping', 'make_hisat2_index_dir'),
     conda:
         "../envs/hisat2.yaml"
     log: 

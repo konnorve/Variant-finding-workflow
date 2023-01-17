@@ -9,8 +9,8 @@ rule de_novo_SPAdes:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('assembly', 'de_novo_SPAdes', wildcards=[w.sample]),
+        error = lambda w: mk_err('assembly', 'de_novo_SPAdes', wildcards=[w.sample]),
     conda:
         "../envs/spades.yaml"
     log:
@@ -29,8 +29,8 @@ rule metaFlye:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('assembly', 'metaFlye', wildcards=[w.sample]),
+        error = lambda w: mk_err('assembly', 'metaFlye', wildcards=[w.sample]),
     conda:
         "../envs/flye.yaml"
     log:
@@ -59,8 +59,8 @@ rule ragtag_scaffolding:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('assembly', 'ragtag_scaffolding', wildcards=[w.sample]),
+        error = lambda w: mk_err('assembly', 'ragtag_scaffolding', wildcards=[w.sample]),
     conda:
         "../envs/ragtag.yaml"
     log:

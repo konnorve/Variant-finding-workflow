@@ -55,6 +55,21 @@ results_dict = {
     }
 }
 
+def mk_out(group, rule, wildcards=None):
+    if wildcards:
+        p = logging / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.out"
+    else:
+        p = logging / group / f"{rule}.out"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    return str(p)
+
+def mk_err(group, rule, wildcards=None):
+    if wildcards:
+        p = logging / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.err"
+    else:
+        p = logging / group / f"{rule}.err"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    return str(p)
 
 rule all:
     input:

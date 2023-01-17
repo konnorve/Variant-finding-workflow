@@ -9,8 +9,8 @@ rule remove_PCR_duplicates:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('remove_PCR_duplicates', 'remove_PCR_duplicates', wildcards=[w.sample]),
+        error = lambda w: mk_err('remove_PCR_duplicates', 'remove_PCR_duplicates', wildcards=[w.sample]),
     conda:
         "../envs/picard.yaml"
     log: 
@@ -29,8 +29,8 @@ rule bam_coverage:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('remove_PCR_duplicates', 'bam_coverage', wildcards=[w.sample]),
+        error = lambda w: mk_err('remove_PCR_duplicates', 'bam_coverage', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
     log:

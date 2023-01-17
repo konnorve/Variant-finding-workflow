@@ -19,8 +19,8 @@ rule convert_sam2bam:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
+        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
     log:
@@ -38,8 +38,8 @@ rule sort_bam:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
+        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
     log:
@@ -57,24 +57,11 @@ rule index_bam:
         mem = '250G',
         ntasks = 20,
         time = '1-0',
-        output = 'logs/smk_slurm/%j_slurm.out',
-        error = 'logs/smk_slurm/%j_slurm.err',
+        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
+        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
     log:
         "logs/samtools/index_bam/{sample}.log"
     shell:
         "samtools index -b {input} &> {log}"
-
-# rule index_fasta:
-#     input:
-#         reference_genome_file,
-#     output:
-#         reference_genome_index_file,
-#     resources:
-#         mem_mb=100000,
-#     conda:
-#         "../envs/samtools.yaml"
-#     shell:
-#         "samtools faidx {input}"
-    
