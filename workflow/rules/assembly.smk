@@ -51,7 +51,7 @@ def choose_assembly_method(wildcards):
 rule ragtag_scaffolding:
     input:
         assembly = choose_assembly_method,
-        reference = Path(config["input"]["genome_ref"]),
+        reference = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
         scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     resources: 

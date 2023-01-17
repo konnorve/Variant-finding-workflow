@@ -2,7 +2,7 @@
 rule depth_histogram_data:
     input:
         depth = scratch_dict["deduped"]["depth"] / "{sample}_depth.tsv",
-        ref = Path(config["input"]["genome_ref"]),
+        ref = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
         genome_dup_stats = results_dict["raw_data"]["genome_dup_stats"] / "{sample}_genome_bin_stats.tsv"
     resources: 
@@ -37,8 +37,8 @@ rule vcf_compare:
 rule phased_gene_variants:
     input:
         vcf = results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.bcftools_standard.vcf",
-        ref = Path(config["input"]["genome_ref"]),
-        gff = Path(config["input"]["gff_ref"]),
+        ref = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
+        gff = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'gff_ref'],
     output:
         results_dict["phased_gene_variants"] / "{sample}.phased_gene_variants.tsv"
     resources: 
@@ -112,7 +112,7 @@ rule depth_histogram_figure:
 rule dotplot:
     input:
         mums = results_dict["raw_data"]["mummer"] / "{sample}.mums" ,
-        ref_genome = Path(config["input"]["genome_ref"]),
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
         query_genome = scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     output:
         results_dict["figures"]["dotplot"] / "{sample}_dotplot.png"

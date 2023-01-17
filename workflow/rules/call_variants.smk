@@ -1,7 +1,7 @@
 rule call_variants_bcftools:
     input:
         deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
-        ref_genome = Path(config["input"]["genome_ref"])
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
         scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.bcftools_standard.vcf",
         final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.bcftools_standard.vcf",
@@ -24,7 +24,7 @@ rule call_variants_bcftools:
 rule call_variants_bcftools_all:
     input:
         deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
-        ref_genome = Path(config["input"]["genome_ref"])
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
         scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.bcftools_all.vcf",
         final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.bcftools_all.vcf",
@@ -48,7 +48,7 @@ rule call_variants_bcftools_all:
 rule call_variants_freebayes:
     input:
         deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
-        ref_genome = Path(config["input"]["genome_ref"])
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
         scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.freebayes.vcf",
         final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.freebayes.vcf",

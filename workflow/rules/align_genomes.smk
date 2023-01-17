@@ -1,6 +1,6 @@
 rule run_mummer:
     input:
-        ref_genome = Path(config["input"]["genome_ref"]),
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
         query_genome = scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     output:
         results_dict["raw_data"]["mummer"] / "{sample}.mums" 

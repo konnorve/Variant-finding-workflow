@@ -3,7 +3,7 @@ rule run_trim:
     input:
         r1 = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'fwd_read'],
         r2 = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'rev_read'],
-        ref = Path(config["input"]["adapter_file"]),
+        ref = Path(config["adapter_file"]),
     output:
         o1 = scratch_dict["trimmed_reads"] / "{sample}_1_trimmed.fastq",
         o2 = scratch_dict["trimmed_reads"] / "{sample}_2_trimmed.fastq",
