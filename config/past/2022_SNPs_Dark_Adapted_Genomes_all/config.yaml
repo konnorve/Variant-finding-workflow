@@ -8,10 +8,7 @@ samples: "config/samples.tsv"
 
 mapper: 'bowtie2'
 
-input:
-  genome_ref: /nfs/chisholmlab001/chisholmlab/genomic_resources/strains/img_pro_syn/NATL2A_IMG_2606217240/NATL2A_IMG_2606217240.fna
-  gff_ref: /nfs/chisholmlab001/chisholmlab/genomic_resources/strains/img_pro_syn/NATL2A_IMG_2606217240/NATL2A_IMG_2606217240.emapper.decorated.gff
-  adapter_file: /nfs/chisholmlab001/kve/genomic_resources/references/illumina/all_illumina_adapters.fa
+adapter_file: /nfs/chisholmlab001/chisholmlab/genomic_resources/references/illumina/all_illumina_adapters.fa
 scratch_dir: /nobackup1/chisholmlab/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
 results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
 

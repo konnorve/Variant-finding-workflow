@@ -6,7 +6,7 @@ def choose_mapped_inputs(wildcards):
         method = f"illumina_{config['mapper']}"
     else:
         raise ValueError("sample not in PacBio or Illumina Samples")
-    return scratch_dict["mapped_reads"] / method / "{sample}_mapped.sam",
+    return scratch_dict["mapped_reads"] / method / "{sample}" / "{sample}_mapped.sam",
 
 
 rule convert_sam2bam:

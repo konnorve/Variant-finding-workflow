@@ -1,4 +1,4 @@
-experiment_name: '2022_SNPs_Dark_Adapted_Genomes'
+experiment_name: '2023_variant_calling_prochlorosins'
 
 config: "config/config.yaml"
 samples: "config/samples.tsv"
@@ -9,8 +9,8 @@ samples: "config/samples.tsv"
 mapper: 'bowtie2'
 
 adapter_file: /nfs/chisholmlab001/chisholmlab/genomic_resources/references/illumina/all_illumina_adapters.fa
-scratch_dir: /nobackup1/chisholmlab/kve/2022_SNPs_Dark_Adapted_Genomes/intermediates
-results: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/results
+scratch_dir: /nobackup1/chisholmlab/kve/2023_variant_calling_prochlorosins/intermediates
+results: /nfs/chisholmlab001/kve/2023_variant_calling_prochlorosins/results
 
 variant_calling_methods: [
   'freebayes', 
