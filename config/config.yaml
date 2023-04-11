@@ -10,7 +10,8 @@ mapper: 'bowtie2'
 
 adapter_file: /nfs/chisholmlab001/chisholmlab/genomic_resources/references/illumina/all_illumina_adapters.fa
 scratch_dir: /nobackup1/chisholmlab/kve/2023_variant_calling_prochlorosins/intermediates
-results: /nfs/chisholmlab001/kve/2023_variant_calling_prochlorosins/results
+results_dir: /nfs/chisholmlab001/kve/2023_variant_calling_prochlorosins/results
+logging_dir: /nfs/chisholmlab001/kve/2023_variant_calling_prochlorosins/logging
 
 variant_calling_methods: [
   'freebayes', 

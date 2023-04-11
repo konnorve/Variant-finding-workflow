@@ -3,8 +3,8 @@
 #SBATCH --time 20-0                         # wall clock limit
 #SBATCH -p sched_mit_chisholm               # partition selection
 #SBATCH -n 1                                # tasks (essentially threads)
-#SBATCH -o slurm.out
-#SBATCH -e slurm.err
+#SBATCH -o variant_log.out
+#SBATCH -e variant_log.err
 
 source activate snakemake
 

@@ -12,7 +12,8 @@ PACBIO_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['ccs_read'].notnull()].index.to_list(
 ILLUMINA_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['fwd_read'].notnull() & SAMPLE_TABLE['rev_read'].notnull()].index.to_list() if 'fwd_read' in SAMPLE_TABLE.columns and 'rev_read' in SAMPLE_TABLE.columns else []
 
 scratch_dir = Path(config["scratch_dir"])
-results_dir = Path(config["results"])
+results_dir = Path(config["results_dir"])
+logging_dir = Path(config["logging_dir"])
 scratch_dict = {
     "trimmed_reads": scratch_dir / "1_trimmed_reads", 
     "genome_index": scratch_dir / "2_genome_index",
@@ -57,17 +58,17 @@ results_dict = {
 
 def mk_out(group, rule, wildcards=None):
     if wildcards:
-        p = logging / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.out"
+        p = logging_dir / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.out"
     else:
-        p = logging / group / f"{rule}.out"
+        p = logging_dir / group / f"{rule}.out"
     p.parent.mkdir(parents=True, exist_ok=True)
     return str(p)
 
 def mk_err(group, rule, wildcards=None):
     if wildcards:
-        p = logging / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.err"
+        p = logging_dir / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.err"
     else:
-        p = logging / group / f"{rule}.err"
+        p = logging_dir / group / f"{rule}.err"
     p.parent.mkdir(parents=True, exist_ok=True)
     return str(p)
 
