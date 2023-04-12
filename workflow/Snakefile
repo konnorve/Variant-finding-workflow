@@ -56,22 +56,6 @@ results_dict = {
     }
 }
 
-def mk_out(group, rule, wildcards=None):
-    if wildcards:
-        p = logging_dir / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.out"
-    else:
-        p = logging_dir / group / f"{rule}.out"
-    p.parent.mkdir(parents=True, exist_ok=True)
-    return str(p)
-
-def mk_err(group, rule, wildcards=None):
-    if wildcards:
-        p = logging_dir / group / rule / f"{'.'.join(wildcards).replace(' ', '.')}.err"
-    else:
-        p = logging_dir / group / f"{rule}.err"
-    p.parent.mkdir(parents=True, exist_ok=True)
-    return str(p)
-
 rule all:
     input:
         results_dict["lineage_mutation_occurance"] / "lineage_gene_mutation_heatmap.png",

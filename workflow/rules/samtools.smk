@@ -14,54 +14,27 @@ rule convert_sam2bam:
         choose_mapped_inputs
     output:
         temp(scratch_dict["mapped_reads"] / "{sample}_mapped.bam"),
-    resources: 
-        partition = 'sched_mit_chisholm',
-        mem = '250G',
-        ntasks = 20,
-        time = '1-0',
-        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
-        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
-    log:
-        "logs/samtools/convert_sam2bam/{sample}.log"
     shell:
-        "samtools view -S -b {input} > {output} 2> {log}"
+        "samtools view -S -b {input} > {output}"
 
 rule sort_bam:
     input:
         scratch_dict["mapped_reads"] / "{sample}_mapped.bam",
     output:
         temp(scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam")
-    resources: 
-        partition = 'sched_mit_chisholm',
-        mem = '250G',
-        ntasks = 20,
-        time = '1-0',
-        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
-        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
-    log:
-        "logs/samtools/sort_bam/{sample}.log"
     shell:
-        "samtools sort {input} -o {output} &> {log}"
+        "samtools sort {input} -o {output}"
 
 rule index_bam:
     input:
         scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam",
     output:
         temp(scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam.bai"),
-    resources: 
-        partition = 'sched_mit_chisholm',
-        mem = '250G',
-        ntasks = 20,
-        time = '1-0',
-        output = lambda w: mk_out('group', 'rule', wildcards=[w.sample]),
-        error = lambda w: mk_err('group', 'rule', wildcards=[w.sample]),
     conda:
         "../envs/samtools.yaml"
-    log:
-        "logs/samtools/index_bam/{sample}.log"
     shell:
-        "samtools index -b {input} &> {log}"
+        "samtools index -b {input}"
