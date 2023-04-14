@@ -6,20 +6,23 @@ jobs: 5
 latency-wait: 30
 keep-going: True
 configfile: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/input_data/config.yaml
+
 cluster:
-  mkdir -p logs/{rule} &&
+  mkdir -p /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/logs/{rule} &&
   sbatch
     --partition={resources.partition}
     --ntasks={resources.tasks}
     --mem={resources.mem}
     --time={resources.time}
     --job-name={rule}-{wildcards}
-    --output=logs/{rule}/{wildcards}.out
-    --error=logs/{rule}/{wildcards}.err
+    --output=/nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/logs/{rule}/{wildcards}.out
+    --error=/nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/logs/{rule}/{wildcards}.err
 
 set-resources:
-  - run_mummer:tasks=1
-  - run_mummer:mem="1G"
+  - call_variants_samtools_pileup:tasks=1
+  - call_variants_samtools_pileup:mem="12G"
+  - call_variants_bcftools_pileup:tasks=1
+  - call_variants_bcftools_pileup:mem="12G"
 
 default-resources:
   - time="1-0"

@@ -13,7 +13,6 @@ ILLUMINA_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['fwd_read'].notnull() & SAMPLE_TABL
 
 scratch_dir = Path(config["scratch_dir"])
 results_dir = Path(config["results_dir"])
-logging_dir = Path(config["logging_dir"])
 scratch_dict = {
     "trimmed_reads": scratch_dir / "1_trimmed_reads", 
     "genome_index": scratch_dir / "2_genome_index",
@@ -23,7 +22,8 @@ scratch_dict = {
         "metadata": scratch_dir / "4_PCR_duplicates_removed" / "metadata",
         "depth": scratch_dir / "4_PCR_duplicates_removed" / "read_depth",
     },
-    "vcfs": scratch_dir / "5_calling_variants",
+    "vcfs": scratch_dir / "5_calling_variants" / "vcfs",
+    "mpileup": scratch_dir / "5_calling_variants" / "mpileup",
     "assembly":{
         "spades": scratch_dir / "6_de_novo_assembly" / "spades",
         "flye": scratch_dir / "6_de_novo_assembly" / "flye",
@@ -58,13 +58,7 @@ results_dict = {
 
 rule all:
     input:
-        results_dict["lineage_mutation_occurance"] / "lineage_gene_mutation_heatmap.png",
-        directory(results_dict["vcf_compare"]),
-        expand(results_dict["figures"]["depth_histogram"] / "{sample}_depth_histogram.png", sample=ALL_SAMPLES),
-        expand(results_dict["figures"]["depth_genome"] / "{sample}_depth_genome.png", sample=ALL_SAMPLES),
-        expand(results_dict["figures"]["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png", sample=ALL_SAMPLES),
-        expand(results_dict["figures"]["coverage_gc"] / "{sample}_coverage_gc.png", sample=ALL_SAMPLES),
-        expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.png", sample=ALL_SAMPLES),
+        expand(scratch_dict["mpileup"] / "{sample}.{method}.pileup", sample=ALL_SAMPLES,method=['samtools','bcftools'])
 
 include: "rules/mapping.smk"
 
@@ -75,16 +69,5 @@ include: "rules/run_trim.smk"
 include: "rules/samtools.smk"
 
 
-include: "rules/remove_PCR_duplicates.smk"
-
-
 include: "rules/call_variants.smk"
 
-
-include: "rules/post_analysis.smk"
-
-
-include: "rules/align_genomes.smk"
-
-
-include: "rules/assembly.smk"

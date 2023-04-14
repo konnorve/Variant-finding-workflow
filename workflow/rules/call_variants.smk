@@ -1,47 +1,45 @@
-rule call_variants_bcftools:
+
+rule call_variants_samtools_pileup:
     input:
         deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
         ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
     output:
-        scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.bcftools_standard.vcf",
-        final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.bcftools_standard.vcf",
+        mpileup=scratch_dict["mpileup"] / "{sample}.samtools.pileup"
+    conda:
+        "../envs/samtools.yaml"
+    params:
+        max_depth=config['mpileup']['max depth'],
+        mapping_qual_thresh=config['mpileup']['mapping quality threshold'],
+        base_qual_thresh=config['mpileup']['base quality threshold'],
+    shell:
+        "echo -e 'chrom\tpos\tref\tcov\tbases\tquals\tMAPQ\ttail_dist'> {output.mpileup} && "
+        "samtools mpileup "
+        "--output-MQ --output-BP "
+        "-q {params.mapping_qual_thresh} "
+        "-Q {params.base_qual_thresh} "
+        "-d {params.max_depth} -f {input.ref_genome} {input.deduped_bam} >> {output.mpileup}"
+
+
+
+rule call_variants_bcftools_pileup:
+    input:
+        deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
+        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
+    output:
+        vcf=scratch_dict["mpileup"] / "{sample}.bcftools.pileup"
     conda:
         "../envs/bcftools.yaml"
-    log:
-        "logs/call_variants/bcftools_standard/{sample}.log"
+    params:
+        max_depth=config['mpileup']['max depth'],
+        mapping_qual_thresh=config['mpileup']['mapping quality threshold'],
+        base_qual_thresh=config['mpileup']['base quality threshold'],
     shell:
-        "bcftools mpileup --threads {resources.tasks} -Ou -f {input.ref_genome} {input.deduped_bam} | "
-        "bcftools call --threads {resources.tasks} -mv -Ov -o {output.scratch} &> {log} && "
-        "cp {output.scratch} {output.final}"
-
-rule call_variants_bcftools_all:
-    input:
-        deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
-        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
-    output:
-        scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.bcftools_all.vcf",
-        final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.bcftools_all.vcf",
-    conda:
-        "../envs/bcftools.yaml"
-    log:
-        "logs/call_variants/bcftools_all/{sample}.log"
-    shell:
-        "bcftools mpileup --threads {resources.tasks} -Ou -q30 -x -d3000 -f {input.ref_genome} {input.deduped_bam} | "
-        "bcftools call --threads {resources.tasks} -cv -Ov -o {output.scratch} &> {log} && "
-        "cp {output.scratch} {output.final}"
-
-
-rule call_variants_freebayes:
-    input:
-        deduped_bam = scratch_dict["deduped"]["bams"] / "{sample}_deduped.bam",
-        ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
-    output:
-        scratch=scratch_dict["vcfs"] / "{sample}" / "{sample}.freebayes.vcf",
-        final=results_dict["raw_data"]["raw_vcfs"] / "{sample}" / "{sample}.freebayes.vcf",
-    conda:
-        "../envs/freebayes.yaml"
-    log:
-        "logs/call_variants/freebayes/{sample}.log"
-    shell:
-        "freebayes -p 1 -f {input.ref_genome} {input.deduped_bam} > {output.scratch} 2> {log} && "
-        "cp {output.scratch} {output.final}"
+        "bcftools mpileup "
+        "-q {params.mapping_qual_thresh} "
+        "-Q {params.base_qual_thresh} "
+        "-d {params.max_depth} "
+        "-f {input.ref_genome} "
+        "--output {output.vcf} --output-type v "
+        "{input.deduped_bam}"
+        
+        # "--full-BAQ "
