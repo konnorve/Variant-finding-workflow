@@ -1,9 +1,9 @@
 
 def choose_mapped_inputs(wildcards):
     if wildcards.sample in PACBIO_SAMPLES:
-        method = "pacbio_bwa"
+        method = "pacbio"
     elif wildcards.sample in ILLUMINA_SAMPLES:
-        method = f"illumina_{config['mapper']}"
+        method = f"illumina"
     else:
         raise ValueError("sample not in PacBio or Illumina Samples")
     return scratch_dict["mapped_reads"] / method / "{sample}" / "{sample}_mapped.sam",

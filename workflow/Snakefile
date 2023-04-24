@@ -3,13 +3,12 @@
 from pathlib import Path
 import pandas as pd
 
-configfile: "config/config.yaml"
-
 SAMPLE_TABLE = pd.read_csv(config["samples"], index_col="sample_name", sep="\t")
 SAMPLE_TABLE.index = SAMPLE_TABLE.index.map(str)
 ALL_SAMPLES = SAMPLE_TABLE.index.to_list()
 PACBIO_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['ccs_read'].notnull()].index.to_list() if 'ccs_read' in SAMPLE_TABLE.columns else []
 ILLUMINA_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['fwd_read'].notnull() & SAMPLE_TABLE['rev_read'].notnull()].index.to_list() if 'fwd_read' in SAMPLE_TABLE.columns and 'rev_read' in SAMPLE_TABLE.columns else []
+ALL_REFERENCES = SAMPLE_TABLE['reference'].unique()
 
 scratch_dir = Path(config["scratch_dir"])
 results_dir = Path(config["results_dir"])
@@ -17,48 +16,21 @@ scratch_dict = {
     "trimmed_reads": scratch_dir / "1_trimmed_reads", 
     "genome_index": scratch_dir / "2_genome_index",
     "mapped_reads": scratch_dir / "3_mapped_reads",
-    "deduped": {
-        "bams": scratch_dir / "4_PCR_duplicates_removed" / "bams",
-        "metadata": scratch_dir / "4_PCR_duplicates_removed" / "metadata",
-        "depth": scratch_dir / "4_PCR_duplicates_removed" / "read_depth",
-    },
-    "vcfs": scratch_dir / "5_calling_variants" / "vcfs",
-    "mpileup": scratch_dir / "5_calling_variants" / "mpileup",
-    "assembly":{
-        "spades": scratch_dir / "6_de_novo_assembly" / "spades",
-        "flye": scratch_dir / "6_de_novo_assembly" / "flye",
-        "ragtag": scratch_dir / "6_de_novo_assembly" / "ragtag"
-    },
-    "done_files": {
-        "bwa_index": scratch_dir / "done_files" / "bwa_index.done",
-        "bowtie2_index": scratch_dir / "done_files" / "bowtie2_index.done",
-        "hisat_index": scratch_dir / "done_files" / "hisat_index.done",
-        "analysis": scratch_dir / "done_files" / "analysis"
-    },
+    "vcfs": scratch_dir / "4_calling_variants" / "vcfs",
+    "mpileup": scratch_dir / "4_calling_variants" / "mpileup",
+    "variant positions": scratch_dir / "4_calling_variants" / "variant_positions",
+    "filtered mpileups": scratch_dir / "4_calling_variants" / "filtered_combined_pileups",
 }
 
-results_dict = {
-    "raw_data" : {
-        "genome_dup_stats": results_dir / 'raw_data' / 'genome_dup_stats',
-        "raw_vcfs": results_dir / 'raw_data' / 'vcfs',
-        "mummer" : results_dir / 'raw_data' / 'mummer',
-    },
-    "vcf_compare" : results_dir / "vcf_comparisons",
-    "phased_gene_variants" : results_dir / "phased_gene_variants",
-    "lineage_mutation_occurance" : results_dir / "lineage_mutation_occurance",
-    "figures" : {
-        "depth_histogram" : results_dir / "figures" / "depth_histogram",
-        "depth_genome" : results_dir / "figures" / "depth_genome",
-        "depth_genome_zscore" : results_dir / "figures" / "depth_genome_zscore",
-        "coverage_gc" : results_dir / "figures" / "coverage_gc",
-        "dotplot" : results_dir / "figures" / "dotplot",
-        "genome_viewer" : results_dir / "figures" / "genome_viewer",
-    }
-}
+results_dict = {}
+
+def get_reference(wildcards):
+    ref_key = SAMPLE_TABLE.loc[wildcards.sample, 'reference']
+    return config["reference genomes"][ref_key]["genome"]
 
 rule all:
     input:
-        expand(scratch_dict["mpileup"] / "{sample}.{method}.pileup", sample=ALL_SAMPLES,method=['samtools','bcftools'])
+        expand(scratch_dict["filtered mpileups"] / "{reference}.tsv", reference=ALL_REFERENCES)
 
 include: "rules/mapping.smk"
 
