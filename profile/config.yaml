@@ -6,6 +6,7 @@ jobs: 5
 latency-wait: 30
 keep-going: True
 configfile: /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/input_data/config.yaml
+# unlock: True
 
 cluster:
   mkdir -p /nfs/chisholmlab001/kve/2022_SNPs_Dark_Adapted_Genomes/reconstructed_lieberman/logs/{rule} &&
