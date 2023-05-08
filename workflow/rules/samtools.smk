@@ -23,7 +23,7 @@ rule sort_bam:
     input:
         scratch_dict["mapped_reads"] / "{sample}_mapped.bam",
     output:
-        temp(scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam")
+        scratch_dict["mapped_reads"] / "{sample}_mapped_sorted.bam"
     conda:
         "../envs/samtools.yaml"
     shell:

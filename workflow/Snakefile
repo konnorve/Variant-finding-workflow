@@ -3,9 +3,12 @@
 from pathlib import Path
 import pandas as pd
 
+
 SAMPLE_TABLE = pd.read_csv(config["samples"], index_col="sample_name", sep="\t")
 SAMPLE_TABLE.index = SAMPLE_TABLE.index.map(str)
+
 ALL_SAMPLES = SAMPLE_TABLE.index.to_list()
+
 PACBIO_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['ccs_read'].notnull()].index.to_list() if 'ccs_read' in SAMPLE_TABLE.columns else []
 ILLUMINA_SAMPLES = SAMPLE_TABLE[SAMPLE_TABLE['fwd_read'].notnull() & SAMPLE_TABLE['rev_read'].notnull()].index.to_list() if 'fwd_read' in SAMPLE_TABLE.columns and 'rev_read' in SAMPLE_TABLE.columns else []
 ALL_REFERENCES = SAMPLE_TABLE['reference'].unique()
@@ -22,7 +25,6 @@ scratch_dict = {
     "filtered mpileups": scratch_dir / "4_calling_variants" / "filtered_combined_pileups",
 }
 
-results_dict = {}
 
 def get_reference(wildcards):
     ref_key = SAMPLE_TABLE.loc[wildcards.sample, 'reference']
@@ -30,7 +32,7 @@ def get_reference(wildcards):
 
 rule all:
     input:
-        expand(scratch_dict["filtered mpileups"] / "{reference}.tsv", reference=ALL_REFERENCES)
+        expand(results_dir / "{reference}_candidate_mutation_table.tsv.gz", reference=ALL_REFERENCES)
 
 include: "rules/mapping.smk"
 
