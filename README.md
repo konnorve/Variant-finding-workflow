@@ -1,18 +1,55 @@
-# Snakemake workflow: RNA-seq
+# Snakemake workflow: Variant Analysis
 
 [![Snakemake](https://img.shields.io/badge/snakemake-≥5.0.0-brightgreen.svg)](https://snakemake.bitbucket.io)
-[![Build Status](https://travis-ci.org/snakemake-workflows/DGE-co-culture-workflow.svg?branch=master)](https://travis-ci.org/snakemake-workflows/DGE-co-culture-workflow)
-
-This is the template for a new Snakemake workflow. Replace this text with a comprehensive description covering the purpose and domain.
-Insert your code into the respective folders, i.e. `scripts`, `rules`, and `envs`. Define the entry point of the workflow in the `Snakefile` and the main configuration in the `config.yaml` file.
 
 ## Authors
 
 * Konnor von Emster (@kve)
 
-## Usage
+## Purpose
 
-If you use this workflow in a paper, don't forget to give credits to the authors by citing the URL of this (original) repository and, if available, its DOI (see above).
+Used for detecting variants of multiple types. 
+
+1. Long (5-10kb) insertions, deletions, and transversions
+2. Short (500nt-5kb) duplications, deletions
+3. Variant effect on genes
+
+## Outputs
+
+* Long (5-10kb) insertions, deletions, and transversions
+    - Dot/mummer plot
+* Short (500nt-5kb) duplications, deletions
+    - Scatter plot and linear regression of bin GC content vs Coverage
+    - Scatter plot of bin genomic position vs normalized coverage
+    - Scatter plot of bin genomic position vs coverage Z score
+* Variant effect on genes
+    - Table of phased variant effect on genes
+    - Plots of each variant within it's genomic context
+* Meta outputs
+    - Phased variant occurance between control and treatment
+    - ???
+
+## Process
+
+General processes are as follows:
+
+For each sample:
+1. Trim adapters and poor quality base calls from reads
+2. Map reads to genome
+    1. Get coverage information (used for short duplications and deletions)
+    2. Call short indels and snps using variant calling tool of choice (bcftools, freebayes, etc.)
+        1. Applies variants to genome
+        2. Applies variants to GFF
+        3. Compares differences from gene to gene (misense, nonsense, frameshift, silent)
+        4. Reports phased gene variants
+3. Assembly of reads into genomes
+    1. Mummer of assembled reads and genome
+    2. Creates Interactive Dot Plot using Plotly
+
+Meta processes involving all samples:
+Phased gene variant occurance
+
+## Usage
 
 ### Step 1: Obtain a copy of this workflow
 
@@ -60,23 +97,14 @@ If you not only want to fix the software stack but also the underlying OS, use
 in combination with any of the modes above.
 See the [Snakemake documentation](https://snakemake.readthedocs.io/en/stable/executable.html) for further details.
 
-### Step 5: Investigate results
-
-After successful execution, you can create a self-contained interactive HTML report with all results via:
-
-    snakemake --report report.html
-
-This report can, e.g., be forwarded to your collaborators.
-An example (using some trivial test data) can be seen [here](https://cdn.rawgit.com/snakemake-workflows/rna-seq-kallisto-sleuth/master/.test/report.html).
-
-### Step 6: Commit changes
+### Step 5: Commit changes
 
 Whenever you change something, don't forget to commit the changes back to your github copy of the repository:
 
     git commit -a
     git push
 
-### Step 7: Obtain updates from upstream
+### Step 6: Obtain updates from upstream
 
 Whenever you want to synchronize your workflow copy with new developments from upstream, do the following.
 
@@ -97,8 +125,3 @@ In case you have also changed or added steps, please consider contributing them 
 3. Copy the modified files from your analysis to the clone of your fork, e.g., `cp -r workflow path/to/fork`. Make sure to **not** accidentally copy config file contents or sample sheets. Instead, manually update the example config files if necessary.
 4. Commit and push your changes to your fork.
 5. Create a [pull request](https://help.github.com/en/articles/creating-a-pull-request) against the original repository.
-
-## Testing
-
-Test cases are in the subfolder `.test`. They are automatically executed via continuous integration with [Github Actions](https://github.com/features/actions).
-
