@@ -8,7 +8,7 @@
 
 ## Purpose
 
-Used for detecting variants of multiple types. 
+Used for detecting variants of multiple types.
 
 1. Long (5-10kb) insertions, deletions, and transversions
 2. Short (500nt-5kb) duplications, deletions
@@ -17,37 +17,80 @@ Used for detecting variants of multiple types.
 ## Outputs
 
 * Long (5-10kb) insertions, deletions, and transversions
-    - Dot/mummer plot
+  - Dot/mummer plot
 * Short (500nt-5kb) duplications, deletions
-    - Scatter plot and linear regression of bin GC content vs Coverage
-    - Scatter plot of bin genomic position vs normalized coverage
-    - Scatter plot of bin genomic position vs coverage Z score
+  - Scatter plot and linear regression of bin GC content vs Coverage
+  - Scatter plot of bin genomic position vs normalized coverage
+  - Scatter plot of bin genomic position vs coverage Z score
 * Variant effect on genes
-    - Table of phased variant effect on genes
-    - Plots of each variant within it's genomic context
+  - Table of phased variant effect on genes
+  - Plots of each variant within it's genomic context
 * Meta outputs
-    - Phased variant occurance between control and treatment
-    - ???
+  - Phased variant occurance between control and treatment
+  - ???
 
 ## Process
 
 General processes are as follows:
 
 For each sample:
+
 1. Trim adapters and poor quality base calls from reads
 2. Map reads to genome
-    1. Get coverage information (used for short duplications and deletions)
-    2. Call short indels and snps using variant calling tool of choice (bcftools, freebayes, etc.)
-        1. Applies variants to genome
-        2. Applies variants to GFF
-        3. Compares differences from gene to gene (misense, nonsense, frameshift, silent)
-        4. Reports phased gene variants
+   1. Get coverage information (used for short duplications and deletions)
+   2. Call short indels and snps using variant calling tool of choice (bcftools, freebayes, etc.)
+      1. Applies variants to genome
+      2. Applies variants to GFF
+      3. Compares differences from gene to gene (misense, nonsense, frameshift, silent)
+      4. Reports phased gene variants
 3. Assembly of reads into genomes
-    1. Mummer of assembled reads and genome
-    2. Creates Interactive Dot Plot using Plotly
+   1. Mummer of assembled reads and genome
+   2. Creates Interactive Dot Plot using Plotly
 
 Meta processes involving all samples:
 Phased gene variant occurance
+
+## Rule Details
+
+* align_genomes.smk
+    - align_genomes_mummer
+* assembly.smk
+    - assembly_SPAdes
+      Used for assembly of Illumina Reads
+    - assembly_metaFlye
+      Used for assembly of PacBio Reads
+    - assembly_ragtag_scaffolding
+      Used for scaffolding of final assemblies #TODO: add specificity to this description
+* call_variants.smk
+    - call_variants_bcftools
+      Variant calling method (creates VCF file) that uses bcftool's standard base calling methods
+    - call_variants_bcftools_all
+      Variant calling method (creates VCF file) that uses bcftool's inclusive base calling method
+    - call_variants_freebayes
+      Variant calling method (creates VCF file) that uses Freebayes
+* mapping.smk
+    - mapping_bowtie2_PE
+    - mapping_bwa_PacBio
+    - mapping_bwa_PE
+* post_analysis.smk
+    - post_analaysis_depth_histogram_data
+    - post_analaysis_vcf_compare
+    - post_analaysis_phased_gene_variants
+    - post_analaysis_lineage_occurance_table
+    - post_analaysis_heatmap
+    - post_analaysis_depth_histogram_figure
+    - post_analaysis_dotplot
+* remove_PCR_duplicates.smk
+    - remove_PCR_duplicates
+    - bam_coverage
+* run_trim.smk
+    - run_trim
+* samtools.smk
+    - convert_sam2bam
+    - sort_bam
+    - index_bam
+
+## Options
 
 ## Usage
 
@@ -115,8 +158,7 @@ Whenever you want to synchronize your workflow copy with new developments from u
 5. Apply the modified diff via: `git apply upstream-changes.diff`.
 6. Carefully check whether you need to update the config files: `git diff HEAD upstream/master config`. If so, do it manually, and only where necessary, since you would otherwise likely overwrite your settings and samples.
 
-
-### Step 8: Contribute back
+### Step 7: Contribute back
 
 In case you have also changed or added steps, please consider contributing them back to the original repository:
 
