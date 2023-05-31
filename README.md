@@ -27,7 +27,7 @@ Used for detecting variants of multiple types.
   - Plots of each variant within it's genomic context
 * Meta outputs
   - Phased variant occurance between control and treatment
-  - ???
+  - ??? #TODO: Improve
 
 ## Process
 
@@ -54,41 +54,54 @@ Phased gene variant occurance
 
 * align_genomes.smk
     - align_genomes_mummer
+      - Uses Mummer to create alignments
 * assembly.smk
     - assembly_SPAdes
-      Used for assembly of Illumina Reads
+      - Used for assembly of Illumina Reads
     - assembly_metaFlye
-      Used for assembly of PacBio Reads
+      - Used for assembly of PacBio Reads
     - assembly_ragtag_scaffolding
-      Used for scaffolding of final assemblies #TODO: add specificity to this description
+      - Used for scaffolding of final assemblies #TODO: add specificity to this description
 * call_variants.smk
     - call_variants_bcftools
-      Variant calling method (creates VCF file) that uses bcftool's standard base calling methods
+      - Variant calling method (creates VCF file) that uses bcftool's standard base calling methods
     - call_variants_bcftools_all
-      Variant calling method (creates VCF file) that uses bcftool's inclusive base calling method
+      - Variant calling method (creates VCF file) that uses bcftool's inclusive base calling method
     - call_variants_freebayes
-      Variant calling method (creates VCF file) that uses Freebayes
+      - Variant calling method (creates VCF file) that uses Freebayes
 * mapping.smk
     - mapping_bowtie2_PE
+        - Used for mapping Illumina Paired End reads onto reference genome using Bowtie2
     - mapping_bwa_PacBio
+        - Used for mapping PacBio reads onto reference genome using BWA
     - mapping_bwa_PE
+        - Used for mapping Illumina Paired End reads onto reference genome using BWA
 * post_analysis.smk
     - post_analaysis_depth_histogram_data
+        - bins mapping coverage data and creates statistics
     - post_analaysis_vcf_compare
     - post_analaysis_phased_gene_variants
     - post_analaysis_lineage_occurance_table
     - post_analaysis_heatmap
     - post_analaysis_depth_histogram_figure
+        - plots constructed depth data to varying plots
     - post_analaysis_dotplot
+        - creates dotplot from mummer data
 * remove_PCR_duplicates.smk
     - remove_PCR_duplicates
+        - Uses Picard to remove PCR duplicates
     - bam_coverage
+        - Uses ????? to determine mapping coverage at every position in genome. #TODO: add correct software
 * run_trim.smk
     - run_trim
+        - Trims reads of adapters and poor quality regions using BBduk
 * samtools.smk
     - convert_sam2bam
+        - Converts SAM alignment files to BAM files using Samtools
     - sort_bam
+        - Sorts BAM files using Samtools
     - index_bam
+        - Indexes BAM files using Samtools
 
 ## Options
 
