@@ -73,7 +73,7 @@ rule post_analaysis_dotplot:
         ref_genome = lambda wildcards: SAMPLE_TABLE.loc[wildcards.sample, 'genome_ref'],
         query_genome = scratch_dict["assembly"]["ragtag"] / "{sample}" / "ragtag.scaffold.fasta",
     output:
-        results_dict["figures"]["dotplot"] / "{sample}_dotplot.png"
+        results_dict["figures"]["dotplot"] / "{sample}_dotplot.html"
     conda:
         "../envs/post_analysis.yaml"
     script:
