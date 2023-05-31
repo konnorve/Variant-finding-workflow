@@ -64,7 +64,7 @@ rule all:
         expand(results_dict["figures"]["depth_genome"] / "{sample}_depth_genome.png", sample=ALL_SAMPLES),
         expand(results_dict["figures"]["depth_genome_zscore"] / "{sample}_depth_genome_zscore.png", sample=ALL_SAMPLES),
         expand(results_dict["figures"]["coverage_gc"] / "{sample}_coverage_gc.png", sample=ALL_SAMPLES),
-        expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.png", sample=ALL_SAMPLES),
+        expand(results_dict["figures"]["dotplot"] / "{sample}_dotplot.html", sample=ALL_SAMPLES),
 
 include: "rules/mapping.smk"
 
